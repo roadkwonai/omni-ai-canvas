@@ -1,0 +1,26 @@
+1:"$Sreact.fragment"
+2:"/omni-ai-canvas/_next/static/chunks/3qfy96eoyh-ek.js"
+3:I[39756,["$2"],"default"]
+4:I[37457,["$2"],"default"]
+5:"/omni-ai-canvas/_next/static/chunks/2f_g9c56jip-u.js"
+6:I[5500,["$2","$5"],"Image"]
+7:I[22016,["$2","$5"],""]
+8:I[5014,["$2","$5"],"default"]
+c:I[97367,["$2"],"OutletBoundary"]
+d:"$Sreact.suspense"
+f:"ViewportBoundary"
+10:I[97367,["$2"],"$f"]
+12:"MetadataBoundary"
+13:I[97367,["$2"],"$12"]
+15:I[68027,["$2"],"default",1]
+:HL["/omni-ai-canvas/_next/static/chunks/30j_7uw8b6xwy.css","style"]
+:HL["/omni-ai-canvas/_next/static/chunks/02ml76ymbtpj_.css","style"]
+a:X
+b:[["children",{"s":"__PAGE__","h":512,"d":{"r":["$","$1","c",{"children":[["$","main",null,{"className":"UURlJW_landing","data-theme":"landing","children":["$","div",null,{"className":"UURlJW_content UURlJW_notFound","children":[["$","$L6",null,{"className":"$undefined","src":"/omni-ai-canvas/brand/omi-lost.webp","alt":"","width":200,"height":200,"unoptimized":true}],["$","h1",null,{"className":"UURlJW_heading2","children":"페이지를 찾을 수 없어요"}],["$","p",null,{"children":"주소를 확인하거나 Omni AI Canvas 첫 화면으로 돌아가세요."}],["$","$L7",null,{"className":"studio-action UURlJW_cta","href":"/","data-tone":"primary","children":["첫 화면으로 ",["$","$L8",null,{"ref":"$undefined","icon":"$0:t:t:d:r:props:children:1:props:children:props:children:props:notFound:0:props:children:props:children:3:props:children:1:props:icon","className":"$undefined","aria-hidden":"true","size":20}]]}]]}]}],[["$","link","0",{"rel":"stylesheet","href":"/omni-ai-canvas/_next/static/chunks/02ml76ymbtpj_.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}],["$","script","script-0",{"src":"/omni-ai-canvas/_next/static/chunks/2f_g9c56jip-u.js","async":true,"nonce":"$undefined"}]],["$","$Lc",null,{"children":["$","$d",null,{"name":"Next.MetadataOutlet","children":"$@e"}]}]]}],"p":false,"v":null}}]]
+9:[["children",{"s":"/_not-found","h":512,"d":{"r":["$","$1","c",{"children":[null,["$","$L3",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L4",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":"$undefined","forbidden":"$undefined","unauthorized":"$undefined"}]]}],"p":false,"v":"$a"},"c":"$Qb"}]]
+0:{"P":null,"c":["","_not-found",""],"q":"","i":false,"t":{"t":{"s":"","h":528,"d":{"r":["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/omni-ai-canvas/_next/static/chunks/30j_7uw8b6xwy.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}],["$","script","script-0",{"src":"/omni-ai-canvas/_next/static/chunks/3qfy96eoyh-ek.js","async":true,"nonce":"$undefined"}]],["$","html",null,{"lang":"ko","children":["$","body",null,{"children":["$","$L3",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L4",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":[["$","main",null,{"className":"UURlJW_landing","data-theme":"landing","children":["$","div",null,{"className":"UURlJW_content UURlJW_notFound","children":[["$","$L6",null,{"className":"$undefined","src":"/omni-ai-canvas/brand/omi-lost.webp","alt":"","width":200,"height":200,"unoptimized":true}],["$","h1",null,{"className":"UURlJW_heading2","children":"페이지를 찾을 수 없어요"}],["$","p",null,{"children":"주소를 확인하거나 Omni AI Canvas 첫 화면으로 돌아가세요."}],["$","$L7",null,{"className":"studio-action UURlJW_cta","href":"/","data-tone":"primary","children":["첫 화면으로 ",["$","$L8",null,{"ref":"$undefined","icon":{"name":"arrow-right","size":24,"node":[["path",{"d":"M5 12h14","key":"1ays0h"}],["path",{"d":"m12 5 7 7-7 7","key":"xquz4c"}]]},"className":"$undefined","aria-hidden":"true","size":20}]]}]]}]}],[["$","link","0",{"rel":"stylesheet","href":"/omni-ai-canvas/_next/static/chunks/02ml76ymbtpj_.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}]]],"forbidden":"$undefined","unauthorized":"$undefined"}]}]}]]}],"p":false,"v":null},"c":"$Q9"},"h":{"r":["$","$1","h",{"children":[["$","meta",null,{"name":"robots","content":"noindex"}],["$","$L10",null,{"children":"$L11"}],["$","$L13",null,{"children":[["$","div",null,{"hidden":true,"children":["$","$d",null,{"name":"Next.Metadata","children":"$L14"}]}],null]}],null]}],"p":false,"v":null}},"m":"$undefined","G":["$15",[["$","link","0",{"rel":"stylesheet","href":"/omni-ai-canvas/_next/static/chunks/30j_7uw8b6xwy.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}]]],"S":true,"r":"$undefined","s":"$undefined","a":"$undefined","l":"$undefined","p":"$undefined","d":"$undefined","b":"1Sj3ERuYyFbF2lQIfnWRS"}
+a:C
+11:[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]
+16:I[27201,["$2"],"IconMark"]
+e:null
+14:[["$","title","0",{"children":"Omni AI Canvas"}],["$","meta","1",{"name":"description","content":"대본부터 완성 영상까지 여러 AI 모델을 한 보드에서 쓰는 제작실"}],["$","link","2",{"rel":"icon","href":"/omni-ai-canvas/icon.svg?icon.2o4mvogdsdlja.svg","sizes":"any","type":"image/svg+xml"}],["$","link","3",{"rel":"apple-touch-icon","href":"/omni-ai-canvas/apple-icon.png?apple-icon.3pst6rz2u65yp.png","sizes":"180x180","type":"image/png"}],["$","$L16","4",{}]]
