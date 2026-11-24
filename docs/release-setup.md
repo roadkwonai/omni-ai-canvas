@@ -43,7 +43,9 @@ Omni AI Canvas는 제작자 컴퓨터의 `127.0.0.1`에 바인딩하는 앱이�
 
 ### 지금 상태 (2026-11-24)
 
-비공개 저장소 [roadkwonai/omni-ai-canvas](https://github.com/roadkwonai/omni-ai-canvas)에서 v0.1.0으로 시작한다. 노트는 [release](../release/README.md)에 있다. 자동 배포와 라이선스 파일은 없다. 앱은 로컬 전용이라 서버에 배포하지 않는다. 공개로 바꾸기 전에 아래 확인 목록을 끝낸다.
+공개 저장소 [roadkwonai/omni-ai-canvas](https://github.com/roadkwonai/omni-ai-canvas)에서 릴리스한다. 2026-11-24에 사용자의 결정으로 비공개에서 공개로 바꿨다. 노트는 [release](../release/README.md)에 있다. 자동 배포와 프로젝트 라이선스 파일은 없다. 앱은 로컬 전용이라 서버에 배포하지 않는다.
+
+랜딩과 사용 가이드만 GitHub Pages에 올린다. `node scripts/build-pages.mjs`가 제작실과 API를 뺀 정적 파일을 `.pages-build/out`에 만들고, 그 내용을 `gh-pages` 브랜치에 올린다. 주소는 <https://roadkwonai.github.io/omni-ai-canvas/>다. 랜딩이나 가이드를 바꿔 릴리스하면 Pages도 다시 올린다.
 
 ### 정한 규칙
 
@@ -65,14 +67,14 @@ Omni AI Canvas는 제작자 컴퓨터의 `127.0.0.1`에 바인딩하는 앱이�
 4. 커밋, 푸시, 태그, GitHub Release를 각각 사용자가 승인한 뒤 진행한다. 저장소를 공개로 바꾸는 일은 따로 승인받는다.
 5. Release의 제목과 본문, 태그가 가리키는 커밋, README 링크와 새 위치에서의 설치를 확인한다.
 
-### 공개로 바꾸기 전에 정하거나 고칠 것
+### 공개 저장소에서 남은 확인
 
 | 항목 | 상태 |
 | --- | --- |
-| 이 저장소의 라이선스 | **정해야 함.** 없이 공개하면 다른 사람이 쓸 권리가 따로 생기지 않는다 |
-| `gpt-image` 스킬 | **막힘.** 원본 [GENEXIS-AI/gpt-image-skill](https://github.com/GENEXIS-AI/gpt-image-skill)에 라이선스가 없어 공개 배포 권한을 확인하지 못했다. `lib/runner.ts`의 구독 이미지 생성이 이 파일을 쓴다 |
+| 이 저장소의 라이선스 | **정해야 함.** 정하지 않은 상태에서는 다른 사람이 쓸 권리가 따로 생기지 않는다 |
+| `gpt-image` 스킬 | **남음.** 공개 전환 때 사용자가 알고 진행했다. 원본 [GENEXIS-AI/gpt-image-skill](https://github.com/GENEXIS-AI/gpt-image-skill)에 라이선스가 없어 재배포 권한을 확인하지 못했다. 권리자가 요청하면 빼야 하고, `lib/runner.ts`의 구독 이미지 생성이 이 파일을 쓴다 |
 | `web-design-guidelines`, `composition-patterns`, `react-best-practices` | 원본 저장소에 라이선스 파일이 없다. 뒤의 둘은 `SKILL.md`에 MIT로 적혀 있다 |
-| 라이선스 파일이 빠진 나머지 스킬 | 원본은 확인했다. Addy Osmani 7개와 공통 `references` 폴더·ZTD Charts·Diagram Design·Next.js는 MIT, Neon 2개와 Topview는 Apache-2.0이다. 공개하려면 원본 라이선스 파일을 함께 넣는다. |
+| 라이선스 파일이 빠졌던 스킬 | **넣음.** Addy Osmani 7개와 공통 `references`, ZTD Charts, Diagram Design, Next.js(MIT), Neon 2개와 Topview(Apache-2.0)에 원본 라이선스 파일을 넣었다. |
 | 참고 자료와 작업 기록 | `references/`, `tasks/`, `generated-images/`를 Git에서 제외했다. 제외한 파일로 가던 링크는 "(로컬 자료)" 글로 바꿨다 |
 | 로컬 절대 경로 | 공개 대상에는 `tests/local-tts.test.ts`의 시험용 경로만 남았다 |
 | 비밀값과 계정 | 알려진 키 형태와 Neon 주소, 계정 이메일을 찾아본 범위에서는 시험용 DB 주소만 나왔다. 보안 감사는 아니다 |
