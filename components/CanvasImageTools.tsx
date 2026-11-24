@@ -38,7 +38,8 @@ export default function CanvasImageTools({
   const height = useStore((state) => state.height);
   const panel = useRef<HTMLDivElement>(null);
   const dialog = useRef<HTMLDialogElement>(null);
-  const editorOpen = Boolean(editor);
+  // 새 노드는 측정되기 전에 null을 그리므로, 창이 생긴 뒤에 다시 열어야 한다.
+  const editorOpen = Boolean(editor) && Boolean(internal);
   useEffect(() => {
     if (!editorOpen) return;
     const modal = dialog.current;
