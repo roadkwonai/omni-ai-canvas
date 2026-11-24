@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 692 268" width="692" height="268" role="img" aria-labelledby="run-state-title run-state-desc" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif"><title id="run-state-title">생성 실행 상태</title><desc id="run-state-desc">생존 신호가 60분 없으면 만료한다. Road Music은 180분이다. 결과는 .scene-room/run-outbox에 먼저 적고 데이터베이스에 반영한다.</desc><rect width="692" height="268" fill="#ffffff"/><style>
+.c-mask{fill:#ffffff} .c-frontend{fill:#fff2ec;stroke:#ff6600} .c-backend{fill:#ffffff;stroke:#1a1c20}
+.c-cloud,.c-database,.c-external,.c-messagebus{fill:#ffffff;stroke:#d1d3d8} .c-security{fill:#f3f4f5;stroke:#555d6d;stroke-dasharray:5 4}
+.c-lane,.c-group,.c-phase{fill:none;stroke:#d1d3d8;stroke-dasharray:4 5}
+.a-default,.a-dashed,.a-security{stroke:#555d6d;fill:none} .a-emphasis{stroke:#1a1c20;fill:none} .a-dashed{stroke-dasharray:5 4}
+.m-default,.m-dashed,.m-security{fill:#555d6d} .m-emphasis{fill:#1a1c20}
+text{fill:#555d6d;paint-order:stroke;stroke:#ffffff;stroke-width:4px;stroke-linejoin:round}
+.t-primary{fill:#1a1c20;font-size:17px;font-weight:700} .t-muted{font-size:13.5px} [data-node-id] text{stroke:none}
+.t-edge,.t-edge-emphasis{fill:#1a1c20}
+</style><g transform="translate(-8 -4)">
+<defs>
+<marker id="run-state-arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+<polygon points="0 0, 10 3.5, 0 7" class="m-default" />
+</marker>
+<marker id="run-state-arrowhead-emphasis" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+<polygon points="0 0, 10 3.5, 0 7" class="m-emphasis" />
+</marker>
+<marker id="run-state-arrowhead-security" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+<polygon points="0 0, 10 3.5, 0 7" class="m-security" />
+</marker>
+<marker id="run-state-arrowhead-dashed" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+<polygon points="0 0, 10 3.5, 0 7" class="m-dashed" />
+</marker>
+</defs>
+<g>
+<path d="M 196 60 L 300 60" fill="none" stroke="#ffffff" stroke-width="5.8" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+<path d="M 196 60 L 300 60" class="a-emphasis" stroke-width="1.8" marker-end="url(#run-state-arrowhead-emphasis)"/>
+</g>
+<g>
+<path d="M 442 60 L 534 60" fill="none" stroke="#ffffff" stroke-width="5.8" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+<path d="M 442 60 L 534 60" class="a-emphasis" stroke-width="1.8" marker-end="url(#run-state-arrowhead-emphasis)"/>
+</g>
+<g>
+<path d="M 348.5 92 L 348.5 184" fill="none" stroke="#ffffff" stroke-width="5.2" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+<path d="M 348.5 92 L 348.5 184" class="a-default" stroke-width="1.2" marker-end="url(#run-state-arrowhead)"/>
+</g>
+<g>
+<path d="M 420 92 L 420 114 Q 420 126 432 126 L 472.5 126 Q 484.5 126 484.5 138 L 484.5 184" fill="none" stroke="#ffffff" stroke-width="5.2" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+<path d="M 420 92 L 420 114 Q 420 126 432 126 L 472.5 126 Q 484.5 126 484.5 138 L 484.5 184" class="a-default" stroke-width="1.2" marker-end="url(#run-state-arrowhead)"/>
+</g>
+<g>
+<path d="M 556 184 L 556 92" fill="none" stroke="#ffffff" stroke-width="5.2" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+<path d="M 556 184 L 556 92" class="a-default" stroke-width="1.2" marker-end="url(#run-state-arrowhead)"/>
+</g>
+<g data-node-id="queued">
+<rect x="56" y="28" width="140" height="64" rx="8" class="c-mask"/>
+<rect x="56" y="28" width="140" height="64" rx="8" class="c-cloud" stroke-width="1.5"/>
+<g><circle cx="30" cy="60" r="4.5"/><path d="M 34.5 60 L 49 60" class="a-emphasis" stroke-width="1.4"/><path d="M 48 56.5 L 55 60 L 48 63.5 Z"/></g>
+<text x="126" y="55" class="t-primary" text-anchor="middle">대기 중</text>
+<text x="126" y="73" class="t-muted" text-anchor="middle">요청을 저장했어요</text>
+</g>
+<g data-node-id="running">
+<rect x="300" y="28" width="142" height="64" rx="8" class="c-mask"/>
+<rect x="300" y="28" width="142" height="64" rx="8" class="c-frontend" stroke-width="1.5"/>
+<text x="371" y="55" class="t-primary" text-anchor="middle">생성 중</text>
+<text x="371" y="73" class="t-muted" text-anchor="middle">서비스나 로컬 엔진</text>
+</g>
+<g data-node-id="done">
+<rect x="534" y="28" width="142" height="64" rx="8" class="c-mask"/>
+<rect x="534" y="28" width="142" height="64" rx="8" class="c-backend" stroke-width="1.5"/>
+<rect x="537" y="31" width="136" height="58" rx="5" class="c-backend" stroke-width="1"/>
+<text x="605" y="55" class="t-primary" text-anchor="middle">완료</text>
+<text x="605" y="73" class="t-muted" text-anchor="middle">결과 적용을 눌러요</text>
+</g>
+<g data-node-id="failed">
+<rect x="278.5" y="184" width="140" height="64" rx="8" class="c-mask"/>
+<rect x="278.5" y="184" width="140" height="64" rx="8" class="c-security" stroke-width="1.5"/>
+<rect x="281.5" y="187" width="134" height="58" rx="5" class="c-security" stroke-width="1"/>
+<text x="348.5" y="211" class="t-primary" text-anchor="middle">실패</text>
+<text x="348.5" y="229" class="t-muted" text-anchor="middle">오류 문구를 봐요</text>
+</g>
+<g data-node-id="expired">
+<rect x="462.5" y="184" width="140" height="64" rx="8" class="c-mask"/>
+<rect x="462.5" y="184" width="140" height="64" rx="8" class="c-security" stroke-width="1.5"/>
+<text x="532.5" y="211" class="t-primary" text-anchor="middle">만료된 실패</text>
+<text x="532.5" y="229" class="t-muted" text-anchor="middle">응답을 잃었어요</text>
+</g>
+<g>
+<rect x="209" y="38" width="78" height="16" rx="4" class="c-mask"/>
+<text x="248" y="49.5" class="t-edge-emphasis" text-anchor="middle">실행기 시작</text>
+</g>
+<g>
+<rect x="455" y="38" width="66" height="16" rx="4" class="c-mask"/>
+<text x="488" y="49.5" class="t-edge-emphasis" text-anchor="middle">결과 도착</text>
+</g>
+<g>
+<rect x="306.5" y="130" width="36" height="16" rx="4" class="c-mask"/>
+<text x="324.5" y="141.5" class="t-muted" text-anchor="middle">오류</text>
+</g>
+<g>
+<rect x="400.5" y="147" width="78" height="16" rx="4" class="c-mask"/>
+<text x="439.5" y="158.5" class="t-muted" text-anchor="middle">60분 무응답</text>
+</g>
+<g>
+<rect x="562" y="130" width="96" height="16" rx="4" class="c-mask"/>
+<text x="610" y="141.5" class="t-muted" text-anchor="middle">보관 결과 도착</text>
+</g>
+</g></svg>

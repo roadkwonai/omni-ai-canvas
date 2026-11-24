@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 698 334" width="698" height="334" role="img" aria-labelledby="contest-flow-title contest-flow-desc" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif"><title id="contest-flow-title">공모전 요강에서 기획까지</title><desc id="contest-flow-desc">공모전 요강에서 기획까지</desc><rect width="698" height="334" fill="#ffffff"/><style>
+.c-mask{fill:#ffffff} .c-frontend{fill:#fff2ec;stroke:#ff6600} .c-backend{fill:#ffffff;stroke:#1a1c20}
+.c-cloud,.c-database,.c-external,.c-messagebus{fill:#ffffff;stroke:#d1d3d8} .c-security{fill:#f3f4f5;stroke:#555d6d;stroke-dasharray:5 4}
+.c-lane,.c-group,.c-phase{fill:none;stroke:#d1d3d8;stroke-dasharray:4 5}
+.a-default,.a-dashed,.a-security{stroke:#555d6d;fill:none} .a-emphasis{stroke:#1a1c20;fill:none} .a-dashed{stroke-dasharray:5 4}
+.m-default,.m-dashed,.m-security{fill:#555d6d} .m-emphasis{fill:#1a1c20}
+text{fill:#555d6d;paint-order:stroke;stroke:#ffffff;stroke-width:4px;stroke-linejoin:round}
+.t-primary{fill:#1a1c20;font-size:17px;font-weight:700} .t-muted{font-size:13.5px} [data-node-id] text{stroke:none}
+.t-edge,.t-edge-emphasis{fill:#1a1c20}
+</style><g transform="translate(-16 -36)">
+<defs>
+<marker id="contest-flow-arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+<polygon points="0 0, 10 3.5, 0 7" class="m-default" />
+</marker>
+<marker id="contest-flow-arrowhead-emphasis" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+<polygon points="0 0, 10 3.5, 0 7" class="m-emphasis" />
+</marker>
+<marker id="contest-flow-arrowhead-security" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+<polygon points="0 0, 10 3.5, 0 7" class="m-security" />
+</marker>
+<marker id="contest-flow-arrowhead-dashed" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+<polygon points="0 0, 10 3.5, 0 7" class="m-dashed" />
+</marker>
+</defs>
+<style>
+svg[data-node-ui] [data-node-id] > rect:not(.c-mask) { stroke-width: 1.25px; }
+:is([data-theme="dark"] svg[data-node-ui], svg[data-node-ui][data-theme="dark"]) [data-node-id] > rect:not(.c-mask).c-frontend { fill: color-mix(in srgb, #1a1c20 13%, #ffffff); stroke: color-mix(in srgb, #1a1c20 72%, #ffffff); }
+:is([data-theme="dark"] svg[data-node-ui], svg[data-node-ui][data-theme="dark"]) [data-node-id] > rect:not(.c-mask).c-backend { fill: color-mix(in srgb, #1a1c20 13%, #ffffff); stroke: color-mix(in srgb, #1a1c20 72%, #ffffff); }
+:is([data-theme="dark"] svg[data-node-ui], svg[data-node-ui][data-theme="dark"]) [data-node-id] > rect:not(.c-mask).c-database { fill: color-mix(in srgb, #1a1c20 13%, #ffffff); stroke: color-mix(in srgb, #1a1c20 72%, #ffffff); }
+:is([data-theme="dark"] svg[data-node-ui], svg[data-node-ui][data-theme="dark"]) [data-node-id] > rect:not(.c-mask).c-cloud { fill: color-mix(in srgb, #1a1c20 13%, #ffffff); stroke: color-mix(in srgb, #1a1c20 72%, #ffffff); }
+:is([data-theme="dark"] svg[data-node-ui], svg[data-node-ui][data-theme="dark"]) [data-node-id] > rect:not(.c-mask).c-security { fill: color-mix(in srgb, #1a1c20 13%, #ffffff); stroke: color-mix(in srgb, #1a1c20 72%, #ffffff); }
+:is([data-theme="dark"] svg[data-node-ui], svg[data-node-ui][data-theme="dark"]) [data-node-id] > rect:not(.c-mask).c-messagebus { fill: color-mix(in srgb, #1a1c20 13%, #ffffff); stroke: color-mix(in srgb, #1a1c20 72%, #ffffff); }
+:is([data-theme="dark"] svg[data-node-ui], svg[data-node-ui][data-theme="dark"]) [data-node-id] > rect:not(.c-mask).c-external { fill: color-mix(in srgb, #1a1c20 13%, #ffffff); stroke: color-mix(in srgb, #1a1c20 72%, #ffffff); }
+svg[data-node-ui]:is([data-preset="classic"], [data-preset="signal-flow"], [data-preset="editorial"]) .c-region { fill: color-mix(in srgb, #1a1c20 3%, transparent); stroke: color-mix(in srgb, #1a1c20 42%, #1a1c20); stroke-dasharray: none; }
+svg[data-node-ui] .c-security-group { stroke: color-mix(in srgb, #1a1c20 58%, #1a1c20); }
+svg[data-node-ui]:is([data-preset="classic"], [data-preset="signal-flow"], [data-preset="editorial"]) .c-security-group { stroke-dasharray: 4 3; }
+svg[data-node-ui]:is([data-preset="classic"], [data-preset="signal-flow"], [data-preset="editorial"]) .c-lane { stroke: #1a1c20; stroke-dasharray: none; }
+svg[data-node-ui] [data-graph-role="structural-frame-label-mask"] { rx: 5px; fill: color-mix(in srgb, #1a1c20 10%, #ffffff); stroke: color-mix(in srgb, #1a1c20 38%, #ffffff); stroke-width: .8px; }
+svg[data-node-ui] [data-composition-frame-kind="security-group"] > [data-graph-role="structural-frame-label-mask"] { fill: color-mix(in srgb, #1a1c20 9%, #ffffff); stroke: color-mix(in srgb, #1a1c20 36%, #ffffff); }
+svg[data-node-ui] .phase-rule { opacity: .5; stroke-dasharray: none; }
+svg[data-node-ui] .phase-chip { stroke: #1a1c20; stroke-width: .75px; }
+svg[data-node-ui] g[data-edge-from] > rect.c-mask { rx: 7px; stroke: #1a1c20; stroke-width: .75px; }
+svg[data-node-ui][data-preset="blueprint"] :is([data-graph-role="structural-frame-label-mask"], g[data-edge-from] > rect.c-mask, .phase-chip) { rx: 2px; }
+svg[data-node-ui][data-preset="editorial"] :is([data-graph-role="structural-frame-label-mask"], g[data-edge-from] > rect.c-mask, .phase-chip) { rx: 3px; }
+</style>
+<g>
+<path d="M 174 122 L 174 180 Q 174 188 182 188 L 290 188" fill="none" stroke="#ffffff" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+<path d="M 174 122 L 174 180 Q 174 188 182 188 L 290 188" class="a-default" stroke-width="1.5" marker-end="url(#contest-flow-arrowhead)"/>
+</g>
+<g>
+<path d="M 174 284 L 174 226 Q 174 218 182 218 L 290 218" fill="none" stroke="#ffffff" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+<path d="M 174 284 L 174 226 Q 174 218 182 218 L 290 218" class="a-default" stroke-width="1.5" marker-end="url(#contest-flow-arrowhead)"/>
+</g>
+<g>
+<path d="M 440 188 L 548 188 Q 556 188 556 180 L 556 122" fill="none" stroke="#ffffff" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+<path d="M 440 188 L 548 188 Q 556 188 556 180 L 556 122" class="a-default" stroke-width="1.5" marker-end="url(#contest-flow-arrowhead)"/>
+</g>
+<g>
+<path d="M 440 218 L 548 218 Q 556 218 556 226 L 556 284" fill="none" stroke="#ffffff" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+<path d="M 440 218 L 548 218 Q 556 218 556 226 L 556 284" class="a-default" stroke-width="1.5" marker-end="url(#contest-flow-arrowhead)"/>
+</g>
+<g data-node-id="url">
+<rect x="40" y="60" width="150" height="62" rx="8" class="c-mask"/>
+<rect x="40" y="60" width="150" height="62" rx="8" class="c-backend" stroke-width="1.5"/>
+<text x="115" y="89" class="t-primary" text-anchor="middle">공모전 주소</text>
+<text x="115" y="105" class="t-muted" text-anchor="middle">HTTPS</text>
+</g>
+<g data-node-id="paste">
+<rect x="40" y="284" width="150" height="62" rx="8" class="c-mask"/>
+<rect x="40" y="284" width="150" height="62" rx="8" class="c-external" stroke-width="1.5"/>
+<text x="115" y="313" class="t-primary" text-anchor="middle">원문 붙여넣기</text>
+<text x="115" y="329" class="t-muted" text-anchor="middle">읽지 못할 때</text>
+</g>
+<g data-node-id="check">
+<rect x="290" y="172" width="150" height="62" rx="8" class="c-mask"/>
+<rect x="290" y="172" width="150" height="62" rx="8" class="c-frontend" stroke-width="1.5"/>
+<text x="365" y="201" class="t-primary" text-anchor="middle">요강 7칸</text>
+<text x="365" y="217" class="t-muted" text-anchor="middle">원문과 대조해요</text>
+</g>
+<g data-node-id="director">
+<rect x="540" y="60" width="150" height="62" rx="8" class="c-mask"/>
+<rect x="540" y="60" width="150" height="62" rx="8" class="c-backend" stroke-width="1.5"/>
+<text x="615" y="89" class="t-primary" text-anchor="middle">감독 기획</text>
+<text x="615" y="105" class="t-muted" text-anchor="middle">후보와 대본</text>
+</g>
+<g data-node-id="kit">
+<rect x="540" y="284" width="150" height="62" rx="8" class="c-mask"/>
+<rect x="540" y="284" width="150" height="62" rx="8" class="c-external" stroke-width="1.5"/>
+<text x="615" y="313" class="t-primary" text-anchor="middle">준비 보드</text>
+<text x="615" y="329" class="t-muted" text-anchor="middle">노드 5개</text>
+</g>
+<g>
+<rect x="207.8" y="168" width="48.4" height="14" rx="3" class="c-mask"/>
+<text x="232" y="178" class="t-edge-default" text-anchor="middle">가져오기</text>
+</g>
+<g>
+<rect x="217" y="198" width="30" height="14" rx="3" class="c-mask"/>
+<text x="232" y="208" class="t-edge-default" text-anchor="middle">정리</text>
+</g>
+</g></svg>

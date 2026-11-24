@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 674 198" width="674" height="198" role="img" aria-labelledby="project-state-title project-state-desc" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif"><title id="project-state-title">프로젝트 상태</title><desc id="project-state-desc">보관하거나 삭제해도 보드와 실행 기록은 남는다. 완전히 지우는 기능은 없다.</desc><rect width="674" height="198" fill="#ffffff"/><style>
+.c-mask{fill:#ffffff} .c-frontend{fill:#fff2ec;stroke:#ff6600} .c-backend{fill:#ffffff;stroke:#1a1c20}
+.c-cloud,.c-database,.c-external,.c-messagebus{fill:#ffffff;stroke:#d1d3d8} .c-security{fill:#f3f4f5;stroke:#555d6d;stroke-dasharray:5 4}
+.c-lane,.c-group,.c-phase{fill:none;stroke:#d1d3d8;stroke-dasharray:4 5}
+.a-default,.a-dashed,.a-security{stroke:#555d6d;fill:none} .a-emphasis{stroke:#1a1c20;fill:none} .a-dashed{stroke-dasharray:5 4}
+.m-default,.m-dashed,.m-security{fill:#555d6d} .m-emphasis{fill:#1a1c20}
+text{fill:#555d6d;paint-order:stroke;stroke:#ffffff;stroke-width:4px;stroke-linejoin:round}
+.t-primary{fill:#1a1c20;font-size:17px;font-weight:700} .t-muted{font-size:13.5px} [data-node-id] text{stroke:none}
+.t-edge,.t-edge-emphasis{fill:#1a1c20}
+</style><g transform="translate(-8 -8)">
+<defs>
+<marker id="project-state-arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+<polygon points="0 0, 10 3.5, 0 7" class="m-default" />
+</marker>
+<marker id="project-state-arrowhead-emphasis" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+<polygon points="0 0, 10 3.5, 0 7" class="m-emphasis" />
+</marker>
+<marker id="project-state-arrowhead-security" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+<polygon points="0 0, 10 3.5, 0 7" class="m-security" />
+</marker>
+<marker id="project-state-arrowhead-dashed" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+<polygon points="0 0, 10 3.5, 0 7" class="m-dashed" />
+</marker>
+</defs>
+<g>
+<path d="M 203 150 L 275 150" fill="none" stroke="#ffffff" stroke-width="5.8" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+<path d="M 203 150 L 275 150" class="a-emphasis" stroke-width="1.8" marker-end="url(#project-state-arrowhead-emphasis)"/>
+</g>
+<g>
+<path d="M 415 150 L 507 150" fill="none" stroke="#ffffff" stroke-width="5.8" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+<path d="M 415 150 L 507 150" class="a-emphasis" stroke-width="1.8" marker-end="url(#project-state-arrowhead-emphasis)"/>
+</g>
+<g>
+<path d="M 129.5 118 L 129.5 76 Q 129.5 64 141.5 64 L 568.5 64 Q 580.5 64 580.5 76 L 580.5 118" fill="none" stroke="#ffffff" stroke-width="5.2" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+<path d="M 129.5 118 L 129.5 76 Q 129.5 64 141.5 64 L 568.5 64 Q 580.5 64 580.5 76 L 580.5 118" class="a-default" stroke-width="1.2" marker-end="url(#project-state-arrowhead)"/>
+</g>
+<g>
+<path d="M 554.5 118 L 554.5 100 Q 554.5 88 542.5 88 L 370 88 Q 358 88 358 100 L 358 118" fill="none" stroke="#ffffff" stroke-width="5.2" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+<path d="M 554.5 118 L 554.5 100 Q 554.5 88 542.5 88 L 370 88 Q 358 88 358 100 L 358 118" class="a-default" stroke-width="1.2" marker-end="url(#project-state-arrowhead)"/>
+</g>
+<g>
+<path d="M 606.5 118 L 606.5 52 Q 606.5 40 594.5 40 L 115.5 40 Q 103.5 40 103.5 52 L 103.5 118" fill="none" stroke="#ffffff" stroke-width="5.2" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+<path d="M 606.5 118 L 606.5 52 Q 606.5 40 594.5 40 L 115.5 40 Q 103.5 40 103.5 52 L 103.5 118" class="a-default" stroke-width="1.2" marker-end="url(#project-state-arrowhead)"/>
+</g>
+<g>
+<path d="M 332 118 L 332 100 Q 332 88 320 88 L 167.5 88 Q 155.5 88 155.5 100 L 155.5 118" fill="none" stroke="#ffffff" stroke-width="5.2" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+<path d="M 332 118 L 332 100 Q 332 88 320 88 L 167.5 88 Q 155.5 88 155.5 100 L 155.5 118" class="a-default" stroke-width="1.2" marker-end="url(#project-state-arrowhead)"/>
+</g>
+<g data-node-id="active">
+<rect x="56" y="118" width="147" height="64" rx="8" class="c-mask"/>
+<rect x="56" y="118" width="147" height="64" rx="8" class="c-frontend" stroke-width="1.5"/>
+<g><circle cx="30" cy="150" r="4.5"/><path d="M 34.5 150 L 49 150" class="a-emphasis" stroke-width="1.4"/><path d="M 48 146.5 L 55 150 L 48 153.5 Z"/></g>
+<text x="129.5" y="145" class="t-primary" text-anchor="middle">작업 중</text>
+<text x="129.5" y="163" class="t-muted" text-anchor="middle">열고 고칠 수 있어요</text>
+</g>
+<g data-node-id="archived">
+<rect x="275" y="118" width="140" height="64" rx="8" class="c-mask"/>
+<rect x="275" y="118" width="140" height="64" rx="8" class="c-cloud" stroke-width="1.5"/>
+<text x="345" y="145" class="t-primary" text-anchor="middle">보관함</text>
+<text x="345" y="163" class="t-muted" text-anchor="middle">복구하면 열려요</text>
+</g>
+<g data-node-id="trash">
+<rect x="507" y="118" width="147" height="64" rx="8" class="c-mask"/>
+<rect x="507" y="118" width="147" height="64" rx="8" class="c-security" stroke-width="1.5"/>
+<text x="580.5" y="145" class="t-primary" text-anchor="middle">휴지통</text>
+<text x="580.5" y="163" class="t-muted" text-anchor="middle">복구만 할 수 있어요</text>
+</g>
+<g>
+<rect x="221" y="128" width="36" height="16" rx="4" class="c-mask"/>
+<text x="239" y="139.5" class="t-edge-emphasis" text-anchor="middle">보관</text>
+</g>
+<g>
+<rect x="428" y="128" width="66" height="16" rx="4" class="c-mask"/>
+<text x="461" y="139.5" class="t-edge-emphasis" text-anchor="middle">삭제 확인</text>
+</g>
+<g>
+<rect x="322" y="56" width="66" height="16" rx="4" class="c-mask"/>
+<text x="355" y="67.5" class="t-muted" text-anchor="middle">삭제 확인</text>
+</g>
+<g>
+<rect x="438.25" y="80" width="36" height="16" rx="4" class="c-mask"/>
+<text x="456.25" y="91.5" class="t-muted" text-anchor="middle">복구</text>
+</g>
+<g>
+<rect x="337" y="32" width="36" height="16" rx="4" class="c-mask"/>
+<text x="355" y="43.5" class="t-muted" text-anchor="middle">복구</text>
+</g>
+<g>
+<rect x="225.75" y="80" width="36" height="16" rx="4" class="c-mask"/>
+<text x="243.75" y="91.5" class="t-muted" text-anchor="middle">복구</text>
+</g>
+</g></svg>

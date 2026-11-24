@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 553 276" width="553" height="276" role="img" aria-labelledby="mcp-flow-title mcp-flow-desc" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif"><title id="mcp-flow-title">외부 에이전트가 노드를 더하는 순서</title><desc id="mcp-flow-desc">읽은 뒤 보드가 바뀌었으면 추가하지 않고 다시 읽게 한다.</desc><rect width="553" height="276" fill="#ffffff"/><style>
+.c-mask{fill:#ffffff} .c-frontend{fill:#fff2ec;stroke:#ff6600} .c-backend{fill:#ffffff;stroke:#1a1c20}
+.c-cloud,.c-database,.c-external,.c-messagebus{fill:#ffffff;stroke:#d1d3d8} .c-security{fill:#f3f4f5;stroke:#555d6d;stroke-dasharray:5 4}
+.c-lane,.c-group,.c-phase{fill:none;stroke:#d1d3d8;stroke-dasharray:4 5}
+.a-default,.a-dashed,.a-security{stroke:#555d6d;fill:none} .a-emphasis{stroke:#1a1c20;fill:none} .a-dashed{stroke-dasharray:5 4}
+.m-default,.m-dashed,.m-security{fill:#555d6d} .m-emphasis{fill:#1a1c20}
+text{fill:#555d6d;paint-order:stroke;stroke:#ffffff;stroke-width:4px;stroke-linejoin:round}
+.t-primary{fill:#1a1c20;font-size:17px;font-weight:700} .t-muted{font-size:13.5px} [data-node-id] text{stroke:none}
+.t-edge,.t-edge-emphasis{fill:#1a1c20}
+</style><g transform="translate(-16 -28)">
+<defs>
+<marker id="mcp-flow-arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+<polygon points="0 0, 10 3.5, 0 7" class="m-default" />
+</marker>
+<marker id="mcp-flow-arrowhead-emphasis" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+<polygon points="0 0, 10 3.5, 0 7" class="m-emphasis" />
+</marker>
+<marker id="mcp-flow-arrowhead-security" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+<polygon points="0 0, 10 3.5, 0 7" class="m-security" />
+</marker>
+<marker id="mcp-flow-arrowhead-dashed" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+<polygon points="0 0, 10 3.5, 0 7" class="m-dashed" />
+</marker>
+</defs>
+<style>
+svg[data-node-ui] [data-node-id] > rect:not(.c-mask) { stroke-width: 1.25px; }
+:is([data-theme="dark"] svg[data-node-ui], svg[data-node-ui][data-theme="dark"]) [data-node-id] > rect:not(.c-mask).c-frontend { fill: color-mix(in srgb, #1a1c20 13%, #ffffff); stroke: color-mix(in srgb, #1a1c20 72%, #ffffff); }
+:is([data-theme="dark"] svg[data-node-ui], svg[data-node-ui][data-theme="dark"]) [data-node-id] > rect:not(.c-mask).c-backend { fill: color-mix(in srgb, #1a1c20 13%, #ffffff); stroke: color-mix(in srgb, #1a1c20 72%, #ffffff); }
+:is([data-theme="dark"] svg[data-node-ui], svg[data-node-ui][data-theme="dark"]) [data-node-id] > rect:not(.c-mask).c-database { fill: color-mix(in srgb, #1a1c20 13%, #ffffff); stroke: color-mix(in srgb, #1a1c20 72%, #ffffff); }
+:is([data-theme="dark"] svg[data-node-ui], svg[data-node-ui][data-theme="dark"]) [data-node-id] > rect:not(.c-mask).c-cloud { fill: color-mix(in srgb, #1a1c20 13%, #ffffff); stroke: color-mix(in srgb, #1a1c20 72%, #ffffff); }
+:is([data-theme="dark"] svg[data-node-ui], svg[data-node-ui][data-theme="dark"]) [data-node-id] > rect:not(.c-mask).c-security { fill: color-mix(in srgb, #1a1c20 13%, #ffffff); stroke: color-mix(in srgb, #1a1c20 72%, #ffffff); }
+:is([data-theme="dark"] svg[data-node-ui], svg[data-node-ui][data-theme="dark"]) [data-node-id] > rect:not(.c-mask).c-messagebus { fill: color-mix(in srgb, #1a1c20 13%, #ffffff); stroke: color-mix(in srgb, #1a1c20 72%, #ffffff); }
+:is([data-theme="dark"] svg[data-node-ui], svg[data-node-ui][data-theme="dark"]) [data-node-id] > rect:not(.c-mask).c-external { fill: color-mix(in srgb, #1a1c20 13%, #ffffff); stroke: color-mix(in srgb, #1a1c20 72%, #ffffff); }
+svg[data-node-ui]:is([data-preset="classic"], [data-preset="signal-flow"], [data-preset="editorial"]) .c-region { fill: color-mix(in srgb, #1a1c20 3%, transparent); stroke: color-mix(in srgb, #1a1c20 42%, #1a1c20); stroke-dasharray: none; }
+svg[data-node-ui] .c-security-group { stroke: color-mix(in srgb, #1a1c20 58%, #1a1c20); }
+svg[data-node-ui]:is([data-preset="classic"], [data-preset="signal-flow"], [data-preset="editorial"]) .c-security-group { stroke-dasharray: 4 3; }
+svg[data-node-ui]:is([data-preset="classic"], [data-preset="signal-flow"], [data-preset="editorial"]) .c-lane { stroke: #1a1c20; stroke-dasharray: none; }
+svg[data-node-ui] [data-graph-role="structural-frame-label-mask"] { rx: 5px; fill: color-mix(in srgb, #1a1c20 10%, #ffffff); stroke: color-mix(in srgb, #1a1c20 38%, #ffffff); stroke-width: .8px; }
+svg[data-node-ui] [data-composition-frame-kind="security-group"] > [data-graph-role="structural-frame-label-mask"] { fill: color-mix(in srgb, #1a1c20 9%, #ffffff); stroke: color-mix(in srgb, #1a1c20 36%, #ffffff); }
+svg[data-node-ui] .phase-rule { opacity: .5; stroke-dasharray: none; }
+svg[data-node-ui] .phase-chip { stroke: #1a1c20; stroke-width: .75px; }
+svg[data-node-ui] g[data-edge-from] > rect.c-mask { rx: 7px; stroke: #1a1c20; stroke-width: .75px; }
+svg[data-node-ui][data-preset="blueprint"] :is([data-graph-role="structural-frame-label-mask"], g[data-edge-from] > rect.c-mask, .phase-chip) { rx: 2px; }
+svg[data-node-ui][data-preset="editorial"] :is([data-graph-role="structural-frame-label-mask"], g[data-edge-from] > rect.c-mask, .phase-chip) { rx: 3px; }
+</style>
+<rect x="40" y="52" width="517" height="104" rx="10" class="c-lane" stroke-width="1"/>
+<text x="54" y="74" class="t-muted">외부 에이전트</text>
+<rect x="40" y="176" width="517" height="104" rx="10" class="c-lane" stroke-width="1"/>
+<text x="54" y="198" class="t-muted">제작실</text>
+<path d="M 188 119 L 220 119" class="a-emphasis" stroke-width="1.8" marker-end="url(#mcp-flow-arrowhead-emphasis)"/>
+<path d="M 360 119 L 398 119" class="a-emphasis" stroke-width="1.8" marker-end="url(#mcp-flow-arrowhead-emphasis)"/>
+<path d="M 468 145 L 468 217" class="a-emphasis" stroke-width="1.8" marker-end="url(#mcp-flow-arrowhead-emphasis)"/>
+<path d="M 444 145 L 444 153 Q 444 161 436 161 L 398 161 Q 390 161 390 169 L 390 235 Q 390 243 382 243 L 360 243" class="a-default" stroke-width="1.4" marker-end="url(#mcp-flow-arrowhead)"/>
+<path d="M 290 217 L 290 145" class="a-default" stroke-width="1.4" marker-end="url(#mcp-flow-arrowhead)"/>
+<g data-node-id="list">
+<rect x="48" y="93" width="140" height="52" rx="8" class="c-mask"/>
+<rect x="48" y="93" width="140" height="52" rx="8" class="c-external" stroke-width="1.5"/>
+<text x="118" y="114" class="t-primary" text-anchor="middle">프로젝트 목록</text>
+<text x="118" y="131" class="t-muted" text-anchor="middle">list_projects</text>
+</g>
+<g data-node-id="read">
+<rect x="220" y="93" width="140" height="52" rx="8" class="c-mask"/>
+<rect x="220" y="93" width="140" height="52" rx="8" class="c-backend" stroke-width="1.5"/>
+<text x="290" y="114" class="t-primary" text-anchor="middle">보드 읽기</text>
+<text x="290" y="131" class="t-muted" text-anchor="middle">get_project</text>
+</g>
+<g data-node-id="add">
+<rect x="398" y="93" width="140" height="52" rx="8" class="c-mask"/>
+<rect x="398" y="93" width="140" height="52" rx="8" class="c-frontend" stroke-width="1.5"/>
+<text x="468" y="114" class="t-primary" text-anchor="middle">노드 추가</text>
+<text x="468" y="131" class="t-muted" text-anchor="middle">apply_graph</text>
+</g>
+<g data-node-id="clash">
+<rect x="220" y="217" width="140" height="52" rx="8" class="c-mask"/>
+<rect x="220" y="217" width="140" height="52" rx="8" class="c-security" stroke-width="1.5"/>
+<text x="290" y="238" class="t-primary" text-anchor="middle">버전 충돌</text>
+<text x="290" y="255" class="t-muted" text-anchor="middle">덮어쓰지 않아요</text>
+</g>
+<g data-node-id="done">
+<rect x="398" y="217" width="140" height="52" rx="8" class="c-mask"/>
+<rect x="398" y="217" width="140" height="52" rx="8" class="c-backend" stroke-width="1.5"/>
+<text x="468" y="238" class="t-primary" text-anchor="middle">보드에 반영</text>
+<text x="468" y="255" class="t-muted" text-anchor="middle">창으로 돌아올 때</text>
+</g>
+<g>
+<rect x="364" y="99" width="30" height="14" rx="3" class="c-mask"/>
+<text x="379" y="109" class="t-edge-emphasis" text-anchor="middle">버전</text>
+</g>
+<g>
+<rect x="441.4" y="171" width="53.199999999999996" height="14" rx="3" class="c-mask"/>
+<text x="468" y="181" class="t-edge-emphasis" text-anchor="middle">같은 버전</text>
+</g>
+<g>
+<rect x="363.4" y="192" width="53.199999999999996" height="14" rx="3" class="c-mask"/>
+<text x="390" y="202" class="t-muted" text-anchor="middle">바뀐 버전</text>
+</g>
+<g>
+<rect x="263.4" y="171" width="53.199999999999996" height="14" rx="3" class="c-mask"/>
+<text x="290" y="181" class="t-muted" text-anchor="middle">다시 읽기</text>
+</g>
+</g></svg>

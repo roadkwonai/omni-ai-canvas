@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 546 400" width="546" height="400" role="img" aria-labelledby="director-request-title director-request-desc" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif"><title id="director-request-title">촬영안을 만들고 적용하는 순서</title><desc id="director-request-desc">제작안은 미리보기에서 확인한 뒤 적용한다. 검토는 원문과 수정안을 비교해 고른 것만 적용한다.</desc><rect width="546" height="400" fill="#ffffff"/><style>
+.c-mask{fill:#ffffff} .c-frontend{fill:#fff2ec;stroke:#ff6600} .c-backend{fill:#ffffff;stroke:#1a1c20}
+.c-cloud,.c-database,.c-external,.c-messagebus{fill:#ffffff;stroke:#d1d3d8} .c-security{fill:#f3f4f5;stroke:#555d6d;stroke-dasharray:5 4}
+.c-lane,.c-group,.c-phase{fill:none;stroke:#d1d3d8;stroke-dasharray:4 5}
+.a-default,.a-dashed,.a-security{stroke:#555d6d;fill:none} .a-emphasis{stroke:#1a1c20;fill:none} .a-dashed{stroke-dasharray:5 4}
+.m-default,.m-dashed,.m-security{fill:#555d6d} .m-emphasis{fill:#1a1c20}
+text{fill:#555d6d;paint-order:stroke;stroke:#ffffff;stroke-width:4px;stroke-linejoin:round}
+.t-primary{fill:#1a1c20;font-size:17px;font-weight:700} .t-muted{font-size:13.5px} [data-node-id] text{stroke:none}
+.t-edge,.t-edge-emphasis{fill:#1a1c20}
+</style><g transform="translate(-16 -28)">
+<defs>
+<marker id="director-request-arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+<polygon points="0 0, 10 3.5, 0 7" class="m-default" />
+</marker>
+<marker id="director-request-arrowhead-emphasis" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+<polygon points="0 0, 10 3.5, 0 7" class="m-emphasis" />
+</marker>
+<marker id="director-request-arrowhead-security" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+<polygon points="0 0, 10 3.5, 0 7" class="m-security" />
+</marker>
+<marker id="director-request-arrowhead-dashed" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+<polygon points="0 0, 10 3.5, 0 7" class="m-dashed" />
+</marker>
+</defs>
+<style>
+svg[data-node-ui] [data-node-id] > rect:not(.c-mask) { stroke-width: 1.25px; }
+:is([data-theme="dark"] svg[data-node-ui], svg[data-node-ui][data-theme="dark"]) [data-node-id] > rect:not(.c-mask).c-frontend { fill: color-mix(in srgb, #1a1c20 13%, #ffffff); stroke: color-mix(in srgb, #1a1c20 72%, #ffffff); }
+:is([data-theme="dark"] svg[data-node-ui], svg[data-node-ui][data-theme="dark"]) [data-node-id] > rect:not(.c-mask).c-backend { fill: color-mix(in srgb, #1a1c20 13%, #ffffff); stroke: color-mix(in srgb, #1a1c20 72%, #ffffff); }
+:is([data-theme="dark"] svg[data-node-ui], svg[data-node-ui][data-theme="dark"]) [data-node-id] > rect:not(.c-mask).c-database { fill: color-mix(in srgb, #1a1c20 13%, #ffffff); stroke: color-mix(in srgb, #1a1c20 72%, #ffffff); }
+:is([data-theme="dark"] svg[data-node-ui], svg[data-node-ui][data-theme="dark"]) [data-node-id] > rect:not(.c-mask).c-cloud { fill: color-mix(in srgb, #1a1c20 13%, #ffffff); stroke: color-mix(in srgb, #1a1c20 72%, #ffffff); }
+:is([data-theme="dark"] svg[data-node-ui], svg[data-node-ui][data-theme="dark"]) [data-node-id] > rect:not(.c-mask).c-security { fill: color-mix(in srgb, #1a1c20 13%, #ffffff); stroke: color-mix(in srgb, #1a1c20 72%, #ffffff); }
+:is([data-theme="dark"] svg[data-node-ui], svg[data-node-ui][data-theme="dark"]) [data-node-id] > rect:not(.c-mask).c-messagebus { fill: color-mix(in srgb, #1a1c20 13%, #ffffff); stroke: color-mix(in srgb, #1a1c20 72%, #ffffff); }
+:is([data-theme="dark"] svg[data-node-ui], svg[data-node-ui][data-theme="dark"]) [data-node-id] > rect:not(.c-mask).c-external { fill: color-mix(in srgb, #1a1c20 13%, #ffffff); stroke: color-mix(in srgb, #1a1c20 72%, #ffffff); }
+svg[data-node-ui]:is([data-preset="classic"], [data-preset="signal-flow"], [data-preset="editorial"]) .c-region { fill: color-mix(in srgb, #1a1c20 3%, transparent); stroke: color-mix(in srgb, #1a1c20 42%, #1a1c20); stroke-dasharray: none; }
+svg[data-node-ui] .c-security-group { stroke: color-mix(in srgb, #1a1c20 58%, #1a1c20); }
+svg[data-node-ui]:is([data-preset="classic"], [data-preset="signal-flow"], [data-preset="editorial"]) .c-security-group { stroke-dasharray: 4 3; }
+svg[data-node-ui]:is([data-preset="classic"], [data-preset="signal-flow"], [data-preset="editorial"]) .c-lane { stroke: #1a1c20; stroke-dasharray: none; }
+svg[data-node-ui] [data-graph-role="structural-frame-label-mask"] { rx: 5px; fill: color-mix(in srgb, #1a1c20 10%, #ffffff); stroke: color-mix(in srgb, #1a1c20 38%, #ffffff); stroke-width: .8px; }
+svg[data-node-ui] [data-composition-frame-kind="security-group"] > [data-graph-role="structural-frame-label-mask"] { fill: color-mix(in srgb, #1a1c20 9%, #ffffff); stroke: color-mix(in srgb, #1a1c20 36%, #ffffff); }
+svg[data-node-ui] .phase-rule { opacity: .5; stroke-dasharray: none; }
+svg[data-node-ui] .phase-chip { stroke: #1a1c20; stroke-width: .75px; }
+svg[data-node-ui] g[data-edge-from] > rect.c-mask { rx: 7px; stroke: #1a1c20; stroke-width: .75px; }
+svg[data-node-ui][data-preset="blueprint"] :is([data-graph-role="structural-frame-label-mask"], g[data-edge-from] > rect.c-mask, .phase-chip) { rx: 2px; }
+svg[data-node-ui][data-preset="editorial"] :is([data-graph-role="structural-frame-label-mask"], g[data-edge-from] > rect.c-mask, .phase-chip) { rx: 3px; }
+</style>
+<rect x="40" y="52" width="510" height="104" rx="10" class="c-lane" stroke-width="1"/>
+<text x="54" y="74" class="t-muted">요청</text>
+<rect x="40" y="176" width="510" height="104" rx="10" class="c-lane" stroke-width="1"/>
+<text x="54" y="198" class="t-muted">기록</text>
+<rect x="40" y="300" width="510" height="104" rx="10" class="c-lane" stroke-width="1"/>
+<text x="54" y="322" class="t-muted">보드</text>
+<path d="M 118 145 L 118 217" class="a-emphasis" stroke-width="1.8" marker-end="url(#director-request-arrowhead-emphasis)"/>
+<path d="M 188 243 L 226 243" class="a-emphasis" stroke-width="1.8" marker-end="url(#director-request-arrowhead-emphasis)"/>
+<path d="M 296 269 L 296 341" class="a-emphasis" stroke-width="1.8" marker-end="url(#director-request-arrowhead-emphasis)"/>
+<path d="M 366 119 L 460 119 Q 468 119 468 127 L 468 217" class="a-default" stroke-width="1.4" marker-end="url(#director-request-arrowhead)"/>
+<path d="M 468 269 L 468 341" class="a-default" stroke-width="1.4" marker-end="url(#director-request-arrowhead)"/>
+<g data-node-id="idea">
+<rect x="48" y="93" width="140" height="52" rx="8" class="c-mask"/>
+<rect x="48" y="93" width="140" height="52" rx="8" class="c-frontend" stroke-width="1.5"/>
+<text x="118" y="114" class="t-primary" text-anchor="middle">제작안 요청</text>
+<text x="118" y="131" class="t-muted" text-anchor="middle">아이디어와 씬 수</text>
+</g>
+<g data-node-id="review">
+<rect x="226" y="93" width="140" height="52" rx="8" class="c-mask"/>
+<rect x="226" y="93" width="140" height="52" rx="8" class="c-cloud" stroke-width="1.5"/>
+<text x="296" y="114" class="t-primary" text-anchor="middle">검토 요청</text>
+<text x="296" y="131" class="t-muted" text-anchor="middle">대본·연출 검토</text>
+</g>
+<g data-node-id="run">
+<rect x="48" y="217" width="140" height="52" rx="8" class="c-mask"/>
+<rect x="48" y="217" width="140" height="52" rx="8" class="c-backend" stroke-width="1.5"/>
+<text x="118" y="238" class="t-primary" text-anchor="middle">실행 기록</text>
+<text x="118" y="255" class="t-muted" text-anchor="middle">결과를 기다려요</text>
+</g>
+<g data-node-id="preview">
+<rect x="226" y="217" width="140" height="52" rx="8" class="c-mask"/>
+<rect x="226" y="217" width="140" height="52" rx="8" class="c-backend" stroke-width="1.5"/>
+<text x="296" y="238" class="t-primary" text-anchor="middle">미리보기</text>
+<text x="296" y="255" class="t-muted" text-anchor="middle">씬과 연결 확인</text>
+</g>
+<g data-node-id="pick">
+<rect x="398" y="217" width="140" height="52" rx="8" class="c-mask"/>
+<rect x="398" y="217" width="140" height="52" rx="8" class="c-cloud" stroke-width="1.5"/>
+<text x="468" y="238" class="t-primary" text-anchor="middle">제안 비교</text>
+<text x="468" y="255" class="t-muted" text-anchor="middle">최대 8건</text>
+</g>
+<g data-node-id="apply">
+<rect x="226" y="341" width="140" height="52" rx="8" class="c-mask"/>
+<rect x="226" y="341" width="140" height="52" rx="8" class="c-backend" stroke-width="1.5"/>
+<text x="296" y="362" class="t-primary" text-anchor="middle">결과 적용</text>
+<text x="296" y="379" class="t-muted" text-anchor="middle">노드가 생겨요</text>
+</g>
+<g data-node-id="some">
+<rect x="398" y="341" width="140" height="52" rx="8" class="c-mask"/>
+<rect x="398" y="341" width="140" height="52" rx="8" class="c-cloud" stroke-width="1.5"/>
+<text x="468" y="362" class="t-primary" text-anchor="middle">고른 제안 적용</text>
+<text x="468" y="379" class="t-muted" text-anchor="middle">본문만 바뀌어요</text>
+</g>
+<g>
+<rect x="192" y="223" width="30" height="14" rx="3" class="c-mask"/>
+<text x="207" y="233" class="t-edge-emphasis" text-anchor="middle">완료</text>
+</g>
+<g>
+<rect x="281" y="295" width="30" height="14" rx="3" class="c-mask"/>
+<text x="296" y="305" class="t-edge-emphasis" text-anchor="middle">확인</text>
+</g>
+</g></svg>
