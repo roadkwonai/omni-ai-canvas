@@ -1,0 +1,31 @@
+.image-asset-dialog {
+  width: min(900px, calc(100% - 32px));
+  border: 1px solid var(--line);
+  max-height: calc(100dvh - 32px);
+  padding: 18px;
+  overflow: auto;
+  color: var(--text);
+  background: var(--surface);
+  border-radius: 16px;
+  box-shadow: 0 12px 40px rgb(0 0 0 / 20%);
+}
+.image-asset-dialog::backdrop { background: rgb(0 0 0 / 55%); }
+.image-asset-dialog-content { display: grid; gap: 12px; }
+.image-asset-dialog header { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.image-asset-dialog h2, .image-asset-dialog p { margin: 0; }
+.image-asset-dialog h2 { font-size: 18px; }
+.image-asset-view { display: grid; place-items: center; min-height: 180px; max-height: 58dvh; overflow: auto; background: var(--seed-color-bg-neutral-weak, #f2f3f5); border-radius: 10px; }
+.image-asset-view canvas { display: block; max-width: 100%; max-height: 58dvh; object-fit: contain; }
+.image-asset-view .image-asset-draw { touch-action: none; cursor: crosshair; }
+.image-asset-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.image-asset-tool-select { display: flex; flex-wrap: wrap; gap: 8px; }
+.image-asset-actions label { min-width: 0; flex-wrap: wrap; }
+.image-asset-actions input[type="text"] { max-width: 100%; }
+.image-asset-actions label { display: flex; align-items: center; gap: 6px; }
+.image-asset-actions input[type="range"] { width: 100px; }
+.image-asset-actions .image-asset-angle { width: 62px; }
+.image-asset-actions button[aria-pressed="true"] { border-color: var(--accent-dark); color: var(--accent-dark); }
+.image-asset-actions svg { flex: none; }
+@media (max-width: 390px) {
+  .image-asset-dialog { width: calc(100% - 16px); padding: 12px; max-height: calc(100dvh - 16px); }
+}

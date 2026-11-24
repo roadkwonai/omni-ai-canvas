@@ -1,0 +1,97 @@
+.canvas-image-toolbar {
+  z-index: 20 !important;
+  padding: 4px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+  box-shadow: 0 4px 18px rgb(34 40 55 / 12%);
+}
+.canvas-image-toolbar > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 3px;
+}
+.canvas-image-toolbar button {
+  min-width: 0;
+  min-height: 40px;
+  padding: 4px 6px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+.canvas-image-toolbar svg { flex-shrink: 0; }
+.canvas-image-editor {
+  position: absolute;
+  z-index: 22;
+  overflow: auto;
+  container-type: inline-size;
+  overscroll-behavior: contain;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface);
+  box-shadow: 0 12px 36px rgb(34 40 55 / 18%);
+}
+.canvas-image-editor.canvas-image-editor-dialog {
+  position: fixed;
+  inset: 0;
+  width: min(1100px, calc(100% - 32px));
+  max-width: none;
+  max-height: calc(100dvh - 32px);
+  margin: auto;
+  padding: 0;
+  color: var(--text);
+}
+.canvas-image-editor-dialog::backdrop { background: var(--dialog-backdrop); }
+.canvas-image-editor .image-edit-panel { border: 0; }
+.canvas-image-editor .image-edit-panel form footer {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+.canvas-image-run-options { display: flex; flex-wrap: wrap; align-items: end; gap: 8px; grid-column: 1 / -1; }
+.canvas-image-run-options label { flex: 1 1 10rem; }
+.canvas-image-run-options p { flex-basis: 100%; margin: 0; }
+.canvas-image-editor-dialog :is(h3, p, label, button) { overflow-wrap: anywhere; }
+@container (min-width: 680px) {
+  .canvas-image-editor-dialog .image-edit-panel form footer:has(.canvas-image-run-options) {
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    align-items: end;
+    gap: 12px;
+  }
+  .canvas-image-editor-dialog .canvas-image-run-options { grid-column: auto; }
+}
+@media (max-width: 767px) {
+  .canvas-board:has(.canvas-image-editor:not(dialog)) .board-top-tools {
+    visibility: hidden;
+  }
+  .canvas-image-editor:not(dialog) {
+    position: fixed;
+    z-index: 50;
+    left: 0 !important;
+    right: 0;
+    top: auto !important;
+    bottom: 0;
+    width: auto !important;
+    max-height: 77dvh !important;
+    border-radius: 16px 16px 0 0;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .canvas-image-editor.canvas-image-editor-dialog {
+    width: calc(100% - 16px);
+    max-height: calc(100dvh - 16px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+  }
+  .canvas-image-editor-dialog .image-edit-panel { padding: 12px; }
+  .canvas-image-editor-dialog .canvas-image-run-options label { flex-basis: 7.5rem; }
+  .canvas-image-toolbar button { min-height: 44px; padding: 4px 8px; }
+}
+@media (max-width: 449px) {
+  .canvas-image-toolbar button span { display: none; }
+}
+
+.canvas-image-utilities {
+  display: flex;
+  gap: 3px;
+  padding-inline-start: 4px;
+  border-inline-start: 1px solid var(--line);
+}
+.canvas-image-toolbar .canvas-image-utilities button {
+  min-width: 34px;
+}

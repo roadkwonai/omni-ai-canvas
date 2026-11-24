@@ -1,0 +1,16 @@
+.manual-lens-sources { display: grid; gap: 10px; min-width: 0; }
+.manual-lens-sources h4, .manual-lens-sources p { margin: 0; }
+.manual-lens-fields { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; }
+.manual-lens-take { display: grid; gap: 10px; min-width: 0; }
+.manual-lens-take p { overflow-wrap: anywhere; }
+.manual-lens-fields label { display: grid; gap: 5px; min-width: 0; }
+.manual-lens-fields :is(select, input) { width: 100%; min-width: 0; }
+.lens-source-frame-picker { display: grid; gap: 10px; min-width: 0; padding: 12px; border: 1px solid var(--line-strong); border-radius: 10px; }
+.lens-source-frame-header, .lens-source-frame-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.lens-source-frame-header { justify-content: space-between; }
+.lens-source-frame-image { display: grid; place-items: center; aspect-ratio: 16 / 9; max-height: 320px; overflow: hidden; background: var(--canvas); }
+.lens-source-frame-image img { display: block; width: 100%; height: 100%; min-height: 0; object-fit: contain; background: var(--ink); }
+.lens-source-frame-image p { padding: 10px; }
+.lens-source-frame-picker label { display: grid; gap: 5px; min-width: 0; }
+.lens-source-frame-picker input { width: 100%; min-width: 0; }
+@media (max-width: 480px) { .manual-lens-fields { grid-template-columns: minmax(0, 1fr); } }

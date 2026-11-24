@@ -1,0 +1,184 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "쇼츠 레퍼런스에서 로컬 모션까지",
+    "locale": "ko",
+    "quality_profile": "showcase",
+    "output": "docs/diagrams/reference-motion.html"
+  },
+  "lanes": [
+    {
+      "id": "evidence",
+      "label": "레퍼런스 분석"
+    },
+    {
+      "id": "directing",
+      "label": "프리셋 · 모션 기획"
+    },
+    {
+      "id": "render",
+      "label": "보드 · 로컬 제작"
+    }
+  ],
+  "mainPath": [
+    "video",
+    "cuts",
+    "agent",
+    "preset",
+    "board",
+    "motion",
+    "render",
+    "timeline"
+  ],
+  "nodes": [
+    {
+      "id": "video",
+      "lane": "evidence",
+      "col": 0,
+      "type": "external",
+      "label": "참고 영상",
+      "sublabel": "파일 · 공개 YouTube",
+      "width": 140
+    },
+    {
+      "id": "cuts",
+      "lane": "evidence",
+      "col": 1,
+      "type": "backend",
+      "label": "컷 근거 수집",
+      "sublabel": "최대 96개 표본 · 자막",
+      "tag": "컷·시간·화면",
+      "width": 150
+    },
+    {
+      "id": "agent",
+      "lane": "evidence",
+      "col": 2,
+      "type": "cloud",
+      "label": "구독 AI 분석",
+      "sublabel": "Codex · Claude",
+      "tag": "컷별 해석 제안",
+      "width": 140
+    },
+    {
+      "id": "preset",
+      "lane": "directing",
+      "col": 3,
+      "type": "database",
+      "label": "개인 프리셋",
+      "sublabel": "구간 · 구도 · 자막",
+      "tag": "Neon에 저장",
+      "width": 140
+    },
+    {
+      "id": "board",
+      "lane": "render",
+      "col": 3,
+      "type": "frontend",
+      "label": "새 소재 보드",
+      "sublabel": "대본 · 씬 · 샷",
+      "tag": "18개 연출 기법",
+      "width": 140
+    },
+    {
+      "id": "motion",
+      "lane": "directing",
+      "col": 4,
+      "type": "backend",
+      "label": "모션 에이전트",
+      "sublabel": "장면별 모션 명세",
+      "tag": "제안 검토 후 적용",
+      "width": 140
+    },
+    {
+      "id": "render",
+      "lane": "render",
+      "col": 4,
+      "type": "backend",
+      "label": "로컬 렌더",
+      "sublabel": "6개 레시피 · MP4",
+      "tag": "캐릭터·문구·도형",
+      "width": 140
+    },
+    {
+      "id": "timeline",
+      "lane": "render",
+      "col": 5,
+      "type": "frontend",
+      "label": "타임라인 편집",
+      "sublabel": "컷 순서 · 음악 · 합성",
+      "width": 140
+    }
+  ],
+  "edges": [
+    {
+      "from": "video",
+      "to": "cuts",
+      "variant": "emphasis"
+    },
+    {
+      "from": "cuts",
+      "to": "agent",
+      "variant": "emphasis"
+    },
+    {
+      "from": "agent",
+      "to": "preset",
+      "label": "검토 후 저장",
+      "variant": "emphasis"
+    },
+    {
+      "from": "preset",
+      "to": "board",
+      "variant": "emphasis"
+    },
+    {
+      "from": "board",
+      "to": "motion",
+      "variant": "emphasis"
+    },
+    {
+      "from": "motion",
+      "to": "render",
+      "label": "편집 후 렌더",
+      "variant": "emphasis"
+    },
+    {
+      "from": "render",
+      "to": "timeline",
+      "variant": "emphasis"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "분석 범위",
+      "items": [
+        "화면 변화는 후보이며, 자막·동작은 추출된 표본을 근거로 검토한다."
+      ]
+    },
+    {
+      "dot": "violet",
+      "title": "영상 생성 크레딧",
+      "items": [
+        "프리셋 분석은 선택한 구독 에이전트 사용량을 따른다. 로컬 MP4 렌더는 영상 생성 모델을 호출하지 않는다."
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "3D 트랙 · 로컬 제작",
+      "items": [
+        "프로젝트 GLB의 포즈·동작·카메라·조명을 정하고 Blender에서 프리비즈와 최종 MP4를 만든다. 상세 지침 선택은 별도 도식을 참고한다."
+      ]
+    },
+    {
+      "dot": "slate",
+      "title": "소스 근거",
+      "items": [
+        "lib/attachment-files.ts · lib/reference-cut-analysis.ts · lib/preset-design.ts",
+        "lib/director.ts · lib/motion-director.ts · lib/motion-short.ts · lib/timeline.ts"
+      ]
+    }
+  ]
+}

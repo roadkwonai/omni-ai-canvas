@@ -1,0 +1,11 @@
+{
+  "type": "bar",
+  "data": [
+    {"model": "S2 참조 있음", "seconds": 1.05},
+    {"model": "S2 참조 없음", "seconds": 0.94},
+    {"model": "Drama 3", "seconds": 0.65}
+  ],
+  "encoding": {"x": "model", "y": "seconds"},
+  "options": {"orientation": "horizontal", "highlight": "Drama 3", "format": {"minimumFractionDigits": 2}, "width": 720, "height": 240, "locale": "ko-KR", "animate": false, "showLabels": true, "ariaLabel": "음성 1초를 만드는 데 걸린 시간"},
+  "card": {"title": "음성 1초를 만드는 데 걸리는 시간", "subtitle": "내 컴퓨터에서 잰 중앙값(초). 짧을수록 빨라요", "takeaway": "Drama 3은 10초짜리 음성을 6.5초쯤 만에 만들어요"}
+}

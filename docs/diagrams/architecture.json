@@ -1,0 +1,180 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "씬룸 실행 구조",
+    "locale": "ko",
+    "output": "docs/diagrams/architecture.html",
+    "quality_profile": "showcase"
+  },
+  "components": [
+    {
+      "id": "browser",
+      "type": "frontend",
+      "label": "제작자 브라우저",
+      "sublabel": "캔버스 · 검토 · 적용",
+      "pos": [
+        40,
+        80
+      ],
+      "size": [
+        160,
+        64
+      ]
+    },
+    {
+      "id": "api",
+      "type": "backend",
+      "label": "Next.js API",
+      "sublabel": "감독 구성 · 검증 · 작업 등록",
+      "pos": [
+        310,
+        80
+      ],
+      "size": [
+        170,
+        64
+      ]
+    },
+    {
+      "id": "db",
+      "type": "database",
+      "label": "Neon Postgres",
+      "sublabel": "프로젝트 · 작업 상태",
+      "pos": [
+        590,
+        80
+      ],
+      "size": [
+        170,
+        64
+      ]
+    },
+    {
+      "id": "worker",
+      "type": "backend",
+      "label": "로컬 실행기",
+      "sublabel": "큐 점유 · 결과 저장",
+      "pos": [
+        590,
+        290
+      ],
+      "size": [
+        170,
+        64
+      ]
+    },
+    {
+      "id": "provider",
+      "type": "external",
+      "label": "외부 생성 제공자",
+      "sublabel": "구독 CLI · 별도 API",
+      "pos": [
+        900,
+        290
+      ],
+      "size": [
+        180,
+        64
+      ]
+    },
+    {
+      "id": "media",
+      "type": "database",
+      "label": "로컬 미디어",
+      "sublabel": "원본 파일 · 생성 결과",
+      "pos": [
+        310,
+        290
+      ],
+      "size": [
+        170,
+        64
+      ]
+    },
+    {
+      "id": "contest",
+      "type": "external",
+      "label": "공모전 HTTPS 원문",
+      "sublabel": "조회 · 조건 확인",
+      "pos": [
+        40,
+        290
+      ],
+      "size": [
+        170,
+        64
+      ]
+    },
+    {
+      "id": "local",
+      "type": "backend",
+      "label": "로컬 제작 도구",
+      "sublabel": "Road Music · FFmpeg",
+      "pos": [
+        40,
+        480
+      ],
+      "size": [
+        180,
+        64
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "ui-api",
+      "from": "browser",
+      "to": "api",
+      "label": "요청 · 결과"
+    },
+    {
+      "id": "api-db",
+      "from": "api",
+      "to": "db",
+      "label": "그래프 · 큐"
+    },
+    {
+      "id": "worker-db",
+      "from": "worker",
+      "to": "db",
+      "label": "작업 상태"
+    },
+    {
+      "id": "worker-provider",
+      "from": "worker",
+      "to": "provider",
+      "label": "선택 실행"
+    },
+    {
+      "id": "worker-media",
+      "from": "worker",
+      "to": "media",
+      "label": "파일 저장"
+    },
+    {
+      "id": "api-media",
+      "from": "api",
+      "to": "media",
+      "label": "파일 입출력"
+    },
+    {
+      "id": "contest-api",
+      "from": "api",
+      "to": "contest",
+      "label": "요강 조회"
+    },
+    {
+      "id": "local-api",
+      "from": "api",
+      "to": "local",
+      "label": "미리보기 · 편집"
+    },
+    {
+      "id": "worker-local",
+      "from": "worker",
+      "to": "local",
+      "label": "음향 생성"
+    }
+  ]
+}

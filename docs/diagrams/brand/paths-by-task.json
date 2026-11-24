@@ -1,0 +1,14 @@
+{
+  "type": "bar",
+  "data": [
+    {"task": "이미지", "path": "API 키 없이", "count": 4}, {"task": "이미지", "path": "API 키 필요", "count": 3},
+    {"task": "대사 음성", "path": "API 키 없이", "count": 1}, {"task": "대사 음성", "path": "API 키 필요", "count": 4},
+    {"task": "글·기획", "path": "API 키 없이", "count": 3}, {"task": "글·기획", "path": "API 키 필요", "count": 0},
+    {"task": "영상", "path": "API 키 없이", "count": 3}, {"task": "영상", "path": "API 키 필요", "count": 0},
+    {"task": "3D", "path": "API 키 없이", "count": 1}, {"task": "3D", "path": "API 키 필요", "count": 1},
+    {"task": "음악·효과음", "path": "API 키 없이", "count": 1}, {"task": "음악·효과음", "path": "API 키 필요", "count": 0}
+  ],
+  "encoding": {"x": "task", "y": "count", "series": "path"},
+  "options": {"layout": "stacked", "orientation": "horizontal", "highlight": "API 키 없이", "format": "integer", "unit": "곳", "width": 720, "height": 360, "locale": "ko-KR", "animate": false, "showLabels": true, "ariaLabel": "작업별로 고를 수 있는 실행 경로 수"},
+  "card": {"title": "작업별로 쓸 수 있는 도구", "subtitle": "제작실에서 고를 수 있는 서비스와 도구 수", "takeaway": "모든 작업을 API 키 없이 시작할 수 있어요", "legend": "auto"}
+}

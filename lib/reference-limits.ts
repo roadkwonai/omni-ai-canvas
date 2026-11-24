@@ -1,0 +1,3 @@
+export const MAX_REFERENCE_VIDEO_BYTES = 1024 ** 3;
+export const MAX_REFERENCE_VIDEO_SECONDS = 60 * 60;
+export const MAX_REFERENCE_VIDEOS = 8;

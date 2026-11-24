@@ -1,0 +1,47 @@
+.local-tts-controls, .local-tts-section, .local-tts-advanced, .local-tts-field, .local-tts-notice, .local-tts-progress {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 10px;
+  min-inline-size: 0;
+}
+.local-tts-section { padding-block-start: 10px; border-top: 1px solid var(--line); justify-items: start; }
+.local-tts-section > * { inline-size: 100%; min-inline-size: 0; }
+.local-tts-section > .studio-action { inline-size: fit-content; }
+.local-tts-section h3 { margin: 0; font-size: 14px; font-weight: 700; }
+.local-tts-more { justify-self: start; inline-size: fit-content; }
+.local-tts-more[aria-expanded="true"] svg { transform: rotate(180deg); }
+.local-tts-field { gap: 6px; }
+.local-tts-field > span { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; font-size: 13px; font-weight: 650; }
+.local-tts-field > span small, .local-tts-range small { font-weight: 400; }
+.local-tts-chips { display: flex; flex-wrap: wrap; gap: 6px; min-inline-size: 0; }
+.local-tts-chips .tts-filter-chip[data-disabled], .local-tts-chips .tts-filter-chip:disabled { opacity: .52; cursor: not-allowed; }
+.local-tts-chips .tts-filter-chip[data-span] { border-style: dashed; border-color: var(--line-strong); }
+.tts-studio .local-tts-range { gap: 6px; }
+.local-tts-range > span { display: flex; justify-content: space-between; gap: 8px; }
+.local-tts-range output { color: var(--accent-dark); font-variant-numeric: tabular-nums; }
+.tts-studio .local-tts-range input { inline-size: 100%; padding: 0; border: 0; accent-color: var(--accent-dark); }
+.local-tts-notice { justify-items: start; padding: 10px 12px; border-radius: 8px; background: var(--background); }
+.local-tts-advanced { padding-block-start: 4px; }
+.local-tts-progress { padding: 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--background); }
+.local-tts-progress [data-slot="progress"] { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; align-items: baseline; font-size: 13px; font-weight: 650; }
+.local-tts-progress [data-slot="progress-label"] { min-inline-size: 0; overflow-wrap: anywhere; }
+.local-tts-progress [data-slot="progress-value"] { color: var(--accent-dark); font-variant-numeric: tabular-nums; }
+.local-tts-track { grid-column: 1 / -1; block-size: 8px; overflow: hidden; border-radius: 999px; background: var(--line-strong); }
+.local-tts-indicator { block-size: 100%; border-radius: inherit; background: var(--accent-dark); transition: inline-size 400ms ease; }
+.local-tts-steps { display: flex; flex-wrap: wrap; gap: 4px 12px; margin: 0; padding: 0; list-style: none; font-size: 12px; color: var(--secondary); }
+.local-tts-steps li { display: inline-flex; align-items: center; gap: 4px; }
+.local-tts-steps li[data-state="current"] { color: var(--accent-dark); font-weight: 700; }
+.tts-takes { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.tts-takes > li { display: grid; gap: 8px; min-inline-size: 0; padding: 10px; border: 1px solid var(--line); border-radius: 8px; }
+@media (prefers-reduced-motion: reduce) { .local-tts-indicator { transition: none; } }
+.tts-submit { position: sticky; inset-block-end: -20px; z-index: 1; display: grid; gap: 10px; min-inline-size: 0; padding-block: 10px 20px; border-top: 1px solid var(--line); background: var(--surface); }
+/* 아래에 고정한 생성 버튼이 초점을 받은 입력을 가리지 않게 한다. */
+.tts-studio :is(input, select, textarea, button, audio) { scroll-margin-block-end: 96px; }
+.direction-review { display: grid; gap: 8px; min-inline-size: 0; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--background); }
+.direction-review ol { display: grid; gap: 6px; max-block-size: 300px; overflow-y: auto; margin: 0; padding: 0; list-style: none; }
+.direction-review li { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4px 8px; min-inline-size: 0; padding: 8px 10px; border-radius: 8px; background: var(--surface); }
+.direction-review li > div { display: grid; flex: 1 1 220px; gap: 4px; min-inline-size: 0; }
+.direction-review li[data-reverted="true"] > div { opacity: .55; }
+.tts-studio .direction-review li p:first-child { color: var(--ink); font-size: 13px; }
+.direction-labels { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 6px; }
+.tts-studio .direction-labels small { padding: 2px 6px; border-radius: 6px; background: var(--accent-soft); color: var(--accent-dark); }

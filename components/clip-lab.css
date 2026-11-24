@@ -1,0 +1,100 @@
+.clip-lab::backdrop {
+  background: rgb(26 28 32 / 60%);
+}
+.clip-lab {
+  width: min(650px, calc(100% - 40px));
+  max-height: 90vh;
+  overflow: auto;
+  border: 1px solid var(--line-strong);
+  background: var(--surface);
+  color: var(--ink);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: var(--shadow);
+}
+.clip-lab header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.clip-lab h2,
+.clip-lab h3 {
+  margin: 0;
+  font-size: 20px;
+}
+.clip-lab header p,
+.clip-lab-help {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+.clip-lab button,
+.clip-lab input,
+.clip-lab select {
+  font: inherit;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  padding: 10px;
+  background: var(--surface);
+  color: var(--ink);
+}
+.clip-lab button {
+  cursor: pointer;
+}
+.clip-lab button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.clip-lab button:focus-visible,
+.clip-lab input:focus-visible,
+.clip-lab select:focus-visible {
+  outline: 3px solid var(--accent-dark);
+  outline-offset: 2px;
+}
+.clip-lab video,
+.clip-lab img {
+  width: 100%;
+  max-height: 300px;
+  object-fit: contain;
+  background: var(--ink);
+  border-radius: 10px;
+}
+.clip-lab audio {
+  width: 100%;
+}
+.clip-lab-fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(135px, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+.clip-lab-fields label {
+  display: grid;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+}
+.clip-lab-fields input,
+.clip-lab-fields select {
+  width: 100%;
+  min-width: 0;
+}
+.clip-lab .clip-lab-primary {
+  background: var(--accent-dark);
+  color: var(--surface);
+  border-color: var(--accent-dark);
+  font-weight: 700;
+}
+.clip-lab-error {
+  color: var(--red);
+}
+.clip-lab-result {
+  display: grid;
+  gap: 12px;
+  margin-top: 20px;
+  border-top: 1px solid var(--line);
+  padding-top: 20px;
+}
+.clip-lab-result h3 {
+  font-size: 16px;
+}

@@ -1,0 +1,30 @@
+.node-document-dialog.node-preview-dialog {
+  inline-size: min(var(--node-preview-width, 960px), calc(100vw - 24px));
+  block-size: var(--node-preview-height, fit-content);
+  max-block-size: min(var(--node-preview-height, 720px), calc(100dvh - 24px));
+  min-block-size: 0;
+}
+.node-document-dialog.node-preview-dialog[open] {
+  grid-template-rows: auto minmax(0, 1fr) auto;
+}
+.node-preview-size-controls {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 8px 16px;
+  border-top: 1px solid var(--line);
+}
+.node-preview-size-controls .studio-action { min-height: 36px; }
+.node-preview-resize {
+  touch-action: none;
+  cursor: nwse-resize;
+}
+@media (max-width: 700px) {
+  .node-document-dialog.node-preview-dialog {
+    inline-size: min(var(--node-preview-width, 960px), calc(100vw - 16px));
+    max-block-size: min(var(--node-preview-height, 720px), calc(100dvh - 16px - env(safe-area-inset-top) - env(safe-area-inset-bottom)));
+  }
+  .node-preview-size-controls { padding: 6px 12px; }
+  .node-preview-size-controls .studio-action { min-height: 44px; }
+}

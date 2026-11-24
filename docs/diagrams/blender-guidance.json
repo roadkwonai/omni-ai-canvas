@@ -1,0 +1,44 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "씬룸 3D 장면과 제작 지침",
+    "locale": "ko",
+    "quality_profile": "showcase",
+    "output": "docs/diagrams/blender-guidance.html"
+  },
+  "lanes": [
+    { "id": "guides", "label": "제작 지침과 AI 작업" },
+    { "id": "scene", "label": "Blender 장면 제작" },
+    { "id": "result", "label": "로컬 결과와 편집" }
+  ],
+  "mainPath": ["assets", "shot", "preview", "final", "timeline"],
+  "nodes": [
+    { "id": "sources", "lane": "guides", "col": 0, "type": "external", "label": "지침 원본", "sublabel": "공식 · 제작자 자료", "width": 145 },
+    { "id": "recommend", "lane": "guides", "col": 1, "type": "backend", "label": "중복 추천", "sublabel": "역할과 유사 지침", "width": 145 },
+    { "id": "select", "lane": "guides", "col": 2, "type": "frontend", "label": "선택 · 수정", "sublabel": "사용자가 노드에 적용", "width": 145 },
+    { "id": "snapshot", "lane": "guides", "col": 3, "type": "database", "label": "실행 스냅샷", "sublabel": "당시 지침과 입력 고정", "width": 145 },
+    { "id": "agent", "lane": "guides", "col": 4, "type": "cloud", "label": "AI 작업", "sublabel": "구독 계정 · 선택 모델", "width": 145 },
+    { "id": "assets", "lane": "scene", "col": 0, "type": "database", "label": "프로젝트 GLB", "sublabel": "캐릭터 · 배경", "tag": "리그와 클립 확인", "width": 145 },
+    { "id": "shot", "lane": "scene", "col": 1, "type": "frontend", "label": "3D 샷 설정", "sublabel": "포즈 · 동작 · 카메라", "tag": "조명과 길이 저장", "width": 145 },
+    { "id": "preview", "lane": "scene", "col": 2, "type": "backend", "label": "프리비즈", "sublabel": "로컬 Blender 렌더", "tag": "재생 · 확인", "width": 145 },
+    { "id": "final", "lane": "result", "col": 3, "type": "backend", "label": "최종 MP4", "sublabel": "로컬 Blender 렌더", "tag": "장면 명세 보존", "width": 145 },
+    { "id": "timeline", "lane": "result", "col": 4, "type": "frontend", "label": "타임라인", "sublabel": "테이크 연결 · 합성", "width": 145 }
+  ],
+  "edges": [
+    { "from": "sources", "to": "recommend", "variant": "default" },
+    { "from": "recommend", "to": "select", "label": "제안", "variant": "default" },
+    { "from": "select", "to": "snapshot", "label": "요청 시", "variant": "default" },
+    { "from": "snapshot", "to": "agent", "variant": "default" },
+    { "from": "assets", "to": "shot", "variant": "emphasis" },
+    { "from": "shot", "to": "preview", "variant": "emphasis" },
+    { "from": "preview", "to": "final", "label": "확인 후", "variant": "emphasis" },
+    { "from": "final", "to": "timeline", "label": "선택해 연결", "variant": "emphasis" }
+  ],
+  "cards": [
+    { "dot": "cyan", "title": "입력과 결과", "items": ["캐릭터와 배경 GLB는 프로젝트에 보관한다. 샷 설정과 각 렌더의 설정 사본을 캔버스 노드에 저장한다."] },
+    { "dot": "violet", "title": "지침의 사용", "items": ["출처를 살펴보고 겹치는 지침을 고른다. AI 실행에 선택한 내용은 실행 시점에 고정한다."] },
+    { "dot": "amber", "title": "Tripo3D", "items": ["외부 3D 생성 연결은 후속 설계다. 현재 장면 렌더는 가져온 GLB와 로컬 Blender를 사용한다."] },
+    { "dot": "slate", "title": "소스 근거", "items": ["lib/blender-assets.ts · lib/blender-scene-spec.ts · lib/blender-board.ts", "lib/blender-render.ts · lib/run-input.ts · lib/node-guidance.ts"] }
+  ]
+}

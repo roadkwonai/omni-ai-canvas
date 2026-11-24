@@ -1,0 +1,159 @@
+.director-dialog {
+  width: min(1100px, calc(100% - 32px));
+  max-height: min(900px, calc(100dvh - 32px));
+  border: 1px solid var(--line-strong);
+  border-radius: 16px;
+  padding: 24px;
+  color: var(--ink);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+.director-dialog::backdrop {
+  background: rgb(26 28 32 / 0.55);
+}
+.director-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+.director-header h2 {
+  font-size: 22px;
+  margin: 0;
+}
+.director-header p,
+.director-view p,
+.director-note {
+  color: var(--muted);
+  line-height: 1.5;
+}
+.director-dialog button,
+.director-dialog select,
+.director-dialog input:not([type="range"]),
+.director-dialog textarea {
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  padding: 9px 12px;
+  color: var(--ink);
+  background: var(--surface);
+}
+.director-dialog button:hover {
+  background: var(--background);
+}
+.director-tabs {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid var(--line);
+  margin: 20px 0;
+}
+.director-tabs button {
+  border: 0;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+}
+.director-tabs button[aria-selected="true"] {
+  color: var(--accent-dark);
+  border-bottom-color: var(--accent);
+  font-weight: 700;
+}
+.director-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(230px, 300px);
+  gap: 24px;
+}
+.director-view canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  background: var(--canvas);
+}
+.director-presets,
+.director-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.director-actions button:first-child,
+.director-view > button {
+  color: var(--surface);
+  background: var(--accent-dark);
+  border-color: var(--accent-dark);
+}
+.director-actions button:first-child:hover,
+.director-view > button:hover {
+  background: var(--ink);
+}
+.director-controls {
+  display: grid;
+  gap: 14px;
+  align-content: start;
+  overflow-y: auto;
+  max-height: 570px;
+  padding: 0 4px;
+}
+.director-controls label {
+  display: grid;
+  gap: 7px;
+  font-weight: 600;
+}
+.director-control span {
+  display: flex;
+  justify-content: space-between;
+}
+.director-controls output {
+  color: var(--muted);
+  font-weight: 400;
+}
+.director-controls input[type="range"] {
+  width: 100%;
+  accent-color: var(--accent-dark);
+}
+.director-controls textarea {
+  resize: vertical;
+  min-height: 70px;
+}
+.director-compare {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.director-compare figure {
+  margin: 0;
+  min-width: 0;
+}
+.director-compare figcaption {
+  margin-bottom: 8px;
+  color: var(--muted);
+}
+.director-compare img,
+.director-compare canvas {
+  width: 100%;
+  max-height: 380px;
+  object-fit: contain;
+  background: var(--canvas);
+}
+.director-empty {
+  padding: 30px 0;
+  color: var(--muted);
+}
+.director-error {
+  color: var(--red);
+}
+.director-note {
+  border-top: 1px solid var(--line);
+  padding-top: 12px;
+  font-size: 12px;
+}
+@media (max-width: 700px) {
+  .director-dialog {
+    padding: 16px;
+  }
+  .director-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .director-controls {
+    max-height: none;
+  }
+}

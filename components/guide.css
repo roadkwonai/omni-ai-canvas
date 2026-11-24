@@ -1,0 +1,242 @@
+.guide-open,
+.guide-close,
+.guide-footer button,
+.guide-footer a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  color: var(--ink);
+  font: inherit;
+}
+.guide-open,
+.guide-close,
+.guide-footer button {
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  padding: 7px 10px;
+  cursor: pointer;
+}
+.guide-open {
+  font-size: 13px;
+  font-weight: 650;
+  white-space: nowrap;
+}
+.guide-dialog {
+  width: min(820px, calc(100% - 32px));
+  height: min(760px, calc(100dvh - 48px));
+  padding: 0;
+  border: 1px solid var(--line-strong);
+  border-radius: 16px;
+  color: var(--ink);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+.guide-dialog::backdrop {
+  background: rgb(26 28 32 / 0.52);
+}
+.guide-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.guide-header,
+.guide-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 24px;
+}
+.guide-header {
+  border-bottom: 1px solid var(--line);
+}
+.guide-header h2,
+.guide-page h1 {
+  margin: 0;
+  letter-spacing: -0.025em;
+}
+.guide-header p {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+.guide-scroll {
+  overflow: auto;
+  min-height: 0;
+  flex: 1;
+  overscroll-behavior: contain;
+}
+.guide-document {
+  padding: 0 24px 24px;
+  line-height: 1.75;
+  overflow-wrap: anywhere;
+}
+.guide-index {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 18px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line);
+}
+.guide-index a,
+.guide-footer a,
+.guide-page a {
+  color: var(--accent-dark);
+  text-underline-offset: 3px;
+}
+.guide-document section {
+  margin: 24px 0;
+  scroll-margin: 16px;
+}
+.guide-document h2 {
+  margin: 0 0 10px;
+  font-size: 20px;
+}
+.guide-document p {
+  margin: 8px 0;
+}
+.guide-document ol {
+  padding-inline-start: 22px;
+  margin: 8px 0;
+}
+.guide-document li {
+  margin: 6px 0;
+}
+.guide-document dt {
+  font-weight: 700;
+  margin: 14px 0 4px;
+}
+.guide-document dd {
+  margin: 0;
+}
+.guide-figure {
+  margin: 16px 0 0;
+}
+.guide-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+.guide-figure figcaption {
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 6px;
+}
+.guide-footer {
+  border-top: 1px solid var(--line);
+  font-size: 13px;
+}
+.guide-page {
+  max-width: 900px;
+  margin: auto;
+  padding: 32px 0;
+}
+.guide-page > header {
+  padding-inline: 24px;
+}
+.guide-page-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+}
+.guide-page-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 12px;
+}
+.guide-page-title > div {
+  word-break: keep-all;
+}
+.guide-page-title p {
+  margin: 8px 0 0;
+  color: var(--secondary);
+}
+.guide-page-title img {
+  flex: none;
+  width: clamp(72px, 18vw, 112px);
+  height: auto;
+}
+.control-tooltip,
+.help-inspector {
+  position: fixed;
+  z-index: 1200;
+  background: var(--ink);
+  color: white;
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  font: 500 13px/1.55 var(--font);
+}
+.control-tooltip {
+  width: min(290px, calc(100% - 24px));
+  padding: 8px 12px;
+  pointer-events: none;
+}
+.help-inspector {
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  white-space: nowrap;
+  padding: 8px 12px;
+}
+.help-inspector button {
+  border: 0;
+  padding: 4px 8px;
+  background: white;
+  color: var(--ink);
+  border-radius: 6px;
+}
+@media (max-width: 700px) {
+  .guide-open span {
+    display: none;
+  }
+  .guide-open {
+    padding: 8px;
+  }
+  .guide-dialog {
+    width: calc(100% - 16px);
+    height: calc(100dvh - 24px);
+  }
+  .guide-header,
+  .guide-footer,
+  .guide-document {
+    padding-inline: 16px;
+  }
+  .guide-footer {
+    gap: 6px;
+  }
+  .guide-page {
+    padding-top: 18px;
+  }
+}
+
+.guide-zoom-tools {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  margin: 8px 0;
+  font-size: 13px;
+}
+.guide-zoom-tools button {
+  border: 1px solid var(--line-strong);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--ink);
+  padding: 4px 8px;
+  cursor: pointer;
+}
+.guide-zoom-tools a {
+  color: var(--accent-dark);
+}
+.guide-viewport {
+  max-width: 100%;
+  overflow: auto;
+}

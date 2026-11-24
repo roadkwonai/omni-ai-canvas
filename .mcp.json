@@ -1,0 +1,17 @@
+{
+  "mcpServers": {
+    "scene-room": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "--import",
+        "tsx",
+        "scripts/canvas-mcp.ts"
+      ]
+    },
+    "topview-mcp": {
+      "type": "http",
+      "url": "https://mcp.topview.ai/mcp"
+    }
+  }
+}

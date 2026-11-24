@@ -1,0 +1,64 @@
+.character-identity-panel {
+  display: grid;
+  gap: 6px;
+  justify-items: start;
+  margin-block: 8px 16px;
+}
+.character-identity-panel p { margin: 0; }
+.character-identity-dialog.project-library {
+  width: min(520px, calc(100% - 24px));
+  max-height: calc(100dvh - 24px);
+  overflow: hidden;
+}
+.character-identity-dialog header p { overflow-wrap: anywhere; }
+.character-identity-form {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+}
+.character-identity-body {
+  display: grid;
+  gap: 18px;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.character-identity-body fieldset {
+  display: grid;
+  justify-items: start;
+  gap: 10px;
+  min-inline-size: 0;
+  margin: 0;
+  padding: 10px 0 0;
+  border: 0;
+}
+.character-identity-body legend { font-weight: 700; }
+.character-identity-body legend svg { margin-inline-end: 4px; vertical-align: -3px; }
+.character-identity-body label, .character-identity-body details { inline-size: 100%; min-inline-size: 0; }
+.character-identity-body :is(input, select) { min-inline-size: 0; max-inline-size: 100%; }
+.character-identity-body p { margin: 0; overflow-wrap: anywhere; }
+.character-identity-soul-guide { display: grid; gap: 4px; }
+.character-identity-body details { border-top: 1px solid var(--line); padding-top: 10px; }
+.character-identity-body summary { width: fit-content; cursor: pointer; font-weight: 650; }
+.character-identity-training { display: grid; justify-items: start; gap: 10px; padding-top: 10px; }
+.character-identity-sample { display: grid; gap: 8px; inline-size: 100%; min-inline-size: 0; }
+.character-identity-sample audio { inline-size: 100%; min-inline-size: 0; }
+.character-identity-body label.character-identity-checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+.character-identity-dialog .character-identity-checkbox input {
+  flex: none;
+  inline-size: 16px;
+  block-size: 16px;
+  min-block-size: 0;
+  margin: 3px 0 0;
+}
+.character-identity-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+.character-identity-dialog .character-identity-form footer {
+  justify-content: flex-end;
+  padding: 12px 16px;
+  border-top: 1px solid var(--line);
+}

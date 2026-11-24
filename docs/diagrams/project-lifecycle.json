@@ -1,0 +1,29 @@
+{
+  "schema_version": 3,
+  "diagram_type": "lifecycle",
+  "meta": {
+    "title": "씬룸 프로젝트 상태",
+    "locale": "ko",
+    "quality_profile": "showcase",
+    "output": "docs/diagrams/project-lifecycle.html"
+  },
+  "mainPath": ["active", "archived", "trash"],
+  "states": [
+    { "id": "active", "type": "active", "label": "작업 중", "sublabel": "열기 · 변경 · 복제" },
+    { "id": "archived", "type": "waiting", "label": "보관함", "sublabel": "분류 유지 · 복원 가능" },
+    { "id": "trash", "type": "waiting", "label": "휴지통", "sublabel": "그래프와 실행 결과 유지" }
+  ],
+  "transitions": [
+    { "id": "archive", "from": "active", "to": "archived", "label": "보관" },
+    { "id": "trash-archive", "from": "archived", "to": "trash", "label": "삭제 확인" },
+    { "id": "trash-active", "from": "active", "to": "trash", "label": "삭제 확인" },
+    { "id": "restore-archive", "from": "trash", "to": "archived", "label": "보관본 복구" },
+    { "id": "restore-active", "from": "trash", "to": "active", "label": "작업본 복구" },
+    { "id": "unarchive", "from": "archived", "to": "active", "label": "보관 해제" }
+  ],
+  "cards": [
+    { "dot": "cyan", "title": "최근 활동순", "items": ["마지막으로 열거나 변경한 시각을 기준으로 표시한다. 열기와 자동 저장은 별도의 변경이다."] },
+    { "dot": "amber", "title": "복제", "items": ["같은 캔버스와 타임라인을 새 프로젝트에 복사한다. 원본은 원래 상태를 유지한다."] },
+    { "dot": "slate", "title": "코드 근거", "items": ["db/005_project_management.sql · lib/db.ts · app/api/projects/[id]/route.ts · components/ProjectLibrary.tsx"] }
+  ]
+}

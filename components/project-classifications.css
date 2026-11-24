@@ -1,0 +1,35 @@
+.project-classifications { width: min(680px, calc(100% - 24px)); }
+.project-classifications footer { padding-block: 10px; flex-wrap: wrap; }
+.project-classifications footer button { margin-inline-start: auto; }
+.classification-help {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.55;
+  margin-block-end: 12px;
+}
+.classification-form, .classification-report {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 8px;
+  margin-block-end: 12px;
+}
+.classification-form label { flex: 1 1 160px; }
+.classification-error { color: var(--red); font-size: 13px; margin-block-end: 12px; }
+.classification-row {
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: 10px;
+}
+.classification-row-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+}
+.classification-row-summary > :first-child { min-width: 0; flex: 1 1 140px; overflow-wrap: anywhere; }
+.classification-row-summary p, .classification-change p { color: var(--muted); font-size: 13px; margin-block: 4px 0; }
+.classification-change { border-top: 1px solid var(--line); padding-block-start: 10px; margin-block: 8px 0; }
+.classification-change p { margin-block-end: 8px; overflow-wrap: anywhere; }

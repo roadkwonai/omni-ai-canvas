@@ -1,0 +1,72 @@
+.project-library.node-connection-dialog {
+  width: min(720px, calc(100% - 32px));
+}
+.node-connection-dialog header > div { min-width: 0; }
+.node-connection-dialog header p { overflow-wrap: anywhere; }
+.node-connection-dialog .node-connection-body {
+  gap: 18px;
+  padding: 18px 20px;
+  overscroll-behavior: contain;
+}
+.node-port-field {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 8px;
+}
+.node-connection-image-action.studio-action {
+  justify-content: start;
+  padding-inline: 12px;
+  min-height: 44px;
+}
+.node-connection-image-action svg:last-child { margin-inline-start: auto; }
+.node-connection-dialog .node-connection-kinds {
+  display: grid;
+  gap: 14px;
+  padding: 0;
+  border: 0;
+  margin: 0;
+  min-width: 0;
+}
+.node-connection-kinds legend { padding: 0; }
+.node-connection-group { display: grid; gap: 6px; min-width: 0; }
+.node-connection-group > p { margin: 0; color: var(--muted); font-size: 12px; font-weight: 650; }
+.node-connection-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+.node-connection-dialog .node-connection-option { position: relative; display: block; cursor: pointer; }
+.node-connection-dialog .node-connection-option input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  opacity: 0;
+}
+.node-connection-option span {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  min-height: 44px;
+  gap: 8px;
+  padding: 8px 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: 9px;
+  color: var(--ink);
+  background: var(--surface);
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+.node-connection-option span svg { flex: none; color: var(--muted); }
+.node-connection-option input:checked + span { border-color: var(--accent-dark); color: var(--accent-dark); background: var(--accent-soft); }
+.node-connection-option input:checked + span svg { color: var(--accent-dark); }
+.node-connection-option input:focus-visible + span { outline: 2px solid var(--accent-dark); outline-offset: 2px; }
+.node-connection-dialog .node-connection-footer { justify-content: flex-end; gap: 8px; }
+@media (max-width: 640px) {
+  .project-library.node-connection-dialog { width: calc(100% - 20px); }
+  .node-connection-dialog .node-connection-body { padding: 12px; gap: 14px; }
+  .node-connection-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .node-connection-footer .studio-action { flex: 1 1 auto; }
+}
+@media (max-width: 380px) {
+  .node-port-field { grid-template-columns: 1fr; }
+}

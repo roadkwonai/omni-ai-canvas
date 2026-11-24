@@ -1,0 +1,16 @@
+.media-model-options > div,
+.media-model-options > .field-label:not(:first-child) {
+  margin-top: 12px;
+}
+
+.media-model-options label {
+  overflow-wrap: anywhere;
+}
+
+.media-reference-options { margin-top: 12px; }
+.media-reference-options > div { margin-block: 8px; }
+
+.media-model-options input,
+.media-model-options select {
+  min-width: 0;
+}

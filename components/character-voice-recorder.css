@@ -1,0 +1,48 @@
+.character-voice-recorder {
+  display: grid;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+.character-voice-recorder h3,
+.character-voice-recorder p {
+  margin: 0;
+}
+.character-voice-recorder h3 {
+  font-size: 14px;
+}
+.character-voice-recorder p,
+.character-voice-recorder span {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.character-voice-recorder > div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.character-voice-recorder button {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 7px 10px;
+  border: 1px solid var(--field-border);
+  border-radius: 8px;
+  color: var(--ink);
+  background: var(--surface);
+  cursor: pointer;
+}
+.character-voice-recorder button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.character-voice-recorder audio {
+  width: 100%;
+  max-width: 360px;
+}
+.character-voice-recorder .character-voice-error {
+  color: var(--red);
+}

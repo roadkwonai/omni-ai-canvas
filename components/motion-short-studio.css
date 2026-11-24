@@ -1,0 +1,215 @@
+.motion-short::backdrop {
+  background: rgb(26 28 32 / 60%);
+}
+.motion-short {
+  width: min(720px, calc(100% - 32px));
+  max-height: 90vh;
+  overflow: auto;
+  padding: 24px;
+  border: 1px solid var(--line-strong);
+  border-radius: 16px;
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: var(--shadow);
+}
+.motion-short header {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: start;
+}
+.motion-short h2,
+.motion-short h3 {
+  margin: 0;
+  font-size: 20px;
+}
+.motion-short header p,
+.motion-short-scenes > p {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+.motion-short fieldset {
+  border: 0;
+  padding: 0;
+  margin: 16px 0;
+  min-width: 0;
+}
+.motion-short button,
+.motion-short input:not([type="checkbox"]):not([type="radio"]),
+.motion-short select,
+.motion-short textarea {
+  font: inherit;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  padding: 10px;
+  background: var(--surface);
+  color: var(--ink);
+}
+.motion-short button {
+  cursor: pointer;
+}
+.motion-short button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.motion-short button:focus-visible,
+.motion-short input:focus-visible,
+.motion-short select:focus-visible,
+.motion-short textarea:focus-visible {
+  outline: 3px solid var(--accent-dark);
+  outline-offset: 2px;
+}
+.motion-short label {
+  display: grid;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  min-width: 0;
+}
+.motion-short-source {
+  display: flex;
+  gap: 8px;
+  align-items: end;
+}
+.motion-short-source label {
+  flex: 1;
+}
+.motion-short-preset {
+  margin-bottom: 20px;
+  padding: 16px;
+  background: var(--surface-soft, #f7f8f9);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+.motion-short-preset h3 {
+  font-size: 16px;
+}
+.motion-short-preset p {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+.motion-short-beats {
+  display: grid;
+  gap: 8px;
+  max-height: 240px;
+  overflow: auto;
+}
+.motion-short-beats label {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  line-height: 1.4;
+}
+.motion-short-beats input {
+  width: auto;
+  margin: 3px 0 0;
+}
+.motion-short-beats small {
+  display: block;
+  color: var(--muted);
+  font-weight: 400;
+}
+.motion-short-preset-preview {
+  margin-top: 12px;
+  padding: 12px;
+  background: var(--surface);
+  border-radius: 8px;
+}
+.motion-short-preset-preview ol {
+  padding-left: 20px;
+  font-size: 13px;
+}
+.motion-short-scenes {
+  display: grid;
+  gap: 10px;
+  margin-top: 18px;
+}
+.motion-short-scene {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 110px auto;
+  gap: 8px;
+  align-items: end;
+}
+.motion-short-scene textarea {
+  resize: vertical;
+}
+.motion-short-scene input,
+.motion-short select,
+.motion-short textarea {
+  width: 100%;
+}
+.motion-short-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 10px;
+  margin-top: 18px;
+}
+.motion-short-options input[type="color"] {
+  width: 100%;
+  height: 42px;
+  padding: 3px;
+}
+.motion-short .motion-short-primary {
+  background: var(--accent-dark);
+  color: var(--surface);
+  border-color: var(--accent-dark);
+  font-weight: 700;
+}
+.motion-short-error {
+  color: var(--red);
+}
+.motion-short-result {
+  display: grid;
+  gap: 12px;
+  padding-top: 20px;
+  margin-top: 20px;
+  border-top: 1px solid var(--line);
+}
+.motion-short-result video {
+  width: 100%;
+  max-height: 360px;
+  object-fit: contain;
+  background: var(--ink);
+  border-radius: 8px;
+}
+@media (max-width: 520px) {
+  .motion-short {
+    padding: 16px;
+  }
+  .motion-short-scene {
+    grid-template-columns: minmax(0, 1fr) 90px;
+  }
+  .motion-short-scene button {
+    grid-column: 2;
+  }
+}
+.motion-short-scene {
+  grid-template-columns: minmax(130px, 1fr) minmax(170px, 2fr) 100px auto;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+}
+.motion-short-detail {
+  grid-column: span 2;
+}
+@media (max-width: 640px) {
+  .motion-short-scene {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+  .motion-short-scene button {
+    grid-column: auto;
+  }
+  .motion-short-detail {
+    grid-column: 1 / -1;
+  }
+}
+
+.motion-short-beats input[type="checkbox"] {
+  flex: 0 0 18px;
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent-dark);
+}

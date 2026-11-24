@@ -1,0 +1,74 @@
+.image-preview-dialog {
+  inset: 0;
+  inline-size: min(1100px, calc(100% - 32px));
+  block-size: min(860px, calc(100dvh - 32px));
+  max-inline-size: none;
+  max-block-size: none;
+  margin: auto;
+  padding: 16px;
+  overflow: auto;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  color: var(--ink);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+.image-preview-dialog[open] {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  gap: 12px;
+}
+.image-preview-dialog::backdrop { background: var(--dialog-backdrop); }
+.image-preview-header {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 12px;
+}
+.image-preview-header :is(h2, p) { margin: 0; overflow-wrap: anywhere; }
+.image-preview-header h2 { font-size: 18px; }
+.image-preview-header p { color: var(--muted); margin-block-start: 4px; }
+.image-preview-header button { flex: none; }
+.image-preview-viewport {
+  display: grid;
+  place-items: safe center;
+  container-type: size;
+  overflow: auto;
+  overscroll-behavior: contain;
+  border-radius: 10px;
+  background: var(--surface-inset, var(--background));
+}
+.image-preview-viewport img {
+  display: block;
+  inline-size: calc(min(100cqw, 100cqh * var(--preview-aspect)) * var(--preview-zoom));
+  block-size: auto;
+}
+.image-preview-controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+}
+.image-preview-controls label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+.image-preview-controls label span { flex: none; }
+.image-preview-controls input[type="range"] {
+  inline-size: min(28vw, 180px);
+  min-block-size: 32px;
+  padding: 0;
+  accent-color: var(--accent-dark);
+}
+.image-preview-controls output { min-inline-size: 4ch; font-variant-numeric: tabular-nums; text-align: end; }
+.image-preview-controls button { flex: none; }
+@media (max-width: 640px) {
+  .image-preview-dialog {
+    inline-size: calc(100% - 16px);
+    block-size: calc(100dvh - 16px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+    padding: 12px;
+  }
+  .image-preview-header button, .image-preview-controls button { min-height: 44px; }
+}

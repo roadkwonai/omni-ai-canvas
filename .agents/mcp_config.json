@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "scene-room": {
+      "command": "node",
+      "args": ["--import", "tsx", "scripts/canvas-mcp.ts"],
+      "cwd": "."
+    }
+  }
+}

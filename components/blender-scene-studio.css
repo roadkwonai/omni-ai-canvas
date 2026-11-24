@@ -1,0 +1,318 @@
+/* Hallmark · app screen · SEED Design */
+.blender-scene {
+  width: min(920px, calc(100% - 32px));
+  max-width: none;
+  max-height: calc(100dvh - 32px);
+  padding: 0;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+}
+.blender-scene[open] {
+  display: flex;
+  flex-direction: column;
+}
+.blender-scene::backdrop {
+  background: var(--dialog-backdrop);
+}
+.blender-scene * {
+  box-sizing: border-box;
+}
+.blender-scene-header,
+.blender-scene-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 24px;
+}
+.blender-scene-header {
+  border-bottom: 1px solid var(--line);
+}
+.blender-scene-header h2 {
+  margin: 5px 0 0;
+  font-size: 20px;
+}
+.blender-scene-header p,
+.blender-section p,
+.blender-result p {
+  margin: 6px 0 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+.blender-scene-eyebrow {
+  display: inline-flex;
+  gap: 5px;
+  align-items: center;
+  color: var(--accent-dark);
+  font-size: 13px;
+  font-weight: 700;
+}
+.blender-scene-content {
+  overflow: auto;
+  padding: 20px 24px;
+}
+.blender-scene-form {
+  display: grid;
+  gap: 14px;
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+.blender-section {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid var(--line-strong);
+  border-radius: 12px;
+}
+.blender-section h3,
+.blender-result h3 {
+  margin: 0;
+  font-size: 16px;
+}
+.blender-scene label {
+  display: grid;
+  gap: 7px;
+  min-width: 0;
+  font-size: 13px;
+  font-weight: 650;
+}
+.blender-scene input:not([type="checkbox"]):not([type="file"]),
+.blender-scene select {
+  width: 100%;
+  min-width: 0;
+  padding: 9px 10px;
+  border: 1px solid var(--field-border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+}
+.blender-scene input[type="color"] {
+  height: 42px;
+}
+.blender-fields,
+.blender-grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: end;
+}
+.blender-output {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.blender-vector {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  padding: 10px;
+  margin: 0;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+}
+.blender-vector legend {
+  padding: 0 4px;
+  font-size: 13px;
+  font-weight: 650;
+}
+.blender-vector label {
+  font-size: 12px;
+}
+.blender-check {
+  display: flex !important;
+  align-items: center;
+  gap: 8px;
+}
+.blender-upload {
+  padding: 12px;
+  background: var(--background);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+.blender-upload summary {
+  cursor: pointer;
+  font-weight: 650;
+}
+.blender-upload summary svg {
+  vertical-align: middle;
+}
+.blender-upload-details {
+  margin: 12px 0;
+}
+.blender-asset-summary {
+  padding: 9px 12px;
+  border-radius: 8px;
+  background: var(--canvas);
+}
+.blender-asset-summary p:first-child {
+  margin: 0;
+}
+.blender-scene button,
+.blender-result a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 9px 12px;
+  border: 1px solid var(--field-border);
+  border-radius: 8px;
+  color: var(--ink);
+  background: var(--surface);
+  text-decoration: none;
+}
+.blender-scene button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.blender-scene :focus-visible {
+  outline: 2px solid var(--accent-dark);
+  outline-offset: 2px;
+}
+.blender-scene button.blender-icon {
+  padding: 8px;
+}
+.blender-scene button.blender-primary {
+  border-color: var(--accent-dark);
+  background: var(--accent-dark);
+  color: var(--surface);
+  font-weight: 700;
+}
+.blender-status,
+.blender-error {
+  margin: 14px 0 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.blender-status {
+  color: var(--accent-dark);
+}
+.blender-error {
+  color: var(--red) !important;
+}
+.blender-result {
+  display: grid;
+  gap: 10px;
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+.blender-result video {
+  display: block;
+  width: 100%;
+  max-height: 420px;
+  object-fit: contain;
+  background: var(--ink);
+  border-radius: 8px;
+}
+.blender-result-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.blender-scene-footer {
+  border-top: 1px solid var(--line);
+  font-size: 13px;
+  color: var(--muted);
+}
+.blender-scene-footer div {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.blender-preview-note {
+  margin: 0;
+  padding: 0 24px 12px;
+  color: var(--muted);
+  font-size: 12px;
+}
+@media (max-width: 600px) {
+  .blender-scene-header,
+  .blender-scene-footer {
+    padding: 14px 16px;
+  }
+  .blender-scene-content {
+    padding: 14px 16px;
+  }
+  .blender-fields,
+  .blender-grid,
+  .blender-output {
+    grid-template-columns: 1fr;
+  }
+  .blender-scene-footer {
+    align-items: start;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .blender-scene-footer div {
+    justify-content: start;
+  }
+}
+.blender-poses {
+  display: grid;
+  gap: 8px;
+}
+.blender-poses > strong {
+  font-size: 13px;
+}
+.blender-pose {
+  display: flex;
+  align-items: end;
+  gap: 8px;
+}
+.blender-pose fieldset {
+  flex: 1;
+}
+.blender-camera-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.blender-blocking {
+  display: grid;
+  gap: 8px;
+  padding: 14px;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+}
+.blender-blocking strong {
+  font-size: 14px;
+}
+.blender-blocking-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 8px;
+}
+.blender-blocking-actions label {
+  width: 130px;
+}
+.blender-recover-list {
+  display: grid;
+  gap: 8px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.blender-recover-list button {
+  width: 100%;
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.blender-scene label:has(> input[type="checkbox"]) {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.blender-scene input[type="checkbox"] {
+  flex: 0 0 18px;
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  accent-color: var(--accent-dark);
+}

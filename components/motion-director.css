@@ -1,0 +1,31 @@
+.motion-director {
+  padding: 10px 12px;
+  margin: 12px 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+.motion-director > summary {
+  cursor: pointer;
+  font-weight: 650;
+}
+.motion-director[open] > :not(summary) {
+  margin-top: 10px;
+}
+.motion-director-fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 8px;
+}
+.motion-director p,
+.motion-director li {
+  font-size: 13px;
+  line-height: 1.5;
+}
+.motion-director ol {
+  max-height: 200px;
+  overflow-y: auto;
+  padding-left: 24px;
+}
+.motion-director a {
+  color: var(--accent-dark);
+}

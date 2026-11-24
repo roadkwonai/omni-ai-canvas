@@ -1,0 +1,9 @@
+[mcp_servers.scene_room]
+command = "node"
+args = ["--import", "tsx", "scripts/canvas-mcp.ts"]
+cwd = "."
+env_vars = ["SCENE_ROOM_PORT"]
+
+[mcp_servers.topview-mcp]
+url = "https://mcp.topview.ai/mcp"
+enabled = false

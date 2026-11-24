@@ -1,0 +1,78 @@
+/* Hallmark · shape: workspace panel · theme: DESIGN.md SEED · signature: editable production guidance */
+/* Keep guidance and source details legible beside the canvas. */
+.node-guidance {
+  display: grid;
+  gap: 10px;
+  margin: 18px 0;
+  padding: 16px;
+  border: 1px solid var(--line-strong);
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--ink);
+}
+.node-guidance-heading { display: flex; align-items: flex-start; gap: 10px; }
+.node-guidance-heading h3 { margin: 0; font-size: 16px; }
+.node-guidance-heading p, .node-guidance-summary, .node-guidance-source,
+.node-guidance-revise > p, .node-guidance-billing {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.55;
+}
+.node-guidance-icon {
+  display: grid;
+  place-items: center;
+  flex: 0 0 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--accent-soft);
+  color: var(--accent-dark);
+}
+.node-guidance label { font-size: 12px; font-weight: 700; }
+.node-guidance select, .node-guidance textarea {
+  width: 100%;
+  min-width: 0;
+  padding: 9px 10px;
+  border: 1px solid var(--field-border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  font-size: 13px;
+}
+.node-guidance textarea { min-height: 80px; resize: vertical; line-height: 1.55; }
+.node-guidance-steps { margin: 0; padding-left: 21px; color: var(--secondary); font-size: 12px; line-height: 1.75; }
+.node-guidance-source a { color: var(--accent-dark); text-underline-offset: 3px; }
+.node-guidance-common { padding: 10px; border: 1px solid var(--line); border-radius: 8px; }
+.node-guidance-common summary { color: var(--secondary); font-size: 12px; font-weight: 700; cursor: pointer; }
+.node-guidance-common p { color: var(--muted); font-size: 12px; line-height: 1.5; }
+.node-guidance-common pre { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; color: var(--secondary); font: inherit; font-size: 12px; line-height: 1.6; }
+.node-guidance-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 8px; }
+.node-guidance-actions > span { margin-right: auto; color: var(--muted); font-size: 11px; }
+.node-guidance button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-height: 34px;
+  padding: 6px 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+.node-guidance button.node-guidance-primary { border-color: var(--accent-dark); background: var(--accent-dark); color: var(--surface); }
+.node-guidance button:disabled { opacity: 0.5; cursor: not-allowed; }
+.node-guidance :focus-visible { outline: 2px solid var(--accent-dark); outline-offset: 2px; }
+.node-guidance .node-guidance-alert { margin: 0; color: var(--red); font-size: 12px; line-height: 1.5; }
+.node-guidance-revise { padding-top: 12px; border-top: 1px solid var(--line); }
+.node-guidance-revise[open] { display: grid; gap: 9px; }
+.node-guidance-revise summary { display: flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 700; cursor: pointer; }
+.node-guidance-revise summary::marker { content: ""; }
+.node-guidance-revise > button { width: 100%; }
+.node-guidance-proposal { display: grid; gap: 8px; margin-top: 4px; padding: 12px; border-radius: 8px; background: var(--background); }
+.node-guidance-proposal strong { font-size: 13px; }
+.node-guidance-proposal p { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; font-size: 12px; line-height: 1.6; }

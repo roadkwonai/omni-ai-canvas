@@ -1,0 +1,18 @@
+.lens-transition { display: grid; gap: 10px; margin: 20px 0; padding: 16px; border: 1px solid var(--line); border-radius: 12px; }
+.lens-transition h3, .lens-transition p { margin: 0; }
+.lens-transition-frame { position: relative; width: 100%; overflow: hidden; touch-action: none; cursor: crosshair; }
+.lens-transition-frame img { display: block; width: 100%; height: auto; }
+.lens-transition-frame span { position: absolute; border: 2px solid var(--accent-dark); border-radius: 50%; background: color-mix(in srgb, var(--accent-dark) 20%, transparent); pointer-events: none; }
+.lens-transition-fields { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+.lens-transition-angle { display: grid; gap: 4px; max-width: 12rem; }
+.lens-transition-angle input { width: 100%; min-width: 0; }
+.lens-transition-result { display: grid; gap: 8px; }
+.lens-transition-result video { width: 100%; max-height: 360px; }
+@media (max-width: 480px) { .lens-transition-fields { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+.lens-transition-frame svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.lens-transition-frame polygon { fill: color-mix(in srgb, var(--accent-dark) 22%, transparent); stroke: var(--accent-dark); stroke-width: 0.5; }
+.lens-transition-frame polyline { fill: none; stroke: var(--accent-dark); stroke-width: 0.5; }
+.lens-transition-frame circle { fill: var(--accent-dark); }
+.lens-outline-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.lens-transition details { min-width: 0; }

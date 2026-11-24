@@ -1,0 +1,115 @@
+.portrait-grid {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+}
+
+.portrait-grid p,
+.portrait-grid h3 {
+  margin: 0;
+}
+.portrait-grid-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.portrait-grid-source {
+  position: relative;
+  width: min(100%, 400px);
+  line-height: 0;
+}
+
+.portrait-grid-image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.portrait-grid-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.portrait-grid-overlay span {
+  position: absolute;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  border: 1px solid white;
+  outline: 1px solid rgb(0 0 0 / 55%);
+  color: white;
+  background: rgb(0 0 0 / 10%);
+  font-size: 12px;
+  line-height: 1.3;
+  text-shadow: 0 1px 3px black;
+}
+
+.portrait-grid-overlay span.selected {
+  border: 2px solid var(--accent);
+  background: color-mix(in srgb, var(--accent) 20%, transparent);
+}
+
+.portrait-grid-spacing,
+.portrait-grid-choices {
+  min-width: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.portrait-grid-spacing {
+  grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+}
+
+.portrait-grid-spacing label,
+.portrait-grid-choices label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.portrait-grid-spacing input,
+.portrait-grid-spacing select {
+  min-width: 0;
+  width: 100%;
+}
+
+.portrait-grid-choices > div {
+  display: grid;
+  gap: 8px;
+}
+
+.portrait-grid-results {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  gap: 8px;
+}
+
+.portrait-grid-results figure {
+  min-width: 0;
+  margin: 0;
+}
+
+.portrait-grid-results img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.portrait-grid-crop {
+  position: relative;
+  overflow: hidden;
+}
+
+.portrait-grid-results .portrait-grid-crop img {
+  position: absolute;
+  max-width: none;
+  object-fit: fill;
+}
+@media (max-width: 390px) {
+  .portrait-grid-choices > div { gap: 4px; }
+  .portrait-grid-choices label { gap: 3px; font-size: 12px; }
+}

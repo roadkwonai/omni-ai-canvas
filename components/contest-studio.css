@@ -1,0 +1,204 @@
+.contest-dialog {
+  --contest-ink: #1a1c20;
+  --contest-muted: #555d6d;
+  --contest-border: #dcdee3;
+  --contest-paper: #fff;
+  --contest-bg: #f7f8f9;
+  --contest-accent: #b93901;
+  width: min(900px, calc(100% - 32px));
+  max-height: min(900px, calc(100% - 32px));
+  padding: 0;
+  border: 1px solid var(--contest-border);
+  border-radius: 12px;
+  color: var(--contest-ink);
+  background: var(--contest-paper);
+}
+.contest-dialog::backdrop {
+  background: rgba(26, 28, 32, 0.55);
+}
+.contest-dialog * {
+  box-sizing: border-box;
+}
+.contest-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 24px;
+  border-bottom: 1px solid var(--contest-border);
+}
+.contest-header h2,
+.contest-source h3,
+.contest-brief h3 {
+  margin: 0;
+}
+.contest-header p,
+.contest-brief p,
+.contest-source p {
+  margin: 7px 0 0;
+  color: var(--contest-muted);
+  font-size: 14px;
+  line-height: 1.55;
+}
+.contest-close {
+  border: 0;
+  padding: 6px;
+  background: transparent;
+  color: var(--contest-ink);
+  cursor: pointer;
+}
+.contest-body {
+  display: grid;
+  gap: 10px;
+  padding: 24px;
+}
+.contest-body label {
+  display: grid;
+  gap: 7px;
+  font-size: 14px;
+  font-weight: 700;
+}
+.contest-body label span {
+  color: var(--contest-muted);
+  font-size: 12px;
+  font-weight: 400;
+}
+.contest-body input,
+.contest-body textarea {
+  width: 100%;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--contest-border);
+  border-radius: 8px;
+  background: var(--contest-paper);
+  color: var(--contest-ink);
+  font: inherit;
+  resize: vertical;
+}
+.contest-url {
+  display: flex;
+  gap: 8px;
+}
+.contest-dialog button {
+  font: inherit;
+}
+.contest-url button,
+.contest-manual button,
+.contest-actions button,
+.contest-source button {
+  border: 1px solid var(--contest-border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  background: var(--contest-paper);
+  color: var(--contest-ink);
+  cursor: pointer;
+}
+.contest-url button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+.contest-dialog button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.contest-dialog :focus-visible {
+  outline: 2px solid var(--contest-accent);
+  outline-offset: 2px;
+}
+.contest-examples {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  align-items: center;
+  margin-bottom: 12px;
+  color: var(--contest-muted);
+  font-size: 12px;
+}
+.contest-examples button {
+  border: 1px solid var(--contest-border);
+  border-radius: 6px;
+  padding: 5px 8px;
+  background: var(--contest-bg);
+  color: var(--contest-ink);
+  cursor: pointer;
+}
+.contest-manual {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+}
+.contest-manual button {
+  justify-self: start;
+}
+.contest-source,
+.contest-brief {
+  margin-top: 12px;
+  padding: 18px;
+  border: 1px solid var(--contest-border);
+  border-radius: 8px;
+}
+.contest-source a {
+  color: var(--contest-accent);
+  overflow-wrap: anywhere;
+}
+.contest-source a svg {
+  vertical-align: middle;
+}
+.contest-source li {
+  margin: 6px 0;
+}
+.contest-source li button {
+  margin-left: 8px;
+  padding: 4px 8px;
+  font-size: 12px;
+}
+.contest-source details {
+  margin-top: 12px;
+}
+.contest-source pre {
+  max-height: 220px;
+  overflow: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font: inherit;
+  font-size: 13px;
+}
+.contest-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 14px;
+}
+.contest-message {
+  margin: 4px 0;
+  color: var(--contest-accent);
+  font-size: 14px;
+}
+.contest-actions {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 18px 24px;
+  border-top: 1px solid var(--contest-border);
+}
+.contest-actions .contest-primary {
+  border-color: var(--contest-accent);
+  background: var(--contest-accent);
+  color: var(--contest-paper);
+}
+@media (max-width: 600px) {
+  .contest-fields {
+    grid-template-columns: 1fr;
+  }
+  .contest-header,
+  .contest-body,
+  .contest-actions {
+    padding: 16px;
+  }
+  .contest-url {
+    flex-wrap: wrap;
+  }
+}

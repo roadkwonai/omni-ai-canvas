@@ -1,0 +1,65 @@
+.tripo-studio .tripo-content {
+  display: grid;
+  gap: 16px;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 20px 24px 24px;
+}
+.tripo-studio .tripo-content > p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+.tripo-studio .tripo-section {
+  display: grid;
+  gap: 10px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  min-width: 0;
+}
+.tripo-studio .tripo-section h3 {
+  margin: 0;
+  font-size: 16px;
+}
+.tripo-studio .tripo-section p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.5;
+  font-size: 13px;
+}
+.tripo-studio .tripo-section .blender-section {
+  padding: 0;
+  border: 0;
+}
+.tripo-studio .tripo-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.tripo-studio .tripo-actions button {
+  flex: 0 1 auto;
+}
+.tripo-studio .tripo-result {
+  overflow: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  max-height: 200px;
+  padding: 12px;
+  background: var(--background);
+  border-radius: 8px;
+}
+.tripo-studio a {
+  color: var(--accent-dark);
+}
+@media (max-width: 520px) {
+  .tripo-studio .tripo-content {
+    padding: 16px;
+  }
+  .tripo-studio .tripo-section {
+    padding: 12px;
+  }
+  .tripo-studio .tripo-actions button {
+    flex: 1 1 100%;
+  }
+}

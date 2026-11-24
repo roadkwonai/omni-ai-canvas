@@ -1,0 +1,119 @@
+.higgs-workflow {
+  width: min(640px, calc(100% - 24px));
+  max-height: calc(100dvh - 24px);
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--surface);
+  color: var(--ink);
+}
+.higgs-workflow[open] {
+  display: flex;
+  flex-direction: column;
+}
+.higgs-workflow::backdrop {
+  background: var(--dialog-backdrop);
+}
+.higgs-workflow header,
+.higgs-workflow footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 16px 20px;
+}
+.higgs-workflow header {
+  border-bottom: 1px solid var(--line);
+}
+.higgs-workflow h2 {
+  margin: 0;
+  font-size: 20px;
+}
+.higgs-workflow footer {
+  border-top: 1px solid var(--line);
+  justify-content: flex-end;
+}
+.higgs-workflow button {
+  border: 1px solid var(--field-border);
+  background: var(--surface);
+  border-radius: 8px;
+  color: var(--ink);
+  padding: 8px 12px;
+  cursor: pointer;
+}
+.higgs-workflow footer button {
+  background: var(--accent-dark);
+  border-color: var(--accent-dark);
+  color: white;
+}
+.higgs-workflow-body {
+  display: grid;
+  gap: 14px;
+  padding: 16px 20px;
+  overflow: auto;
+}
+.higgs-workflow-body > label {
+  display: grid;
+  gap: 5px;
+  font-weight: 600;
+}
+.higgs-workflow-body :is(textarea, select, input:not([type="checkbox"])) {
+  width: 100%;
+  font: inherit;
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid var(--field-border);
+}
+.higgs-workflow-body fieldset {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 12px;
+  min-width: 0;
+}
+.higgs-workflow-body legend {
+  font-weight: 650;
+}
+.higgs-workflow-body p,
+.higgs-option small {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+.higgs-workflow-body a {
+  color: var(--accent-dark);
+}
+.higgs-option {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+.higgs-workflow .higgs-option input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 18px;
+  margin: 2px 0 0;
+  padding: 0;
+}
+.higgs-option span {
+  min-width: 0;
+}
+.higgs-option small {
+  display: block;
+}
+.higgs-idea-bank {
+  display: grid;
+  gap: 10px;
+  padding: 12px 0;
+}
+.higgs-idea-bank label:not(.higgs-option) {
+  display: grid;
+  gap: 4px;
+}
+.higgs-workflow summary {
+  cursor: pointer;
+  font-weight: 650;
+}
