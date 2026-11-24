@@ -3,19 +3,27 @@ import TimelineWords from "./TimelineWords";
 import LensTransitionPanel from "./LensTransitionPanel";
 import ManualLensSourcesForm from "./ManualLensSourcesForm";
 import { insertLensTransition, isLegacyLensTransitionNode, legacyLensTransitionFrames, lensCutPairs, resolveLegacyLensTransition, resolveManualLegacyLensTransition, updateLensTransition, withLensStartFrames, type LensAnchorCheckpoint, type LensAnchorTransfer, type LensCorrection, type LensMask, type LensPoint, type LensReview, type LensStartFrames, type LensTransitionResult, type ManualLensSources } from "../lib/lens-transition-spec";
-import { acceptsTimelineEdit } from "../lib/timeline-edit";
+import { acceptsTimelineEdit, discardTimelineAttempt, timelineKey } from "../lib/timeline-edit";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useEffectEvent, useMemo, useRef, useState } from "react";
+import { Clapperboard, Download, PackageCheck, Save, Scissors, X } from "lucide-react";
+import { SegmentedControl, SegmentedControlIndicator, SegmentedControlItem } from "@ui-sdk/react/segmented-control";
+import { Tabs, TabsList, TabsPanel, TabsTab } from "@ui-sdk/react/tabs";
+import { audioSource, clipRanges, clipSource, moveClip, removeClip, timecode, timelineIssues, trimAudio, trimClip } from "../lib/timeline-layout";
 import {
   TIMELINE_MAX_AUDIO,
   TIMELINE_MAX_CLIPS,
   TIMELINE_MAX_FRAMES,
-  validateTimeline,
+  TIMELINE_MAX_WORDS,
+  type TimelineAudio,
   type TimelineClip,
   type TimelineSpec,
 } from "../lib/timeline-spec";
-import type { Asset, Graph, Project } from "../lib/types";
+import type { Asset, CanvasNode, Graph, Project } from "../lib/types";
 import { serializeTimelineWords } from "../lib/timeline-captions";
+import { TimelineAudioFields, TimelineClipFields } from "./TimelineFields";
+import TimelineMonitor, { TimelineAddMenu, type TimelinePanel } from "./TimelineMonitor";
+import { useTimelineMedia } from "./useTimelineMedia";
 import "./timeline.css";
 
 type Props = {
@@ -23,16 +31,15 @@ type Props = {
   onGraphChange: (graph: Graph) => void;
   save: () => Promise<Project | null>;
   selected: string | null;
-  autoOpen?: boolean;
-  onClose?: () => void;
+  onClose: () => void;
 };
 
 type LensSourceSelection = { kind: "legacy"; sources?: ManualLensSources } |
   { kind: "saved"; choosing: boolean; starts?: LensStartFrames };
 type LensAnchorPreview = { image: Blob; transfer?: LensAnchorTransfer };
 const empty: TimelineSpec = { aspect: "16:9", clips: [], audio: [] };
-const frameValue = (event: React.ChangeEvent<HTMLInputElement>) =>
-  Math.round(Number(event.target.value) * 30);
+const aspects = [["16:9", "가로"], ["9:16", "세로"], ["1:1", "정사각형"]] as const;
+const busyLabels = { save: "저장 중…", preview: "프리비즈 합성 중…", final: "납품본 합성 중…", lens: "렌즈 전환 처리 중…" };
 const clip = (nodeId: string | null): TimelineClip => ({
   nodeId,
   durationFrames: 90,
@@ -46,36 +53,47 @@ export default function TimelineStudio({
   onGraphChange,
   save,
   selected,
-  autoOpen = false,
   onClose,
 }: Props) {
   const initial = project.graph.nodes.find(
     (node) => node.id === selected && node.kind === "previs",
   );
-  const [open, setOpen] = useState(autoOpen);
+  const dialog = useRef<HTMLDialogElement>(null);
   const [timelineId, setTimelineId] = useState(
     () => initial?.id ?? crypto.randomUUID(),
   );
   const [draft, setDraft] = useState<TimelineSpec>(initial?.timeline ?? empty);
-  const [busy, setBusy] = useState(false);
+  const [busyTask, setBusyTask] = useState<keyof typeof busyLabels | null>(null);
+  const busy = busyTask !== null;
+  const [panel, setPanel] = useState<TimelinePanel>("clip");
+  const [clipChoice, setClipChoice] = useState(0);
+  const [audioChoice, setAudioChoice] = useState(0);
+  const [showResult, setShowResult] = useState(false);
+  const busyTrigger = useRef<HTMLElement | null>(null);
   const [editingClip, setEditingClip] = useState<{ id: string; index: number } | null>(null);
   const [sourceSelection, setSourceSelection] = useState<LensSourceSelection | null>(null);
-  const [result, setResult] = useState<Asset | null>(null);
-  const [resultMode, setResultMode] = useState<"preview" | "final">("preview");
+  const [result, setResult] = useState<{ asset: Asset; mode: "preview" | "final"; notes: string[] } | null>(null);
   const [message, setMessage] = useState("");
   const current = useRef(project);
-  const baseline = useRef<string | null>(
-    initial?.timeline ? JSON.stringify(initial.timeline) : null,
+  const [savedSpec, setSavedSpec] = useState<string | null>(
+    () => timelineKey(initial?.timeline),
   );
+  const baseline = useRef<string | null>(savedSpec);
   const renderedVersion = useRef<number | null>(null);
   const renderedGraph = useRef<string | null>(null);
   const attempted = useRef<string | null>(null);
+  const beforeAttempt = useRef(new Map<string, CanvasNode | null>());
+  const [attemptPending, setAttemptPending] = useState(false);
+  const [wordTarget, setWordTarget] = useState<{ index: number } | null>(null);
   const lensAnchor = useRef<{ key: string; version: number } | null>(null);
   const lensRenderSnapshot = useRef<{ draft: string; graph: string } | null>(null);
   const savedStartsTrigger = useRef<HTMLButtonElement>(null);
   useEffect(() => {
     current.current = project;
   }, [project]);
+  useEffect(() => {
+    if (dialog.current && !dialog.current.open) dialog.current.showModal();
+  }, []);
   const visuals = project.graph.nodes.filter(
     (node) =>
       node.id !== timelineId &&
@@ -86,13 +104,23 @@ export default function TimelineStudio({
   const sounds = project.graph.nodes.filter(
     (node) => node.kind === "audioCue" || node.asset?.type === "audio",
   );
-  const totalFrames = draft.clips.reduce(
-    (sum, item) => sum + item.durationFrames - item.transitionFrames,
-    0,
-  );
+  const ranges = clipRanges(draft.clips);
+  const totalFrames = ranges.at(-1)?.end ?? 0;
+  const clipIndex = Math.min(clipChoice, Math.max(0, draft.clips.length - 1));
+  const audioIndex = Math.min(audioChoice, Math.max(0, draft.audio.length - 1));
+  const nodes = useMemo(() => new Map<string, CanvasNode>(project.graph.nodes.map((node) => [node.id, node])), [project.graph.nodes]);
+  const media = useTimelineMedia(draft, nodes);
+  const secondsOf = (nodeId: string | null) => media.seconds.get(nodes.get(nodeId ?? "")?.asset?.url ?? "");
+  const issues = useMemo(() => timelineIssues(draft, { nodes, seconds: media.seconds }), [draft, nodes, media.seconds]);
+  const slates = draft.clips.filter((item) => clipSource(item.nodeId, nodes) === "slate").length;
+  const silent = draft.audio.filter((item) => audioSource(item.nodeId, nodes) === "silent").length;
+  const draftKey = useMemo(() => timelineKey(draft), [draft]);
+  const dirty = attemptPending || draftKey !== (savedSpec ?? timelineKey(empty));
+  const isEmpty = !draft.clips.length && !draft.audio.length && !draft.words?.length;
+  const otherTimelines = project.graph.nodes.filter((node) => node.kind === "previs" && node.timeline?.clips.length && node.id !== timelineId);
 
   const savedTransitions = draft.clips.flatMap((entry, index) => {
-    const node = project.graph.nodes.find(({ id }) => id === entry.nodeId);
+    const node = nodes.get(entry.nodeId ?? "");
     if (!node || (!node.lensTransition && !isLegacyLensTransitionNode(node))) return [];
     const source = node.lensTransition ?? resolveLegacyLensTransition(project.graph, draft, index, node.id);
     return [{ id: node.id, index, recipe: node.lensTransition, source, frames: source?.frames ?? legacyLensTransitionFrames(node) }];
@@ -110,8 +138,8 @@ export default function TimelineStudio({
     : null;
   const lensPairs = editTransition && editSource ? [{
     cutIndex: editTransition.index, maxFrames: editSource.frames,
-    outgoingTitle: project.graph.nodes.find(({ id }) => id === editSource.outgoing.nodeId)?.title ?? editSource.outgoing.asset.name,
-    incomingTitle: project.graph.nodes.find(({ id }) => id === editSource.incoming.nodeId)?.title ?? editSource.incoming.asset.name,
+    outgoingTitle: nodes.get(editSource.outgoing.nodeId)?.title ?? editSource.outgoing.asset.name,
+    incomingTitle: nodes.get(editSource.incoming.nodeId)?.title ?? editSource.incoming.asset.name,
   }] : lensCutPairs(project.graph, draft);
 
   function openLensEditor(clip: { id: string; index: number } | null, chooseSources = false) {
@@ -140,52 +168,104 @@ export default function TimelineStudio({
       ? undefined : { outgoingStart, incomingStart });
   }
 
-  function show() {
-    const existing = project.graph.nodes.find(
-      (node) => node.id === selected && node.kind === "previs",
-    );
-    setTimelineId(existing?.id ?? crypto.randomUUID());
-    setDraft(existing?.timeline ?? empty);
-    baseline.current = existing?.timeline
-      ? JSON.stringify(existing.timeline)
-      : null;
+  // 실행하는 동안 누른 버튼이 잠겨도 포커스를 창 안에 둔다.
+  function startTask(task: keyof typeof busyLabels) {
+    if (document.activeElement instanceof HTMLElement) busyTrigger.current = document.activeElement;
+    setBusyTask(task);
+    dialog.current?.focus();
+  }
+  useEffect(() => {
+    if (busy || (document.activeElement !== dialog.current && document.activeElement !== document.body)) return;
+    busyTrigger.current?.focus();
+    busyTrigger.current = null;
+  }, [busy]);
+  useEffect(() => {
+    if (!dirty) return;
+    const warn = (event: BeforeUnloadEvent) => event.preventDefault();
+    window.addEventListener("beforeunload", warn);
+    return () => window.removeEventListener("beforeunload", warn);
+  }, [dirty]);
+  function markSaved(spec: string | null) {
+    baseline.current = spec;
     attempted.current = null;
+    beforeAttempt.current.clear();
+    setAttemptPending(false);
+    setSavedSpec(spec);
+  }
+  // 저장에 실패하면 보드에 남은 값을 버릴 수 있게 시도 전 노드를 기억한다.
+  function attempt(spec: TimelineSpec, graph: Graph, ids: string[]) {
+    for (const id of ids)
+      if (!beforeAttempt.current.has(id)) beforeAttempt.current.set(id, current.current.graph.nodes.find((node) => node.id === id) ?? null);
+    attempted.current = timelineKey(spec);
+    setAttemptPending(true);
+    onGraphChange(graph);
+  }
+  function confirmDiscard(action: string) {
+    if (!dirty) return true;
+    if (!window.confirm(`저장하지 않은 타임라인 변경을 버리고 ${action}`)) return false;
+    if (beforeAttempt.current.size) onGraphChange(discardTimelineAttempt(current.current.graph, beforeAttempt.current));
+    return true;
+  }
+  function openTimeline(node: CanvasNode) {
+    if (!confirmDiscard("다른 타임라인을 열까요?")) return;
+    setTimelineId(node.id);
+    setDraft(node.timeline ?? empty);
+    markSaved(timelineKey(node.timeline));
     openLensEditor(null);
     setResult(null);
+    select("clip", 0);
+    dialog.current?.focus();
+  }
+  function close() {
+    if (!busy && confirmDiscard("닫을까요?")) dialog.current?.close();
+  }
+  const escapeOutside = useEffectEvent((event: KeyboardEvent) => {
+    if (event.key !== "Escape" || event.defaultPrevented || dialog.current?.contains(event.target as Node)) return;
+    event.preventDefault();
+    close();
+  });
+  useEffect(() => {
+    window.addEventListener("keydown", escapeOutside);
+    return () => window.removeEventListener("keydown", escapeOutside);
+  }, []);
+  function select(next: TimelinePanel, index?: number) {
+    setPanel(next);
+    if (index === undefined) return;
+    if (next === "clip") setClipChoice(index);
+    if (next === "audio") setAudioChoice(index);
+    if (next === "words") setWordTarget({ index });
+  }
+  function viewResult(shown: boolean) {
+    setShowResult(shown);
+    if (panel === "lens") setPanel("clip");
+  }
+  function edit(next: TimelineSpec) {
+    setDraft(next);
+    setResult(null);
     setMessage("");
-    setOpen(true);
   }
-  function updateClip(index: number, patch: Partial<TimelineClip>) {
-    setDraft((value) => ({
-      ...value,
-      clips: value.clips.map((item, position) =>
-        position === index ? { ...item, ...patch } : item,
-      ),
-    }));
-    setResult(null);
+  const updateClip = (index: number, patch: Partial<TimelineClip>) =>
+    edit({ ...draft, clips: draft.clips.map((item, position) => position === index ? { ...item, ...patch } : item) });
+  const updateAudio = (index: number, patch: Partial<TimelineAudio>) =>
+    edit({ ...draft, audio: draft.audio.map((item, position) => position === index ? { ...item, ...patch } : item) });
+  function addClip(nodeId: string | null) {
+    edit({ ...draft, clips: [...draft.clips, clip(nodeId)] });
+    select("clip", draft.clips.length);
   }
-  function move(index: number, step: number) {
-    setDraft((value) => {
-      const clips = [...value.clips];
-      const target = index + step;
-      if (target < 0 || target >= clips.length) return value;
-      [clips[index], clips[target]] = [clips[target], clips[index]];
-      clips[0] = { ...clips[0], transition: "cut", transitionFrames: 0 };
-      return { ...value, clips };
-    });
-    setResult(null);
+  function addAudio(nodeId: string, startFrame: number) {
+    edit({ ...draft, audio: [...draft.audio, { nodeId, startFrame, inFrame: 0, durationFrames: Math.min(30, totalFrames - startFrame), gain: 1, fadeInFrames: 0, fadeOutFrames: 0 }] });
+    select("audio", draft.audio.length);
   }
   async function persistTimeline() {
-    if (!validateTimeline(draft) || !draft.clips.length)
-      throw new Error("컷·전환·음향·자막의 길이와 위치를 확인해 주세요.");
+    if (issues[0]?.blocking) throw new Error(issues[0].text);
     const active = current.current;
     if (active.id !== project.id) throw new Error("프로젝트가 바뀌었습니다. 다시 열어 주세요.");
     const existing = active.graph.nodes.find((node) => node.id === timelineId);
-    const savedSpec = existing?.timeline ? JSON.stringify(existing.timeline) : null;
-    const requestedSpec = JSON.stringify(draft);
-    if (!acceptsTimelineEdit(baseline.current, savedSpec, attempted.current))
+    const boardSpec = timelineKey(existing?.timeline);
+    const requestedSpec = timelineKey(draft);
+    if (!acceptsTimelineEdit(baseline.current, boardSpec, attempted.current))
       throw new Error("타임라인이 다른 곳에서 변경됐습니다. 다시 열어 주세요.");
-    if (savedSpec !== requestedSpec) {
+    if (boardSpec !== requestedSpec) {
       const timelineNode = existing
         ? { ...existing, timeline: draft, asset: undefined }
         : { id: timelineId, kind: "previs" as const, title: "프리비즈", body: "", x: 80, y: 80, timeline: draft };
@@ -195,16 +275,14 @@ export default function TimelineStudio({
           ? active.graph.nodes.map((node) => node.id === timelineId ? timelineNode : node)
           : [...active.graph.nodes, timelineNode],
       };
-      attempted.current = requestedSpec;
-      onGraphChange(graph);
+      attempt(draft, graph, [timelineId]);
     }
     const saved = await save();
     const savedTimeline = saved?.graph.nodes.find((node) => node.id === timelineId)?.timeline;
-    if (!saved || saved.id !== active.id || JSON.stringify(savedTimeline) !== requestedSpec)
+    if (!saved || saved.id !== active.id || timelineKey(savedTimeline) !== requestedSpec)
       throw new Error("타임라인을 저장하지 못했습니다. 다시 시도해 주세요.");
     current.current = saved;
-    baseline.current = requestedSpec;
-    attempted.current = null;
+    markSaved(requestedSpec);
     return saved;
   }
 
@@ -216,7 +294,7 @@ export default function TimelineStudio({
     { action: "review" | "render"; mask: LensMask; corrections: LensCorrection[]; anchorCheckpoints?: LensAnchorCheckpoint[] } |
     { action: "detect"; point: LensPoint } | { action: "reanchor"; anchorCheckpoints: LensAnchorCheckpoint[] }):
     Promise<LensAnchorPreview | LensReview | LensTransitionResult | LensPoint[]> {
-    setBusy(true);
+    startTask("lens");
     try {
       const saved = await persistTimeline();
       const key = JSON.stringify([timelineId, cutIndex, frames, draft, editTransition?.id, manualSources, sourceStarts]);
@@ -253,7 +331,7 @@ export default function TimelineStudio({
       lensRenderSnapshot.current = null;
       return payload ? { image, transfer: payload.transfer } : { image };
     } finally {
-      setBusy(false);
+      setBusyTask(null);
     }
   }
 
@@ -264,35 +342,33 @@ export default function TimelineStudio({
         result.transitionId !== editTransition?.id ||
         JSON.stringify(active.graph) !== snapshot.graph || JSON.stringify(draft) !== snapshot.draft)
       throw new Error("렌더 이후 타임라인이나 원본이 변경됐습니다. 전환을 다시 만들어 주세요.");
-    setBusy(true);
+    startTask("lens");
     try {
       const transitionId = editTransition?.id ?? crypto.randomUUID();
       const graph = editTransition
         ? updateLensTransition(active.graph, timelineId, result, transitionId, manualEdit ? manualSources : undefined, sourceStarts)
         : insertLensTransition(active.graph, timelineId, result, transitionId);
       const applied = graph.nodes.find(({ id }) => id === timelineId)!.timeline!;
-      attempted.current = JSON.stringify(applied);
-      onGraphChange(graph);
+      attempt(applied, graph, [timelineId, transitionId]);
       setDraft(applied);
       setResult(null);
       const saved = await save();
       const stored = saved?.graph.nodes.find(({ id }) => id === timelineId)?.timeline;
       const savedTransition = saved?.graph.nodes.find(({ id }) => id === transitionId);
-      if (!saved || saved.id !== active.id || JSON.stringify(stored) !== attempted.current ||
+      if (!saved || saved.id !== active.id || timelineKey(stored) !== attempted.current ||
         savedTransition?.asset?.url !== result.asset.url || !savedTransition.lensTransition)
         throw new Error("렌즈 전환 저장을 완료하지 못했습니다. 타임라인 저장 상태를 확인해 주세요.");
       current.current = saved;
-      baseline.current = attempted.current;
-      attempted.current = null;
+      markSaved(attempted.current);
       openLensEditor(null);
       setMessage(editTransition ? "기존 렌즈 전환을 갱신했습니다." : "렌즈 전환을 타임라인에 저장했습니다.");
     } finally {
-      setBusy(false);
+      setBusyTask(null);
     }
   }
 
   async function render(mode?: "preview" | "final") {
-    setBusy(true);
+    startTask(mode ?? "save");
     setMessage("");
     setResult(null);
     try {
@@ -309,10 +385,9 @@ export default function TimelineStudio({
       const data = await response.json();
       if (!response.ok)
         throw new Error(data.error || "영상 합성에 실패했습니다.");
-      setResult(data.asset);
-      setResultMode(mode);
-      if (Array.isArray(data.warnings) && data.warnings.length)
-        setMessage(data.warnings.join(" "));
+      setResult({ asset: data.asset, mode, notes: Array.isArray(data.warnings) ? data.warnings : [] });
+      viewResult(true);
+      setMessage(mode === "preview" ? "프리비즈를 만들었습니다." : "납품본을 만들었습니다.");
       renderedVersion.current = saved.version;
       renderedGraph.current = JSON.stringify(saved.graph);
     } catch (error) {
@@ -320,7 +395,7 @@ export default function TimelineStudio({
         error instanceof Error ? error.message : "영상 합성에 실패했습니다.",
       );
     } finally {
-      setBusy(false);
+      setBusyTask(null);
     }
   }
   function attach() {
@@ -331,7 +406,7 @@ export default function TimelineStudio({
       active.id !== project.id ||
       active.version !== renderedVersion.current ||
       JSON.stringify(active.graph) !== renderedGraph.current ||
-      JSON.stringify(node?.timeline) !== baseline.current
+      timelineKey(node?.timeline) !== baseline.current
     ) {
       setMessage("프로젝트가 변경됐습니다. 다시 합성해 주세요.");
       return;
@@ -339,487 +414,206 @@ export default function TimelineStudio({
     onGraphChange({
       ...active.graph,
       nodes: active.graph.nodes.map((item) =>
-        item.id === timelineId ? { ...item, asset: result } : item,
+        item.id === timelineId ? { ...item, asset: result.asset } : item,
       ),
     });
     setMessage("프리비즈 노드에 영상이 반영됐습니다.");
   }
-  return (
-    <div className="timeline-studio">
-      <button
-        type="button"
-        title="스토리보드와 타임라인 편집 화면을 엽니다."
-        onClick={show}
-      >
-        스토리보드 · 타임라인
-      </button>
-      {open && (
-        <div className="timeline-overlay" role="presentation">
-          <section
-            className="timeline-dialog"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="timeline-title"
-            onKeyDown={(event) => {
-              if (event.key === "Escape" && !busy) {
-                setOpen(false);
-                onClose?.();
-              }
-            }}
-          >
-            <header>
-              <div>
-                <h2 id="timeline-title">스토리보드 · 타임라인</h2>
-                <p>컷과 음향의 순서를 정하고 저장한 뒤 영상을 만듭니다.</p>
-              </div>
-              <button
-                type="button"
-                onClick={() => {
-                  setOpen(false);
-                  onClose?.();
-                }}
-                aria-label="닫기"
-                title="타임라인 편집 화면을 닫습니다."
-                disabled={busy}
-              >
-                ×
-              </button>
-            </header>
-            <fieldset disabled={busy}>
-              <p>
-                최대 7분, 60컷, 음향 40개를 배치할 수 있습니다. 각 원본과 완성
-                파일은 64 MiB 이하여야 합니다.
-              </p>
-              <label>
-                화면 비율{" "}
-                <select
-                  title="완성 영상의 가로·세로 화면 비율을 정합니다."
-                  value={draft.aspect}
-                  onChange={(event) => {
-                    setDraft({
-                      ...draft,
-                      aspect: event.target.value as TimelineSpec["aspect"],
-                    });
-                    setResult(null);
-                  }}
-                >
-                  <option value="16:9">가로 16:9</option>
-                  <option value="9:16">세로 9:16</option>
-                  <option value="1:1">정사각형 1:1</option>
-                </select>
-              </label>
-              {totalFrames > 0 && (
-                <div
-                  className="timeline-overview"
-                  aria-label={`전체 길이 ${(totalFrames / 30).toFixed(1)}초`}
-                >
-                  <div className="timeline-visual-track">
-                    {draft.clips.map((item, index) => (
-                      <div
-                        key={index}
-                        style={{
-                          flex: Math.max(
-                            1,
-                            item.durationFrames - item.transitionFrames,
-                          ),
-                        }}
-                        title={`${item.durationFrames / 30}초`}
-                      >
-                        {project.graph.nodes.find(
-                          (node) => node.id === item.nodeId,
-                        )?.title || "빈 카드"}
-                      </div>
-                    ))}
-                  </div>
-                  {draft.audio.map((track, index) => (
-                    <div className="timeline-audio-track" key={index}>
-                      <span
-                        style={{
-                          left: `${Math.min(100, Math.max(0, (track.startFrame / totalFrames) * 100))}%`,
-                          width: `${Math.min(100, Math.max(0, (track.durationFrames / totalFrames) * 100))}%`,
-                        }}
-                      >
-                        {project.graph.nodes.find(
-                          (node) => node.id === track.nodeId,
-                        )?.title || "음향"}
-                      </span>
-                    </div>
-                  ))}
-                  <small>{(totalFrames / 30).toFixed(1)}초</small>
-                </div>
-              )}
-              <h3>컷 순서</h3>
-              {draft.clips.map((item, index) => (
-                <div className="timeline-row" key={index}>
-                  <label>
-                    컷 {index + 1}
-                    <select
-                      title="이 컷에서 사용할 영상이나 이미지를 선택합니다."
-                      value={item.nodeId ?? ""}
-                      onChange={(event) =>
-                        updateClip(index, {
-                          nodeId: event.target.value || null,
-                          inFrame: 0,
-                        })
-                      }
-                    >
-                      <option value="">빈 프리비즈 카드</option>
-                      {visuals.map((node) => (
-                        <option value={node.id} key={node.id}>
-                          {node.title}
-                          {node.asset ? "" : " · 미생성 슬레이트"}
-                        </option>
-                      ))}
-                    </select>
-                  </label>
-                  <label>
-                    길이(초)
-                    <input
-                      title="이 컷을 표시할 시간을 초 단위로 정합니다."
-                      type="number"
-                      min="0.04"
-                      max={TIMELINE_MAX_FRAMES / 30}
-                      step="0.1"
-                      value={item.durationFrames / 30}
-                      onChange={(event) =>
-                        updateClip(index, { durationFrames: frameValue(event) })
-                      }
-                    />
-                  </label>
-                  <label>
-                    원본 시작(초)
-                    <input
-                      title="원본 영상에서 재생을 시작할 시점을 초 단위로 정합니다."
-                      type="number"
-                      min="0"
-                      max={TIMELINE_MAX_FRAMES / 30}
-                      step="0.1"
-                      value={item.inFrame / 30}
-                      onChange={(event) =>
-                        updateClip(index, { inFrame: frameValue(event) })
-                      }
-                    />
-                  </label>
-                  {index > 0 && (
-                    <label>
-                      전환
-                      <select
-                        title="이전 컷과의 전환을 하드컷 또는 0.5초 디졸브로 정합니다."
-                        value={item.transition}
-                        onChange={(event) =>
-                          updateClip(
-                            index,
-                            event.target.value === "dissolve"
-                              ? { transition: "dissolve", transitionFrames: 15 }
-                              : { transition: "cut", transitionFrames: 0 },
-                          )
-                        }
-                      >
-                        <option value="cut">하드컷</option>
-                        <option value="dissolve">디졸브 0.5초</option>
-                      </select>
-                    </label>
-                  )}
-                  <div>
-                    <button
-                      type="button"
-                      onClick={() => move(index, -1)}
-                      aria-label={`컷 ${index + 1} 위로`}
-                      title="이 컷을 앞 순서로 이동합니다."
-                    >
-                      ↑
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => move(index, 1)}
-                      aria-label={`컷 ${index + 1} 아래로`}
-                      title="이 컷을 뒤 순서로 이동합니다."
-                    >
-                      ↓
-                    </button>
-                    <button
-                      type="button"
-                      title="이 컷을 타임라인에서 제거합니다."
-                      onClick={() => {
-                        setDraft({
-                          ...draft,
-                          clips: draft.clips
-                            .filter((_, position) => position !== index)
-                            .map((entry, position) =>
-                              position === 0
-                                ? {
-                                    ...entry,
-                                    transition: "cut",
-                                    transitionFrames: 0,
-                                  }
-                                : entry,
-                            ),
-                        });
-                        setResult(null);
-                      }}
-                    >
-                      삭제
-                    </button>
-                  </div>
-                </div>
-              ))}
-              <button
-                type="button"
-                title="타임라인 끝에 빈 컷을 추가합니다."
-                disabled={draft.clips.length >= TIMELINE_MAX_CLIPS}
-                onClick={() => {
-                  setDraft({ ...draft, clips: [...draft.clips, clip(null)] });
-                  setResult(null);
-                }}
-              >
-                + 컷 추가
-              </button>
-              {savedTransitions.length > 0 && <div className="lens-outline-actions" aria-label="적용한 렌즈 전환">
-                {savedTransitions.map(({ id, index, frames }) => <button key={index} type="button" className="studio-action"
-                  disabled={frames === null} aria-pressed={editTransition?.index === index} onClick={() => openLensEditor({ id, index })}>
-                  {index + 1}번 컷 렌즈 전환 다시 편집
-                </button>)}
-                {editTransition && <button type="button" className="studio-action" onClick={() => openLensEditor(null)}>재편집 닫기</button>}
-                {savedTransitions.some(({ frames }) => frames === null) && <p>전환의 원래 길이를 확인할 수 없는 컷이 있습니다.</p>}
-              </div>}
-              {manualEdit && !editSource && <ManualLensSourcesForm
-                key={`${timelineId}:${editTransition.id}:${editTransition.index}`} frames={editTransition.frames!} busy={busy}
-                previewContext={{ projectId: project.id, version: project.version, aspect: draft.aspect }}
-                takes={project.graph.nodes.filter((node) => node.id !== editTransition.id && node.asset?.type === "video")}
-                onConfirm={(selection) => {
-                  if (!resolveManualLegacyLensTransition(project.graph, draft, editTransition.index, editTransition.id, selection))
-                    throw new Error("원본 테이크와 시작 프레임, 기존 전환 컷의 범위를 확인해 주세요.");
-                  lensAnchor.current = null;
-                  lensRenderSnapshot.current = null;
-                  setSourceSelection({ kind: "legacy", sources: selection });
-                  setMessage("");
-                }} />}
-              {manualEdit && editSource && <div className="lens-outline-actions">
-                <p>직접 지정한 시작 프레임은 앞 {editSource.outgoing.startFrame} · 뒤 {editSource.incoming.startFrame}입니다.</p>
-                <button type="button" className="studio-action" disabled={busy} onClick={() => openLensEditor(editTransition, true)}>원본 범위 다시 지정</button>
-              </div>}
-              {editTransition?.source && !editTransition.recipe && <div className="lens-outline-actions">
-                <button type="button" className="studio-action" disabled={busy} onClick={() => openLensEditor(editTransition, !manualEdit)}>
-                  {manualEdit ? "자동으로 찾은 범위 사용" : "원본 범위 직접 지정"}
-                </button>
-              </div>}
-              {savedRecipe && <div className="lens-outline-actions">
-                <button ref={savedStartsTrigger} type="button" className="studio-action" disabled={busy}
-                  aria-disabled={choosingSavedStarts} aria-expanded={choosingSavedStarts}
-                  onClick={() => { if (!choosingSavedStarts) setSourceSelection({ kind: "saved", choosing: true, starts: sourceStarts }); }}>
-                  시작 프레임 변경
-                </button>
-              </div>}
-              {savedRecipe && choosingSavedStarts && editSource && <ManualLensSourcesForm
-                frames={editSource.frames} busy={busy} takes={[]}
-                previewContext={{ projectId: project.id, version: project.version, aspect: savedRecipe.aspect, transitionId: editTransition?.id }}
-                savedSources={{
-                  outgoing: { id: editSource.outgoing.nodeId, title: lensPairs[0].outgoingTitle, startFrame: editSource.outgoing.startFrame },
-                  incoming: { id: editSource.incoming.nodeId, title: lensPairs[0].incomingTitle, startFrame: editSource.incoming.startFrame },
-                }}
-                onConfirm={selectSavedStarts} onCancel={() => finishSavedStarts(sourceStarts)} />}
-              {(!editTransition || editSource) && <div hidden={choosingSavedStarts}><LensTransitionPanel
-                key={`${timelineId}:${editTransition ? `${editTransition.id}:${editTransition.index}` : "new"}:${JSON.stringify([manualSources, sourceStarts])}`}
-                pairs={lensPairs} savedTransition={savedRecipe} updatedSource={updatedSource} legacyTransition={Boolean(editSource && !savedRecipe)} manualLegacy={Boolean(manualEdit)} busy={busy}
-                onAnchor={(cutIndex, frames, anchorCheckpoints) => requestLens(cutIndex, frames,
-                  anchorCheckpoints?.length ? { action: "reanchor", anchorCheckpoints } : undefined)}
-                onDetect={(cutIndex, frames, point) => requestLens(cutIndex, frames, { action: "detect", point })}
-                onReview={(cutIndex, frames, mask, corrections) => requestLens(cutIndex, frames, { action: "review", mask, corrections })}
-                onRender={(cutIndex, frames, mask, corrections, anchorCheckpoints) => requestLens(cutIndex, frames, {
-                  action: "render", mask, corrections, anchorCheckpoints: anchorCheckpoints?.length ? anchorCheckpoints : undefined,
-                })}
-                onApply={applyLens} /></div>}
-              <h3>음향 레이어</h3>
-              {draft.audio.map((track, index) => (
-                <div className="timeline-row" key={index}>
-                  <label>
-                    음향
-                    <select
-                      title="이 레이어에서 사용할 음향 노드를 선택합니다."
-                      value={track.nodeId}
-                      onChange={(event) => {
-                        setDraft({
-                          ...draft,
-                          audio: draft.audio.map((item, position) =>
-                            position === index
-                              ? { ...item, nodeId: event.target.value }
-                              : item,
-                          ),
-                        });
-                        setResult(null);
-                      }}
-                    >
-                      {sounds.map((node) => (
-                        <option value={node.id} key={node.id}>
-                          {node.title}
-                          {node.asset ? "" : " · 미생성 무음"}
-                        </option>
-                      ))}
-                    </select>
-                  </label>
-                  {(
-                    [
-                      ["시작", "startFrame"],
-                      ["원본 시작", "inFrame"],
-                      ["길이", "durationFrames"],
-                      ["페이드 인", "fadeInFrames"],
-                      ["페이드 아웃", "fadeOutFrames"],
-                    ] as const
-                  ).map(([label, field]) => (
-                    <label key={field}>
-                      {label}(초)
-                      <input
-                        title={
-                          {
-                            startFrame:
-                              "타임라인에서 음향이 시작할 시점을 초 단위로 정합니다.",
-                            inFrame:
-                              "원본 음향의 시작 위치를 초 단위로 정합니다.",
-                            durationFrames:
-                              "음향을 재생할 길이를 초 단위로 정합니다.",
-                            fadeInFrames:
-                              "음향이 서서히 커지는 시간을 초 단위로 정합니다.",
-                            fadeOutFrames:
-                              "음향이 서서히 작아지는 시간을 초 단위로 정합니다.",
-                          }[field]
-                        }
-                        type="number"
-                        min="0"
-                        max={TIMELINE_MAX_FRAMES / 30}
-                        step="0.1"
-                        value={track[field] / 30}
-                        onChange={(event) => {
-                          setDraft({
-                            ...draft,
-                            audio: draft.audio.map((item, position) =>
-                              position === index
-                                ? { ...item, [field]: frameValue(event) }
-                                : item,
-                            ),
-                          });
-                          setResult(null);
-                        }}
-                      />
-                    </label>
-                  ))}
-                  <label>
-                    음량
-                    <input
-                      title="원본 대비 음량 배율을 정합니다. 1은 원본 음량입니다."
-                      type="number"
-                      min="0"
-                      max="2"
-                      step="0.1"
-                      value={track.gain}
-                      onChange={(event) => {
-                        setDraft({
-                          ...draft,
-                          audio: draft.audio.map((item, position) =>
-                            position === index
-                              ? { ...item, gain: Number(event.target.value) }
-                              : item,
-                          ),
-                        });
-                        setResult(null);
-                      }}
-                    />
-                  </label>
-                  <button
-                    type="button"
-                    title="이 음향 레이어를 타임라인에서 제거합니다."
-                    onClick={() => {
-                      setDraft({
-                        ...draft,
-                        audio: draft.audio.filter(
-                          (_, position) => position !== index,
-                        ),
-                      });
-                      setResult(null);
-                    }}
-                  >
-                    삭제
-                  </button>
-                </div>
-              ))}
-              <button
-                type="button"
-                title="음향 노드를 새 레이어로 추가합니다."
-                disabled={
-                  !sounds.length || draft.audio.length >= TIMELINE_MAX_AUDIO
-                }
-                onClick={() => {
-                  setDraft({
-                    ...draft,
-                    audio: [
-                      ...draft.audio,
-                      {
-                        nodeId: sounds[0].id,
-                        startFrame: 0,
-                        inFrame: 0,
-                        durationFrames: 30,
-                        gain: 1,
-                        fadeInFrames: 0,
-                        fadeOutFrames: 0,
-                      },
-                    ],
-                  });
-                  setResult(null);
-                }}
-              >
-                + 음향 추가
-              </button>
-              {!sounds.length && (
-                <p>음향 노드에 파일을 추가하면 여기에서 배치할 수 있습니다.</p>
-              )}
-              <TimelineWords project={project} audio={draft.audio} words={draft.words ?? []} frames={totalFrames}
-                disabled={busy} save={save} onChange={(words) => {
-                  setDraft((value) => ({ ...value, words }));
-                  setResult(null);
-                }} />
-              {message && <p role="status">{message}</p>}
-              {result && (
-                <div className="timeline-result">
-                  <video controls src={result.url}>
-                    {!!draft.words?.length && <track default kind="subtitles" srcLang="ko" label="단어 자막"
-                      src={`data:text/vtt;charset=utf-8,${encodeURIComponent(serializeTimelineWords(draft.words, "vtt"))}`} />}
-                  </video>
-                  <a href={result.url} download={result.name}>
-                    {resultMode === "preview"
-                      ? "프리비즈 MP4 내려받기"
-                      : "납품본 MP4 내려받기"}
-                  </a>
-                  {resultMode === "final" && (
-                    <button
-                      type="button"
-                      title="완성 영상을 프리비즈 노드에 적용합니다."
-                      onClick={attach}
-                    >
-                      납품본을 노드에 반영
-                    </button>
-                  )}
-                </div>
-              )}
-              <footer>
-                <button type="button" disabled={busy} onClick={() => void render()}>타임라인 저장</button>
-                <button
-                  type="button"
-                  disabled={busy}
-                  onClick={() => void render("preview")}
-                >
-                  {busy ? "영상 합성 중…" : "저장하고 프리비즈 만들기"}
-                </button>
-                <button
-                  type="button"
-                  disabled={busy}
-                  onClick={() => void render("final")}
-                >
-                  납품본 만들기
-                </button>
-              </footer>
-            </fieldset>
-          </section>
-        </div>
-      )}
+  const selectedClip = draft.clips[clipIndex];
+  const selectedAudio = draft.audio[audioIndex];
+  const clipItems = [{ id: "", title: "빈 프리비즈 카드", note: "제목과 지시가 없는 슬레이트" }, ...visuals.map((node) => ({
+    id: node.id, title: node.title, note: node.asset ? node.asset.type === "video" ? "영상" : "이미지" : "미생성 슬레이트" }))];
+  const soundItems = sounds.map((node) => ({ id: node.id, title: node.title, note: node.asset ? "음향 파일" : "미생성 무음" }));
+  const selectedTransition = savedTransitions.find(({ index }) => index === clipIndex);
+  const status = busyTask ? busyLabels[busyTask] : message || (!draft.clips.length ? "컷을 추가하면 저장할 수 있습니다."
+    : slates + silent ? `${[slates && `슬레이트 ${slates}컷`, silent && `무음 ${silent}개`].filter(Boolean).join(" · ")} · 납품본에는 모든 파일이 필요합니다.`
+      : "30fps MP4 · 원본과 완성 파일은 각각 64 MiB까지");
+  const emptyStage = <div className="timeline-empty">
+    <Clapperboard size={32} aria-hidden="true" />
+    <h3>아직 배치한 컷이 없습니다</h3>
+    <ol>
+      <li>보드의 샷·이미지·영상을 컷으로 넣습니다. 아직 만들지 않은 샷도 슬레이트로 길이를 볼 수 있습니다.</li>
+      <li>컷 길이와 전환을 정하고 음향과 자막을 시간축에 놓습니다.</li>
+      <li>프리비즈로 흐름을 확인하고 파일이 모두 준비되면 납품본을 만듭니다.</li>
+    </ol>
+    <TimelineAddMenu label="첫 컷 추가" help="보드의 샷·이미지·영상이나 빈 카드를 첫 컷으로 넣습니다." items={clipItems} tone="primary" disabled={busy}
+      onPick={(id) => { addClip(id || null); requestAnimationFrame(() => dialog.current?.querySelector<HTMLElement>(".timeline-clip")?.focus()); }} />
+    {otherTimelines.length > 0 && <div className="timeline-saved-list">
+      <p>이 프로젝트에 저장한 타임라인</p>
+      {otherTimelines.map((node) => <button type="button" className="studio-action" key={node.id} onClick={() => openTimeline(node)}>
+        {node.title} · {node.timeline!.clips.length}컷 · {timecode(clipRanges(node.timeline!.clips).at(-1)?.end ?? 0)}</button>)}
+    </div>}
+  </div>;
+  const resultStage = result && <div className="timeline-result">
+    <video controls src={result.asset.url} aria-label={result.mode === "preview" ? "완성한 프리비즈" : "완성한 납품본"}>
+      {!!draft.words?.length && <track default kind="subtitles" srcLang="ko" label="단어 자막"
+        src={`data:text/vtt;charset=utf-8,${encodeURIComponent(serializeTimelineWords(draft.words, "vtt"))}`} />}
+    </video>
+    <div className="timeline-result-actions">
+      <a className="studio-action" href={result.asset.url} download={result.asset.name}><Download size={16} aria-hidden="true" />
+        {result.mode === "preview" ? "프리비즈 MP4 내려받기" : "납품본 MP4 내려받기"}</a>
+      {result.mode === "final" && <button type="button" className="studio-action" data-tone="primary"
+        title="완성 영상을 프리비즈 노드에 적용합니다." onClick={attach}>납품본을 노드에 반영</button>}
     </div>
+    {result.notes.length > 0 && <details className="timeline-result-notes">
+      <summary>슬레이트·무음으로 처리한 항목 {result.notes.length}개</summary>
+      <ul>{result.notes.map((note, index) => <li key={index}>{note}</li>)}</ul>
+    </details>}
+  </div>;
+  return (
+    <dialog ref={dialog} tabIndex={-1} className="timeline-studio" aria-labelledby="timeline-title"
+      onKeyDown={(event) => {
+        // cancel만 막으면 브라우저가 두 번째 Esc에서 확인 없이 닫는다.
+        if (event.key !== "Escape" || event.defaultPrevented) return;
+        event.preventDefault();
+        // 메뉴에서 누른 Esc는 메뉴만 닫는다.
+        if (!(event.target as Element).closest('[role="menu"]')) close();
+      }}
+      onCancel={(event) => { event.preventDefault(); close(); }} onClose={onClose}>
+      <header className="timeline-header">
+        <div className="timeline-heading">
+          <p>{nodes.get(timelineId)?.title ?? "새 타임라인"} · {dirty ? "저장하지 않은 변경" : savedSpec ? "저장됨" : "빈 타임라인"}</p>
+          <h2 id="timeline-title">스토리보드 · 타임라인</h2>
+        </div>
+        <SegmentedControl className="timeline-segments" aria-label="화면 비율" value={draft.aspect} disabled={busy}
+          onValueChange={(aspect) => { if (aspect) edit({ ...draft, aspect: aspect as TimelineSpec["aspect"] }); }}>
+          <SegmentedControlIndicator className="timeline-segments-indicator" />
+          {aspects.map(([value, label]) => <SegmentedControlItem key={value} value={value} title={`완성 영상을 ${label} ${value}로 만듭니다.`}>
+            <span className="timeline-aspect-name">{label}</span> {value}</SegmentedControlItem>)}
+        </SegmentedControl>
+        <dl className="timeline-stats">
+          <div data-over={totalFrames > TIMELINE_MAX_FRAMES || undefined}><dt>길이</dt><dd>{timecode(totalFrames)}<small> / {timecode(TIMELINE_MAX_FRAMES).slice(0, -2)}</small></dd></div>
+          <div><dt>컷</dt><dd>{draft.clips.length}<small> / {TIMELINE_MAX_CLIPS}</small></dd></div>
+          <div><dt>음향</dt><dd>{draft.audio.length}<small> / {TIMELINE_MAX_AUDIO}</small></dd></div>
+          <div><dt>자막</dt><dd>{draft.words?.length ?? 0}<small> / {TIMELINE_MAX_WORDS}</small></dd></div>
+        </dl>
+        <button type="button" className="studio-action timeline-close" data-tone="quiet" data-size="icon" aria-label="타임라인 닫기"
+          title="타임라인 편집 화면을 닫습니다." disabled={busy} onClick={close}><X size={18} aria-hidden="true" /></button>
+      </header>
+      {(issues.length > 0 || result) && <div className="timeline-notice">
+        {issues.length > 0 && <ul aria-label={`확인할 항목 ${issues.length}개`}>
+          {issues.slice(0, 20).map((issue) => <li key={`${issue.kind}:${issue.index}`}>
+            <button type="button" onClick={() => select(issue.kind === "timeline" ? "clip" : issue.kind, issue.index)} disabled={busy}>{issue.text}</button>
+          </li>)}
+          {issues.length > 20 && <li>외 {issues.length - 20}개</li>}
+        </ul>}
+        {result && <SegmentedControl className="timeline-segments" aria-label="미리보기 종류" value={showResult ? "result" : "edit"}
+          onValueChange={(value) => viewResult(value === "result")}>
+          <SegmentedControlIndicator className="timeline-segments-indicator" />
+          <SegmentedControlItem value="edit">편집 화면</SegmentedControlItem>
+          <SegmentedControlItem value="result">{result.mode === "preview" ? "완성한 프리비즈" : "완성한 납품본"}</SegmentedControlItem>
+        </SegmentedControl>}
+      </div>}
+      <fieldset className="timeline-body" disabled={busy} data-panel={panel} data-empty={isEmpty || undefined}>
+        <TimelineMonitor key={timelineId} nodes={nodes} draft={draft} media={media} issues={issues} clipIndex={clipIndex} audioIndex={audioIndex}
+          panel={panel} disabled={busy} stage={result && showResult ? resultStage : isEmpty ? emptyStage : undefined}
+          clipItems={clipItems} soundItems={soundItems} onSelect={select} onEdit={edit} onAddClip={addClip} onAddAudio={addAudio} />
+        <Tabs className="timeline-inspector" value={panel} onValueChange={(value) => { if (value) setPanel(value as TimelinePanel); }}>
+          <TabsList className="timeline-tabs" aria-label="편집 항목">
+            <TabsTab value="clip">컷</TabsTab>
+            <TabsTab value="audio">음향 {draft.audio.length}</TabsTab>
+            <TabsTab value="words">자막 {draft.words?.length ?? 0}</TabsTab>
+            <TabsTab value="lens">렌즈 전환 {savedTransitions.length}</TabsTab>
+          </TabsList>
+          <TabsPanel value="clip" className="timeline-panel">
+            {selectedClip ? <TimelineClipFields clip={selectedClip} index={clipIndex} total={draft.clips.length} start={ranges[clipIndex].start}
+              node={nodes.get(selectedClip.nodeId ?? "")} visuals={visuals} seconds={secondsOf(selectedClip.nodeId)}
+              lensAction={selectedTransition && <button type="button" className="studio-action" disabled={selectedTransition.frames === null}
+                onClick={() => { openLensEditor({ id: selectedTransition.id, index: selectedTransition.index }); setPanel("lens"); }}>
+                <Scissors size={16} aria-hidden="true" /> 렌즈 전환 다시 편집</button>}
+              onSelect={(index) => select("clip", index)} onChange={(patch) => updateClip(clipIndex, patch)}
+              onMove={(step) => { edit({ ...draft, clips: moveClip(draft.clips, clipIndex, clipIndex + step) }); select("clip", clipIndex + step); }}
+              onRemove={() => { edit({ ...draft, clips: removeClip(draft.clips, clipIndex) }); select("clip", Math.max(0, clipIndex - 1)); if (draft.clips.length === 1) dialog.current?.focus(); }}
+              onFit={() => edit({ ...draft, clips: trimClip(draft.clips, clipIndex, TIMELINE_MAX_FRAMES, secondsOf(selectedClip.nodeId)) })} />
+              : <p className="timeline-panel-empty">컷을 추가하면 길이와 전환을 정할 수 있습니다.</p>}
+          </TabsPanel>
+          <TabsPanel value="audio" className="timeline-panel">
+            {selectedAudio ? <TimelineAudioFields track={selectedAudio} index={audioIndex} total={draft.audio.length} sounds={sounds}
+              node={nodes.get(selectedAudio.nodeId)} seconds={secondsOf(selectedAudio.nodeId)}
+              onSelect={(index) => select("audio", index)} onChange={(patch) => updateAudio(audioIndex, patch)}
+              onRemove={() => { edit({ ...draft, audio: draft.audio.filter((_, position) => position !== audioIndex) }); select("audio", Math.max(0, audioIndex - 1)); if (draft.audio.length === 1) dialog.current?.focus(); }}
+              onFit={() => edit({ ...draft, audio: draft.audio.map((item, position) => position === audioIndex
+                ? trimAudio(item, totalFrames, TIMELINE_MAX_FRAMES, secondsOf(item.nodeId)) : item) })} />
+              : <p className="timeline-panel-empty">{sounds.length ? "음향을 추가하면 시작 시점과 길이, 음량을 정할 수 있습니다." : "음향 노드에 파일을 추가하면 여기에서 배치할 수 있습니다."}</p>}
+          </TabsPanel>
+          <TabsPanel value="words" className="timeline-panel" keepMounted>
+            <TimelineWords project={project} audio={draft.audio} words={draft.words ?? []} frames={totalFrames}
+              disabled={busy} target={wordTarget} save={save} onChange={(words) => {
+                setDraft((value) => ({ ...value, words }));
+                setResult(null);
+                setMessage("");
+              }} />
+          </TabsPanel>
+          <TabsPanel value="lens" className="timeline-panel timeline-lens-panel" keepMounted>
+            {savedTransitions.length > 0 && <div className="lens-outline-actions" role="group" aria-label="적용한 렌즈 전환">
+              {savedTransitions.map(({ id, index, frames }) => <button key={index} type="button" className="studio-action"
+                disabled={frames === null} aria-pressed={editTransition?.index === index} onClick={() => openLensEditor({ id, index })}>
+                {index + 1}번 컷 렌즈 전환 다시 편집
+              </button>)}
+              {editTransition && <button type="button" className="studio-action" data-tone="quiet" onClick={() => openLensEditor(null)}>재편집 닫기</button>}
+              {savedTransitions.some(({ frames }) => frames === null) && <p>전환의 원래 길이를 확인할 수 없는 컷이 있습니다.</p>}
+            </div>}
+            {manualEdit && !editSource && <ManualLensSourcesForm
+              key={`${timelineId}:${editTransition.id}:${editTransition.index}`} frames={editTransition.frames!} busy={busy}
+              previewContext={{ projectId: project.id, version: project.version, aspect: draft.aspect }}
+              takes={project.graph.nodes.filter((node) => node.id !== editTransition.id && node.asset?.type === "video")}
+              onConfirm={(selection) => {
+                if (!resolveManualLegacyLensTransition(project.graph, draft, editTransition.index, editTransition.id, selection))
+                  throw new Error("원본 테이크와 시작 프레임, 기존 전환 컷의 범위를 확인해 주세요.");
+                lensAnchor.current = null;
+                lensRenderSnapshot.current = null;
+                setSourceSelection({ kind: "legacy", sources: selection });
+                setMessage("");
+              }} />}
+            {manualEdit && editSource && <div className="lens-outline-actions">
+              <p>직접 지정한 시작 프레임은 앞 {editSource.outgoing.startFrame} · 뒤 {editSource.incoming.startFrame}입니다.</p>
+              <button type="button" className="studio-action" disabled={busy} onClick={() => openLensEditor(editTransition, true)}>원본 범위 다시 지정</button>
+            </div>}
+            {editTransition?.source && !editTransition.recipe && <div className="lens-outline-actions">
+              <button type="button" className="studio-action" disabled={busy} onClick={() => openLensEditor(editTransition, !manualEdit)}>
+                {manualEdit ? "자동으로 찾은 범위 사용" : "원본 범위 직접 지정"}
+              </button>
+            </div>}
+            {savedRecipe && <div className="lens-outline-actions">
+              <button ref={savedStartsTrigger} type="button" className="studio-action" disabled={busy}
+                aria-disabled={choosingSavedStarts} aria-expanded={choosingSavedStarts}
+                onClick={() => { if (!choosingSavedStarts) setSourceSelection({ kind: "saved", choosing: true, starts: sourceStarts }); }}>
+                시작 프레임 변경
+              </button>
+            </div>}
+            {savedRecipe && choosingSavedStarts && editSource && <ManualLensSourcesForm
+              frames={editSource.frames} busy={busy} takes={[]}
+              previewContext={{ projectId: project.id, version: project.version, aspect: savedRecipe.aspect, transitionId: editTransition?.id }}
+              savedSources={{
+                outgoing: { id: editSource.outgoing.nodeId, title: lensPairs[0].outgoingTitle, startFrame: editSource.outgoing.startFrame },
+                incoming: { id: editSource.incoming.nodeId, title: lensPairs[0].incomingTitle, startFrame: editSource.incoming.startFrame },
+              }}
+              onConfirm={selectSavedStarts} onCancel={() => finishSavedStarts(sourceStarts)} />}
+            {(!editTransition || editSource) && <div hidden={choosingSavedStarts}><LensTransitionPanel
+              key={`${timelineId}:${editTransition ? `${editTransition.id}:${editTransition.index}` : "new"}:${JSON.stringify([manualSources, sourceStarts])}`}
+              pairs={lensPairs} savedTransition={savedRecipe} updatedSource={updatedSource} legacyTransition={Boolean(editSource && !savedRecipe)} manualLegacy={Boolean(manualEdit)} busy={busy}
+              onAnchor={(cutIndex, frames, anchorCheckpoints) => requestLens(cutIndex, frames,
+                anchorCheckpoints?.length ? { action: "reanchor", anchorCheckpoints } : undefined)}
+              onDetect={(cutIndex, frames, point) => requestLens(cutIndex, frames, { action: "detect", point })}
+              onReview={(cutIndex, frames, mask, corrections) => requestLens(cutIndex, frames, { action: "review", mask, corrections })}
+              onRender={(cutIndex, frames, mask, corrections, anchorCheckpoints) => requestLens(cutIndex, frames, {
+                action: "render", mask, corrections, anchorCheckpoints: anchorCheckpoints?.length ? anchorCheckpoints : undefined,
+              })}
+              onApply={applyLens} /></div>}
+          </TabsPanel>
+        </Tabs>
+      </fieldset>
+      <footer className="timeline-footer">
+        <p role="status">{status}</p>
+        <div>
+          <button type="button" className="studio-action" disabled={busy || !draft.clips.length} onClick={() => void render()}>
+            <Save size={16} aria-hidden="true" /> 타임라인 저장</button>
+          <button type="button" className="studio-action" disabled={busy || !draft.clips.length} onClick={() => void render("final")}
+            title="모든 컷과 음향의 파일이 준비된 완성 영상을 만듭니다."><PackageCheck size={16} aria-hidden="true" /> 납품본 만들기</button>
+          <button type="button" className="studio-action" data-tone="primary" disabled={busy || !draft.clips.length} onClick={() => void render("preview")}
+            title="저장한 뒤 빈 컷은 슬레이트로, 빈 음향은 무음으로 채운 확인용 영상을 만듭니다."><Clapperboard size={16} aria-hidden="true" /> 저장하고 프리비즈 만들기</button>
+        </div>
+      </footer>
+    </dialog>
   );
 }

@@ -114,6 +114,7 @@
 | 엘리먼트 | Character / product element | 제작자 계정에서 관리하는 배역·소품 참조. Omni AI Canvas에서는 상태와 파일을 참조 노드로 연결 | `referenceImage`, `referenceVideo`, `audioCue`, 연결의 `role`과 `usage` |
 | 선택 지침 | Selected production guide | 제작자가 선택한 저자 스킬·공식 스킬·Omni AI Canvas 연출 요약 | `CanvasNode.guidance.skillIds`, `DirectorOptions.skillIds`, `RunInput.target.guidance.guideSnapshot` |
 | 추가 배역 | Additional 3D actor | 샷에 독립 위치·모델·포즈·동작을 갖고 등장하는 배역 | `BlenderSceneSpec.actors` |
+| 편집 화면 | Timeline edit preview | 영상을 합성하지 않고 컷·음향·자막의 순서를 브라우저에서 재생하는 화면. 완성 영상인 프리비즈·납품본과 구분한다 | `components/TimelineMonitor.tsx`, `lib/timeline-layout.ts`의 `layersAt`, `audioGainAt` |
 | 단어 구간 | Timed word | 타임라인의 30fps 기준 시작·끝 시각과 단어 | `TimelineSpec.words`, `TimelineWord` |
 | 입 모양 큐 | Lip cue | 배역의 입 모양 shape key 강도를 시간에 따라 정하는 지시 | Blender 장면 명세의 `lipCues` |
 | 음향 큐 | Audio cue | 음악·효과음·환경음·녹음할 목소리의 용도와 재생 위치 | `kind = audioCue`, `asset.type = audio`, `timeline.audio` |

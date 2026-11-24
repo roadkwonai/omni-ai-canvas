@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { Download, Mic, Plus, Trash2 } from "lucide-react";
 import { serializeTimelineWords } from "../lib/timeline-captions";
 import { transcriptSignature } from "../lib/timeline-edit";
 import {
@@ -16,6 +17,7 @@ type Props = {
   words: TimelineWord[];
   frames: number;
   disabled: boolean;
+  target: { index: number } | null;
   onChange: (words: TimelineWord[]) => void;
   save: () => Promise<Project | null>;
 };
@@ -27,11 +29,21 @@ export default function TimelineWords({
   words,
   frames,
   disabled,
+  target,
   onChange,
   save,
 }: Props) {
   const [trackIndex, setTrackIndex] = useState("");
   const [page, setPage] = useState(0);
+  const [shownTarget, setShownTarget] = useState(target);
+  if (target !== shownTarget) {
+    setShownTarget(target);
+    if (target) setPage(Math.floor(target.index / pageSize));
+  }
+  const list = useRef<HTMLElement>(null);
+  useEffect(() => {
+    if (target) list.current?.querySelector<HTMLElement>(`[data-word="${target.index}"]`)?.focus();
+  }, [target]);
   const [pending, setPending] = useState<{ words: TimelineWord[]; signature: string } | null>(null);
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("");
@@ -110,12 +122,12 @@ export default function TimelineWords({
     );
   const lastEnd = words.at(-1)?.endFrame ?? 0;
   return (
-    <details className="timeline-words">
-      <summary>단어 자막 · {words.length}개</summary>
+    <section ref={list} className="timeline-words" aria-label="단어 자막">
+      <h3>단어 자막 <small>{words.length}개</small></h3>
       <p>
         음향에서 단어가 나오는 시각을 추정하거나 직접 입력하세요. MP4에는 켜고 끌 수 있는 자막으로 저장됩니다.
       </p>
-      <div className="timeline-row">
+      <div className="timeline-row timeline-transcribe">
         <label>
           전사할 음향
           <select
@@ -146,10 +158,11 @@ export default function TimelineWords({
         </label>
         <button
           type="button"
+          className="studio-action"
           disabled={busy || disabled || !chosen}
           onClick={() => void transcribe()}
         >
-          로컬 음성 전사
+          <Mic size={16} aria-hidden="true" /> 로컬 음성 전사
         </button>
       </div>
       {busy && <p role="status">이 컴퓨터에서 음성을 받아쓰고 있습니다.</p>}
@@ -167,6 +180,7 @@ export default function TimelineWords({
           </p>
           <button
             type="button"
+            className="studio-action"
             disabled={
               disabled ||
               !pending.words.length ||
@@ -181,7 +195,7 @@ export default function TimelineWords({
           >
             {words.length ? "받아쓴 내용으로 자막 바꾸기" : "전사 적용"}
           </button>
-          <button type="button" onClick={() => setPending(null)}>
+          <button type="button" className="studio-action" data-tone="quiet" onClick={() => setPending(null)}>
             제안 닫기
           </button>
         </div>
@@ -193,6 +207,7 @@ export default function TimelineWords({
             <label>
               단어 {index + 1}
               <input
+                data-word={index}
                 value={word.text}
                 maxLength={150}
                 disabled={disabled}
@@ -235,11 +250,14 @@ export default function TimelineWords({
             </label>
             <button
               type="button"
+              className="studio-action"
+              data-tone="quiet"
+              data-size="icon"
               disabled={disabled}
               aria-label={`단어 ${index + 1} 삭제`}
               onClick={() => onChange(words.filter((_, i) => i !== index))}
             >
-              삭제
+              <Trash2 size={16} aria-hidden="true" />
             </button>
           </div>
         );
@@ -248,6 +266,7 @@ export default function TimelineWords({
         <nav className="timeline-caption-tools" aria-label="자막 페이지">
           <button
             type="button"
+            className="studio-action"
             disabled={visiblePage === 0}
             onClick={() => setPage(visiblePage - 1)}
           >
@@ -259,6 +278,7 @@ export default function TimelineWords({
           </span>
           <button
             type="button"
+            className="studio-action"
             disabled={first + pageSize >= words.length}
             onClick={() => setPage(visiblePage + 1)}
           >
@@ -269,6 +289,7 @@ export default function TimelineWords({
       <div className="timeline-caption-tools">
         <button
           type="button"
+          className="studio-action"
           disabled={
             disabled || lastEnd >= frames || words.length >= TIMELINE_MAX_WORDS
           }
@@ -284,15 +305,15 @@ export default function TimelineWords({
             setPage(Math.floor(words.length / pageSize));
           }}
         >
-          단어 추가
+          <Plus size={16} aria-hidden="true" /> 단어 추가
         </button>
-        <button type="button" disabled={!canExport} onClick={download}>
-          SRT 내려받기
+        <button type="button" className="studio-action" disabled={!canExport} onClick={download}>
+          <Download size={16} aria-hidden="true" /> SRT 내려받기
         </button>
       </div>
       {words.length > 0 && !canExport && (
         <p role="status">단어와 겹치지 않는 시작·끝 시각을 확인해 주세요.</p>
       )}
-    </details>
+    </section>
   );
 }

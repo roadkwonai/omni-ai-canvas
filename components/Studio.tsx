@@ -3338,7 +3338,6 @@ export default function Studio() {
           {tool === "timeline" && project && (
             <TimelineStudio
               key={`TimelineStudio-${project.id}`}
-              autoOpen
               onClose={() => setTool(null)}
               project={project}
               selected={selected}

@@ -1111,6 +1111,8 @@ export default function CanvasBoard({
             }),
           });
         }}
+        // React Flow는 문서 전체의 Delete를 들어서 모달 안에서 누른 키로도 뒤쪽 노드를 지운다.
+        onBeforeDelete={async () => !document.querySelector("dialog:modal")}
         onDelete={({ nodes: removedNodes, edges: removedEdges }) => {
           remove(removedNodes.map((node) => node.id), new Set(removedEdges.map((edge) => edge.id)));
         }}
