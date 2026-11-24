@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Aperture, Film, Maximize2, Network, Play } from "lucide-react";
 import { Tabs, TabsList, TabsPanel, TabsTab } from "@ui-sdk/react/tabs";
+import { asset } from "@/lib/site";
 import board from "../public/landing/canvas-board.webp";
 import emotion from "../public/landing/canvas-emotion.webp";
 import timeline from "../public/landing/canvas-timeline.webp";
@@ -17,7 +18,7 @@ const scenes = [
     title: "대본과 인물을 한 샷에 연결해요",
     detail: "〈마지막 상영〉의 대본과 영사기사 참조를 키프레임에 연결했어요. 원본이 다음 영상으로 어떻게 이어졌는지 보드에서 보여요.",
     points: ["포트의 ＋를 눌러 다음 노드 추가", "시작 프레임과 인물 참조의 역할 지정"],
-    source: "/landing/canvas-board.webp",
+    source: asset("/landing/canvas-board.webp"),
     image: board,
     alt: "기획, 대본, 캐릭터, 키프레임, 영상 노드가 연결된 마지막 상영 제작 보드",
   },
@@ -28,7 +29,7 @@ const scenes = [
     title: "같은 장면을 다르게 연출해요",
     detail: "키프레임에서 감정 편집기를 열면 원본과 기준 표정이 나란히 나와요. 표정, 조명, 시점을 바꾼 후보는 원본에 연결되니 바로 비교해 보세요.",
     points: ["5×5 감정판과 기준 표정", "원본과 후보를 비교해 고르기"],
-    source: "/landing/canvas-emotion.webp",
+    source: asset("/landing/canvas-emotion.webp"),
     image: emotion,
     alt: "원본 키프레임과 기준 표정, 5×5 감정판을 보여 주는 감정 편집기",
   },
@@ -39,7 +40,7 @@ const scenes = [
     title: "고른 영상을 컷으로 이어 붙여요",
     detail: "보드의 키프레임과 영상을 컷에 넣고 순서와 시작점, 길이를 정해요. 음향과 자막도 같은 타임라인에서 맞춰요.",
     points: ["이미지와 영상을 컷에 배치", "길이, 전환, 음향, 자막 조정"],
-    source: "/landing/canvas-timeline.webp",
+    source: asset("/landing/canvas-timeline.webp"),
     image: timeline,
     alt: "키프레임 영사창 너머와 영상 마지막 불빛을 두 컷으로 배치한 타임라인",
   },
@@ -99,9 +100,9 @@ export default function LandingStory() {
           <ul><li>〈마지막 상영〉 5초 무음 영상</li><li>예제 키프레임으로 만든 움직임 테스트</li></ul>
         </div>
         <figure className={styles.storyCapture}>
-          <video aria-label="마지막 상영 5초 무음 모션 예제" poster="/sample/frame.webp" controls playsInline preload="none">
-            <source src="/sample/preview.mp4" type="video/mp4" />
-            <a href="/sample/preview.mp4">예제 영상 열기</a>
+          <video aria-label="마지막 상영 5초 무음 모션 예제" poster={asset("/sample/frame.webp")} controls playsInline preload="none">
+            <source src={asset("/sample/preview.mp4")} type="video/mp4" />
+            <a href={asset("/sample/preview.mp4")}>예제 영상 열기</a>
           </video>
           <figcaption>〈마지막 상영〉 움직임 테스트</figcaption>
         </figure>

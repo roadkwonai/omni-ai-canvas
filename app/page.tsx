@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowDown, ArrowRight, BookOpen, ChevronDown } from "lucide-react";
+import { ArrowRight, BookOpen, ChevronDown, Play } from "lucide-react";
+import { asset, publicSite, siteOrigin } from "@/lib/site";
 import { productionProfiles } from "@/lib/style-preset-core";
 import emotion from "../public/landing/canvas-emotion.webp";
 import timeline from "../public/landing/canvas-timeline.webp";
@@ -10,6 +11,7 @@ import portrait from "../public/sample/portrait.webp";
 import { BrandMark, Mascot } from "@/components/Brand";
 import { directorShowcase, directorTechniqueCount, ownMoves } from "@/lib/director-showcase";
 import DirectorShowcase from "./director-showcase";
+import IntroVideo from "./intro-video";
 import LandingMenu from "./landing-menu";
 import LandingStory from "./landing-story";
 import LoopVideo from "./loop-video";
@@ -22,27 +24,28 @@ const description = "공모전 기획, 레퍼런스 분석, 대본, 이미지 �
 const formats = productionProfiles.length;
 
 export const metadata: Metadata = {
-  metadataBase: new URL(`http://127.0.0.1:${process.env.PORT || 5050}`),
+  metadataBase: new URL(siteOrigin ?? `http://127.0.0.1:${process.env.PORT || 5050}`),
   title,
   description,
-  robots: { index: false, follow: false },
+  robots: { index: publicSite, follow: publicSite },
   openGraph: {
     title,
     description,
     type: "website",
     locale: "ko_KR",
-    images: [{ url: "/brand/og.png", width: 1200, height: 630, alt: "Omni AI Canvas 로고와 노드 카드를 잇는 문어 감독 오미" }],
+    images: [{ url: asset("/brand/og.png"), width: 1200, height: 630, alt: "Omni AI Canvas 로고와 노드 카드를 잇는 문어 감독 오미" }],
   },
-  twitter: { card: "summary_large_image", title, description, images: ["/brand/og.png"] },
+  twitter: { card: "summary_large_image", title, description, images: [asset("/brand/og.png")] },
 };
 
 const navigation = [
+  { href: "#intro", label: "소개 영상" },
   { href: "#workflow", label: "제작 과정" },
   { href: "#direction", label: "연출" },
   { href: "#formats", label: "제작 형식" },
   { href: "#features", label: "도구" },
   { href: "#cost", label: "비용과 보관" },
-  { href: "/guide", label: "사용 가이드" },
+  { href: asset("/guide"), label: "사용 가이드" },
 ];
 
 const facts = [
@@ -59,7 +62,7 @@ const problems = [
 
 const tools = [
   { title: "이미지 연출", detail: "감정과 조명, 촬영 각도를 바꿔 보고 원본과 나란히 비교하세요.", guide: "guide-motion-portrait", image: emotion, alt: "원본 키프레임과 기준 표정, 5×5 감정판" },
-  { title: "타임라인과 자막", detail: "컷과 음향, 단어 자막을 다듬은 뒤 MP4와 SRT로 내보내세요.", guide: "guide-production-expansion", image: timeline, alt: "두 컷의 길이와 전환을 정하는 타임라인" },
+  { title: "타임라인과 자막", detail: "컷과 음향, 단어 자막을 다듬은 뒤 MP4와 SRT로 내보내세요.", guide: "guide-timeline", image: timeline, alt: "두 컷의 길이와 전환을 정하는 타임라인" },
   { title: "공모전 기획", detail: "요강에서 일정과 심사 기준을 뽑고 아이디어 후보를 비교하세요.", guide: "guide-contest" },
   { title: "레퍼런스 컷 분석", detail: "공개 YouTube 영상이나 파일에서 훅과 리듬을 찾아 내 프리셋으로 저장하세요.", guide: "guide-presets" },
   { title: "Blender·Tripo 3D", detail: "리깅된 GLB에 포즈와 카메라, 조명을 잡고 프리비즈를 렌더하세요.", guide: "guide-blender" },
@@ -82,8 +85,8 @@ const questions = [
 function StudioLink({ compact = false }: { compact?: boolean }) {
   const size = compact ? ` ${styles.ctaCompact}` : "";
   return (
-    <Link className={`studio-action ${styles.cta}${size}`} data-tone="primary" href="/studio" prefetch={false}>
-      캔버스 열기 <ArrowRight aria-hidden="true" size={compact ? 16 : 20} />
+    <Link className={`studio-action ${styles.cta}${size}`} data-tone="primary" href={publicSite ? "/guide" : "/studio"} prefetch={false}>
+      {publicSite ? "사용 가이드 보기" : "캔버스 열기"} <ArrowRight aria-hidden="true" size={compact ? 16 : 20} />
     </Link>
   );
 }
@@ -113,11 +116,11 @@ export default function Page() {
               <p>숏폼, 드라마, 광고를 직접 만들 때 쓰세요. 내 컴퓨터에서 실행돼요.</p>
               <div className={styles.heroActions}>
                 <StudioLink />
-                <a href="#workflow">제작 과정 보기 <ArrowDown aria-hidden="true" size={17} /></a>
+                <a href="#intro"><Play aria-hidden="true" size={17} /> 5분 소개 영상</a>
               </div>
             </div>
             <figure className={styles.heroVisual}>
-              <LoopVideo src="/sample/preview.mp4" poster="/sample/frame.webp" label="마지막 상영 5초 무음 예제 영상" width={1280} height={720} />
+              <LoopVideo src={asset("/sample/preview.mp4")} poster={asset("/sample/frame.webp")} label="마지막 상영 5초 무음 예제 영상" width={1280} height={720} />
               <ol className={styles.chain} aria-label="이 컷을 만드는 데 쓴 자료">
                 <li><a href="#scene-board"><strong>대본</strong><span>01. 영사실의 밤</span><q>정우가 낡은 필름을 건다.</q></a></li>
                 <li><a href="#scene-board"><strong>인물</strong><span>영사기사 한정우</span><Image src={portrait} alt="" unoptimized /></a></li>
@@ -132,6 +135,16 @@ export default function Page() {
           </div>
         </section>
 
+        <section className={`${styles.section} ${styles.dark} ${styles.introSection}`} id="intro" aria-labelledby="intro-title">
+          <div className={styles.content}>
+            <div className={styles.sectionLead}>
+              <h2 className={styles.heading2} id="intro-title">5분 만에<br />전체를 훑어보세요</h2>
+              <p>〈마지막 상영〉의 한 장면을 따라 기획부터 편집까지 실제 화면으로 보여 줘요.</p>
+            </div>
+            <IntroVideo />
+          </div>
+        </section>
+
         <section className={`${styles.section} ${styles.light}`} id="why" aria-labelledby="why-title">
           <div className={styles.content}>
             <div className={styles.sectionLead}>
@@ -141,7 +154,7 @@ export default function Page() {
             <ul className={styles.problems}>
               {problems.map(({ title: problem, answer }) => <li key={problem}><h3>{problem}</h3><p>{answer}</p></li>)}
             </ul>
-            <Image className={styles.boardMap} src="/guide/omni-board.svg" width={1280} height={712} unoptimized
+            <Image className={styles.boardMap} src={asset("/guide/omni-board.svg")} width={1280} height={712} unoptimized
               alt="글과 기획, 이미지, 영상, 대사 음성, 음악과 효과음, 3D 장면에 쓰는 도구가 보드 하나에 모이고 그 자료로 완성 영상과 다음 작품을 만드는 구조" />
           </div>
         </section>
@@ -210,8 +223,8 @@ export default function Page() {
         <section className={`${styles.section} ${styles.light}`} id="cost" aria-labelledby="cost-title">
           <div className={`${styles.content} ${styles.cost}`}>
             <picture>
-              <source media="(max-width: 480px)" srcSet="/guide/paths-by-task-narrow.svg" width={320} height={546} />
-              <Image src="/guide/paths-by-task.svg" width={680} height={506} unoptimized
+              <source media="(max-width: 480px)" srcSet={asset("/guide/paths-by-task-narrow.svg")} width={320} height={546} />
+              <Image src={asset("/guide/paths-by-task.svg")} width={680} height={506} unoptimized
                 alt="작업별로 고를 수 있는 서비스와 도구 수. API 키 없이 쓰는 것은 이미지 4개, 글·기획 3개, 영상 3개, 대사 음성과 음악, 3D가 1개씩이고 API 키가 필요한 것은 대사 음성 4개, 이미지 3개, 3D 1개예요." />
             </picture>
             <div>

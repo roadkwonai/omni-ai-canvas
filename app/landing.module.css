@@ -119,6 +119,22 @@
 .heroIndex :is(strong,span) { text-wrap: balance; }
 .heroIndex span { color: var(--landing-muted); font: var(--body-6); word-break: keep-all; }
 
+.introSection { padding-block-start: 48px; }
+.intro { display: grid; grid-template-columns: minmax(0,1fr) 248px; gap: 16px; align-items: start; margin-block-start: 32px; }
+.introStage { min-inline-size: 0; padding: 8px; border: 1px solid var(--landing-line); border-radius: 20px; background: var(--landing-panel); }
+.introStage > * { display: block; inline-size: 100%; aspect-ratio: 16 / 9; padding: 0; border: 0; border-radius: 12px; overflow: clip; background: var(--landing-bg); }
+.introStage button { cursor: pointer; }
+.introStage img { display: block; inline-size: 100%; block-size: 100%; object-fit: cover; transition: transform 240ms var(--landing-motion); }
+.introStage button:hover img { transform: scale(1.015); }
+.landing .introChapters { display: grid; margin: 0; padding: 0; list-style: none; }
+.introChapters button { display: grid; grid-template-columns: 44px minmax(0,1fr); gap: 8px; align-items: center; inline-size: 100%; min-block-size: 44px; padding: 4px 8px; border: 0; border-radius: 8px; background: transparent; color: var(--landing-text); font: var(--title-4); text-align: start; word-break: keep-all; cursor: pointer; }
+.introChapters button:hover { background: var(--landing-raised); }
+.introChapters button[aria-pressed="true"] { background: var(--landing-action); color: var(--landing-bg); }
+.introChapters span { color: var(--landing-muted); font-variant-numeric: tabular-nums; }
+.introChapters button[aria-pressed="true"] span { color: inherit; }
+.landing .introNote { grid-column: 1 / -1; color: var(--landing-muted); font: var(--body-6); }
+.introNote a { display: inline-flex; align-items: center; min-block-size: 24px; text-decoration: underline; text-underline-offset: .24em; }
+
 .light { color: var(--ink); background: var(--landing-paper); }
 .sectionLead { display: grid; grid-template-columns: minmax(0,1.25fr) minmax(0,1fr); align-items: end; gap: 32px; }
 .sectionLead p { max-inline-size: 28rem; color: var(--muted); }
@@ -273,6 +289,10 @@
   .formats li { min-block-size: 0; padding: 16px 12px; }
   .tagline { padding-block: 64px; }
   .moves { grid-template-columns: minmax(0,1fr); }
+  .introSection { padding-block-start: 24px; }
+  .intro { grid-template-columns: minmax(0,1fr); margin-block-start: 24px; }
+  .introStage { padding: 4px; border-radius: 16px; }
+  .landing .introChapters { grid-template-columns: repeat(2,minmax(0,1fr)); }
   .landing .stills { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 16px 8px; }
   .closing { padding-block: 64px; }
   .landing .problems { grid-template-columns: minmax(0,1fr); gap: 8px; margin-block-start: 24px; }
@@ -308,8 +328,9 @@
   .heroActions { gap: 8px 12px; }
   .heroIndex { grid-template-columns: minmax(0,1fr); gap: 0; }
   .heroIndex a { grid-template-columns: minmax(0,1fr); padding-block: 8px; }
+  .landing .introChapters { grid-template-columns: minmax(0,1fr); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .landing .cta[data-tone="primary"], .questions summary svg { transition: none; }
+  .landing .cta[data-tone="primary"], .questions summary svg, .introStage img { transition: none; }
 }

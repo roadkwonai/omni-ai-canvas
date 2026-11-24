@@ -21,6 +21,7 @@ Omni AI Trading, Omni AI TTS와 같은 계열로 보이면서 어떤 제품인�
 | 탭 아이콘 | `app/icon.svg`, `app/apple-icon.png` | 브라우저 탭과 홈 화면 |
 | 공유 이미지 | `public/brand/og.png` (1200×630) | 랜딩 메타데이터 |
 | README 배너 | `public/brand/banner.png` (1600×640) | `README.md` |
+| 소개 영상 썸네일 | `public/landing/intro-video.webp` (1280×720) | 랜딩 소개 영상, `README.md`. 편집 원본 `docs/diagrams/brand/intro-video.html` |
 | 오미 포즈 | `public/brand/omi-{wave,guide,lost,empty,plan,direct}.webp` | `components/Brand.tsx`의 `Mascot` |
 
 | 포즈 | 쓰는 화면 |

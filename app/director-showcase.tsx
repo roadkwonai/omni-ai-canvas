@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Tabs, TabsList, TabsPanel, TabsTab } from "@ui-sdk/react/tabs";
 import type { ShowcaseItem } from "@/lib/director-showcase";
+import { asset, publicSite } from "@/lib/site";
 import LoopVideo from "./loop-video";
 import styles from "./landing.module.css";
 
@@ -17,6 +18,7 @@ export default function DirectorShowcase({ groups, ownMoves }: { groups: Group[]
   const [selected, setSelected] = useState<string>();
 
   useEffect(() => {
+    if (publicSite) return;
     const controller = new AbortController();
     fetch("/api/director-references", { signal: controller.signal })
       .then((response) => response.ok ? response.json() : { items: {} })
@@ -29,7 +31,7 @@ export default function DirectorShowcase({ groups, ownMoves }: { groups: Group[]
     const reference = references[item.id];
     if (reference?.video) return [{ ...item, still: reference.still, video: reference.video, source: reference.source }];
     return ownMoves.includes(item.id)
-      ? [{ ...item, still: `/director/moves/${item.id}.webp`, video: `/director/moves/${item.id}.mp4`, source: null }] : [];
+      ? [{ ...item, still: asset(`/director/moves/${item.id}.webp`), video: asset(`/director/moves/${item.id}.mp4`), source: null }] : [];
   });
   const move = moves.find(({ id }) => id === selected) ?? moves[0];
 
@@ -57,7 +59,7 @@ export default function DirectorShowcase({ groups, ownMoves }: { groups: Group[]
       {groups.slice(1).map(({ id, items }) => <TabsPanel key={id} value={id}>
         <ul className={styles.stills}>
           {items.map((item) => <li key={item.id}>
-            <Image src={`/director/examples/${item.id}.webp`} alt="" width={356} height={356} loading="lazy" unoptimized />
+            <Image src={asset(`/director/examples/${item.id}.webp`)} alt="" width={356} height={356} loading="lazy" unoptimized />
             <h3>{item.name}</h3>
             <p>{item.use}</p>
           </li>)}

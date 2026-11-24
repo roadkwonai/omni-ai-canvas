@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { publicSite } from "../../lib/site";
 import { Mascot } from "../../components/Brand";
 import GuideDocument from "../../components/GuideDocument";
 import "../../components/guide.css";
@@ -13,7 +14,7 @@ export default function GuidePage() {
       <header>
         <nav className="guide-page-nav" aria-label="제작실과 소개">
           <Link href="/">서비스 소개</Link>
-          <Link href="/studio">제작실로 돌아가기</Link>
+          {!publicSite && <Link href="/studio">제작실로 돌아가기</Link>}
         </nav>
         <div className="guide-page-title">
           <div><h1>Omni AI Canvas 사용 가이드</h1><p>대본부터 완성 영상까지 여러 AI 모델을 한 보드에서 쓰는 제작실</p></div>

@@ -1,0 +1,19 @@
+<!doctype html>
+<!-- 소개 영상 썸네일 편집 원본. 1280×720으로 찍어 public/landing/intro-video.webp를 만든다. -->
+<html lang="ko"><meta charset="utf-8"><title>소개 영상 썸네일</title>
+<style>
+@font-face{font-family:Pretendard;src:url(../../../public/fonts/PretendardVariable.woff2);font-weight:45 920}
+*{box-sizing:border-box;margin:0}body{width:1280px;height:720px;overflow:hidden;position:relative;background:#181818;color:#f3f4f5;font-family:Pretendard,"Apple SD Gothic Neo",sans-serif}
+.screens{position:absolute;inset:0;perspective:1500px}
+.screens img{position:absolute;border-radius:16px;border:2px solid #3a3a3a;box-shadow:0 30px 70px rgba(0,0,0,.6);transform:rotateY(-18deg) rotateX(4deg)}
+.copy{position:absolute;left:72px;top:148px}
+.brand{display:flex;align-items:center;gap:16px;font-size:34px;font-weight:700}.brand img{width:60px}
+h1{margin-top:40px;font-size:78px;line-height:1.14;font-weight:900;letter-spacing:-.045em;text-shadow:0 4px 30px #181818}h1 b{color:#ff6600}
+p{margin-top:28px;font-size:32px;color:#c9cbd0}
+.shade{position:absolute;inset:0;background:linear-gradient(90deg,#181818 36%,rgba(24,24,24,.72) 56%,rgba(24,24,24,0) 78%)}
+.play{position:absolute;right:250px;top:290px;width:140px;height:140px;border-radius:50%;background:#ff6600;box-shadow:0 10px 50px rgba(0,0,0,.55)}
+.play::after{content:"";position:absolute;left:54px;top:40px;border-left:48px solid #181818;border-top:30px solid transparent;border-bottom:30px solid transparent}
+</style>
+<div class="screens"><img src="../../../public/landing/canvas-board.webp" style="width:800px;right:-70px;top:40px"><img src="../../../public/landing/canvas-timeline.webp" style="width:640px;right:30px;top:360px"></div>
+<div class="shade"></div>
+<div class="copy"><div class="brand"><img src="../../../public/brand/mark-tile.svg" alt="">Omni AI Canvas</div><h1>대본부터 완성까지<br><b>한 보드에서</b></h1><p>5분 소개 영상</p></div><div class="play"></div></html>

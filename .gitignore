@@ -66,6 +66,7 @@ secrets.local.*
 # 빌드, 의존성, OS 및 스크립트 캐시
 .DS_Store
 .next/
+/.pages-build/
 node_modules/
 coverage/
 __pycache__/
