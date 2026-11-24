@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "지침이 요청에 들어가는 길",
+    "locale": "ko",
+    "quality_profile": "showcase",
+    "output": "docs/diagrams/guide/guidance-request.html",
+    "legend": {
+      "mode": "hidden"
+    }
+  },
+  "components": [
+    {
+      "id": "recipe",
+      "type": "database",
+      "label": "기본 지침",
+      "sublabel": "고쳐 쓸 수 있어요",
+      "pos": [
+        40,
+        60
+      ],
+      "size": [
+        150,
+        62
+      ]
+    },
+    {
+      "id": "skill",
+      "type": "database",
+      "label": "고른 스킬",
+      "sublabel": "22개 중에서",
+      "pos": [
+        40,
+        284
+      ],
+      "size": [
+        150,
+        62
+      ]
+    },
+    {
+      "id": "node",
+      "type": "frontend",
+      "label": "노드 지침",
+      "sublabel": "저장하면 적용돼요",
+      "pos": [
+        290,
+        172
+      ],
+      "size": [
+        150,
+        62
+      ]
+    },
+    {
+      "id": "ask",
+      "type": "backend",
+      "label": "작업 요청",
+      "sublabel": "글·이미지·영상",
+      "pos": [
+        540,
+        172
+      ],
+      "size": [
+        150,
+        62
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "from": "recipe",
+      "to": "node"
+    },
+    {
+      "from": "skill",
+      "to": "node"
+    },
+    {
+      "from": "node",
+      "to": "ask",
+      "label": "함께 보내요"
+    }
+  ]
+}

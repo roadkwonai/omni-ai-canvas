@@ -1,7 +1,7 @@
 """Omni AI Canvas 인포그래픽과 도표를 다시 만든다.
 
 python3 docs/diagrams/brand/build.py  (ZTD Charts 렌더에는 npx가 필요하다)
-Diagram Design: omni-board(dp-integration), dialogue-steps(steps). ZTD Charts: bar 두 개.
+Diagram Design: omni-board(dp-integration), dialogue-steps(steps), node-kinds(layers), timeline-anatomy(timeline), sheet-grid(exploded). ZTD Charts: bar 다섯 개.
 """
 import html, pathlib, re, subprocess, tempfile
 
@@ -145,7 +145,93 @@ def write_chart(name):
         (OUT / f"{name}{suffix}.svg").write_text(source.replace("#0B8FD8", ACCENT).replace("#006DA8", ACCENT_TEXT).replace("#14171B", INK).replace("#5D6570", MUTED))
 
 
+KINDS = [
+    ("기획", "글을 쓰고 흐름을 정해요", ["기획 문서", "시나리오 개요", "씬 구성", "대본", "샷 설계"]),
+    ("자료", "외형과 기준을 정해요", ["캐릭터 시트", "레퍼런스 이미지", "레퍼런스 영상"]),
+    ("제작", "화면과 소리를 만들어요", ["키프레임", "AI 영상", "음향 큐", "타임라인"]),
+    ("정리", "고르고 적어 둬요", ["테이크 스위치", "작업 메모"]),
+]
+K_TITLE, K_DESC = "노드 14종", "기획 5종, 자료 3종, 제작 4종, 정리 2종입니다."
+
+
+def chip(x, y, label, size=15):
+    w = sum(size if ord(c) > 127 else size * .6 for c in label) + 24
+    return w, [box(x, y, w, 36), text(x + w / 2, y + 24, label, size, 600, INK, "middle")]
+
+
+def kinds(width, narrow=False):
+    b, y = [], 12
+    for i, (name, note, items) in enumerate(KINDS):
+        focal, left = name == "제작", 20 if narrow else 168
+        rows, x, cy = [], left, y + (62 if narrow else 14)
+        for item in items:
+            w, parts = chip(x, cy, item)
+            if x + w > width - 20:
+                x, cy = left, cy + 44
+                w, parts = chip(x, cy, item)
+            rows += parts
+            x += w + 8
+        h = max(cy + 50 - y, 64)
+        b.append(box(1, y, width - 2, h, TINT if focal else PAPER, ACCENT if focal else RULE))
+        b += [text(20, y + 30, name, 18, 700, ACCENT_TEXT if focal else INK), text(20, y + 51, note, 13 if narrow else 12, 400, MUTED)] + rows
+        y += h + 10
+    return svg("node-kinds" + ("-narrow" if narrow else ""), width, y + 2, K_TITLE, K_DESC, b)
+
+
+T_TITLE, T_DESC = "타임라인의 세 줄", "컷, 음향, 자막이 같은 시간을 나눠 씁니다. 디졸브를 넣으면 두 컷이 겹친 만큼 전체 길이가 줄어듭니다. 3초 컷 두 개에 0.5초 디졸브를 넣으면 5.5초입니다."
+
+
+def timeline(width, narrow=False):
+    left, span = (16, width - 32) if narrow else (96, width - 120)
+    unit, b, gap = span / 5.5, [], 26 if narrow else 0
+    X = lambda t: left + t * unit
+    for k in range(6):
+        b += [f'<path d="M{X(k)} 34V{330 if narrow else 250}" stroke="{RULE}" stroke-width="1"/>', text(X(k), 24, f"{k}초", 13, 400, MUTED, "middle" if k else "start")]
+    y = 46
+    def label(name):
+        b.append(text(left, y + 16, name, 15, 700) if narrow else text(16, y + 30, name, 16, 700))
+    label("컷"); y += gap
+    b += [box(X(0), y, 3 * unit, 46), box(X(2.5), y, 3 * unit, 46), f'<rect x="{X(2.5)}" y="{y}" width="{.5 * unit}" height="46" fill="{TINT}" stroke="{ACCENT}" stroke-width="1.5"/>']
+    b += [text(X(1.1), y + 29, "컷 1 · 3초", 15, 600, INK, "middle"), text(X(4.3), y + 29, "컷 2 · 3초", 15, 600, INK, "middle")]
+    b.append(text(X(2.75), y + 66, "디졸브 0.5초", 13, 600, ACCENT_TEXT, "middle")); y += 82
+    label("음향"); y += gap
+    b += [box(X(.2), y, 2 * unit, 34), box(X(1.6), y + 40, 3.7 * unit, 34), text(X(1.2), y + 23, "대사", 14, 600, INK, "middle"), text(X(3.4), y + 63, "음악", 14, 600, INK, "middle")]; y += 88
+    label("자막"); y += gap
+    for a, w, word in ((.2, .7, "오늘이"), (.95, .9, "마지막"), (1.9, .9, "필름")):
+        b += [box(X(a), y, w * unit, 34), text(X(a + w / 2), y + 23, word, 13, 600, INK, "middle")]
+    y += 58
+    b += [text(left, y + 8, "3초 + 3초 − 0.5초 = 5.5초", 16, 700, ACCENT_TEXT)]
+    return svg("timeline-anatomy" + ("-narrow" if narrow else ""), width, y + 24, T_TITLE, T_DESC, b)
+
+
+G_TITLE, G_DESC = "시트 분할에서 맞추는 값", "바깥 여백은 시트 가장자리와 칸 사이, 간격은 칸과 칸 사이입니다. 여백 네 곳과 가로·세로 간격을 맞추면 칸의 경계가 정해집니다."
+G_NOTES = [("1", "바깥 여백", "위·아래·왼쪽·오른쪽을 따로"), ("2", "가로 간격", "왼쪽 칸과 오른쪽 칸 사이"), ("3", "세로 간격", "위 칸과 아래 칸 사이"), ("4", "개별 칸 경계", "한 칸만 따로 옮겨요")]
+
+
+def sheet(width, narrow=False):
+    ox, oy, size, pad, gx, gy = 12, 12, 296, 22, 14, 14
+    c = (size - 2 * pad - 2 * gx) / 3
+    b = [box(ox, oy, size, size, "#f3f4f5", INK)]
+    for r in range(3):
+        for k in range(3):
+            x, y = ox + pad + k * (c + gx), oy + pad + r * (c + gy)
+            focal = r == 2 and k == 2
+            b.append(box(x, y, c, c, TINT if focal else PAPER, ACCENT if focal else RULE))
+    def mark(x, y, n):
+        b.extend([f'<circle cx="{x}" cy="{y}" r="12" fill="{INK}"/>', text(x, y + 5, n, 14, 700, PAPER, "middle")])
+    mark(ox + pad / 2 + 1, oy + size / 2, "1"); mark(ox + pad + c + gx / 2, oy + pad + c / 2, "2"); mark(ox + pad + c * 1.5 + gx, oy + pad + c + gy / 2, "3"); mark(ox + size - pad - c / 2, oy + size - pad - c / 2, "4")
+    lx, ly = (12, oy + size + 34) if narrow else (348, 48)
+    for n, name, note in G_NOTES:
+        mark(lx + 12, ly + 2, n)
+        b += [text(lx + 36, ly + 3, name, 16, 700), text(lx + 36, ly + 25, note, 14, 400, MUTED)]
+        ly += 66 if not narrow else 58
+    return svg("sheet-grid" + ("-narrow" if narrow else ""), width, (ly - 20) if narrow else 320, G_TITLE, G_DESC, b)
+
+
 write_diagram("omni-board", board_wide(), board_narrow())
 write_diagram("dialogue-steps", steps_wide(), steps_narrow())
-for chart in ("paths-by-task", "voice-speed"):
+write_diagram("node-kinds", kinds(720), kinds(320, True))
+write_diagram("timeline-anatomy", timeline(720), timeline(320, True))
+write_diagram("sheet-grid", sheet(640), sheet(320, True))
+for chart in ("paths-by-task", "voice-speed", "format-length", "node-budget", "director-presets"):
     write_chart(chart)

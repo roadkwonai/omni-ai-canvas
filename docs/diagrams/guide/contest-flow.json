@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "공모전 요강에서 기획까지",
+    "locale": "ko",
+    "quality_profile": "showcase",
+    "output": "docs/diagrams/guide/contest-flow.html",
+    "legend": {
+      "mode": "hidden"
+    }
+  },
+  "components": [
+    {
+      "id": "url",
+      "type": "backend",
+      "label": "공모전 주소",
+      "sublabel": "HTTPS",
+      "pos": [
+        40,
+        60
+      ],
+      "size": [
+        150,
+        62
+      ]
+    },
+    {
+      "id": "paste",
+      "type": "external",
+      "label": "원문 붙여넣기",
+      "sublabel": "읽지 못할 때",
+      "pos": [
+        40,
+        284
+      ],
+      "size": [
+        150,
+        62
+      ]
+    },
+    {
+      "id": "check",
+      "type": "frontend",
+      "label": "요강 7칸",
+      "sublabel": "원문과 대조해요",
+      "pos": [
+        290,
+        172
+      ],
+      "size": [
+        150,
+        62
+      ]
+    },
+    {
+      "id": "director",
+      "type": "backend",
+      "label": "감독 기획",
+      "sublabel": "후보와 대본",
+      "pos": [
+        540,
+        60
+      ],
+      "size": [
+        150,
+        62
+      ]
+    },
+    {
+      "id": "kit",
+      "type": "external",
+      "label": "준비 보드",
+      "sublabel": "노드 5개",
+      "pos": [
+        540,
+        284
+      ],
+      "size": [
+        150,
+        62
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "from": "url",
+      "to": "check",
+      "label": "가져오기"
+    },
+    {
+      "from": "paste",
+      "to": "check",
+      "label": "정리"
+    },
+    {
+      "from": "check",
+      "to": "director"
+    },
+    {
+      "from": "check",
+      "to": "kit"
+    }
+  ]
+}

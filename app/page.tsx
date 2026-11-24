@@ -61,7 +61,7 @@ const problems = [
 ];
 
 const tools = [
-  { title: "이미지 연출", detail: "감정과 조명, 촬영 각도를 바꿔 보고 원본과 나란히 비교하세요.", guide: "guide-motion-portrait", image: emotion, alt: "원본 키프레임과 기준 표정, 5×5 감정판" },
+  { title: "이미지 연출", detail: "감정과 조명, 촬영 각도를 바꿔 보고 원본과 나란히 비교하세요.", guide: "guide-image", image: emotion, alt: "원본 키프레임과 기준 표정, 5×5 감정판" },
   { title: "타임라인과 자막", detail: "컷과 음향, 단어 자막을 다듬은 뒤 MP4와 SRT로 내보내세요.", guide: "guide-timeline", image: timeline, alt: "두 컷의 길이와 전환을 정하는 타임라인" },
   { title: "공모전 기획", detail: "요강에서 일정과 심사 기준을 뽑고 아이디어 후보를 비교하세요.", guide: "guide-contest" },
   { title: "레퍼런스 컷 분석", detail: "공개 YouTube 영상이나 파일에서 훅과 리듬을 찾아 내 프리셋으로 저장하세요.", guide: "guide-presets" },

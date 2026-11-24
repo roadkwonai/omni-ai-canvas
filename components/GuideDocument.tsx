@@ -1,504 +1,123 @@
 "use client";
 
-import { useState } from "react";
-import Image from "next/image";
-import { asset } from "@/lib/site";
+import { useEffect, useId, useRef, useState, type MouseEvent } from "react";
+import { List, Search, X } from "lucide-react";
+import { chapters, groups, starts, type ChapterId } from "./guide/contents";
+import { GuideContext, searchWords } from "./guide/parts";
+import StartChapters from "./guide/start";
+import PlanChapters from "./guide/plan";
+import BoardChapters from "./guide/board";
+import MediaChapters from "./guide/media";
+import FinishChapters from "./guide/finish";
+import HelpChapters from "./guide/help";
 
-const chapters = [
-  ["guide-first", "처음 시작하기"],
-  ["guide-workspace", "작업 공간과 노드 지침"],
-  ["guide-settings", "계정과 API 키 설정"],
-  ["guide-projects", "프로젝트 관리"],
-  ["guide-formats", "제작 형식"],
-  ["guide-presets", "레퍼런스와 제작 프리셋"],
-  ["guide-motion-portrait", "모션그래픽과 캐릭터 연출"],
-  ["guide-blender", "Blender 3D 장면"],
-  ["guide-tripo", "Tripo 리깅과 동작"],
-  ["guide-production-skills", "Higgsfield 워크플로우·스킬"],
-  ["guide-production-expansion", "배역·이미지 시트·후반 편집"],
-  ["guide-start", "기획과 수정"],
-  ["guide-references", "촬영 자료"],
-  ["guide-tools", "캔버스와 편집 도구"],
-  ["guide-image", "이미지 연출"],
-  ["guide-director", "디렉터 스튜디오"],
-  ["guide-character", "캐릭터 외형과 목소리"],
-  ["guide-video", "영상 만들기"],
-  ["guide-timeline", "타임라인"],
-  ["guide-contest", "공모전"],
-  ["guide-attachments", "파일과 링크 첨부"],
-  ["guide-models", "모델과 요금"],
-  ["guide-audio", "대사와 음악·효과음"],
-  ["guide-system", "저장과 실행"],
-  ["guide-mcp", "외부 에이전트 연결"],
-  ["guide-limits", "할 수 없는 일과 문제 해결"],
-] as const;
+/** embedded: 제작실의 대화상자 안에서는 주소의 해시를 바꾸지 않고 그 자리에서 이동한다. */
+export default function GuideDocument({ embedded = false }: { embedded?: boolean }) {
+  const root = useRef<HTMLDivElement>(null);
+  const search = useRef<HTMLInputElement>(null);
+  const navId = useId();
+  const [query, setQuery] = useState("");
+  const [matches, setMatches] = useState<ReadonlySet<string> | null>(null);
+  const [current, setCurrent] = useState<ChapterId>(chapters[0][0]);
+  const [open, setOpen] = useState(false);
 
-const figureSizes = {
-  architecture: [1090, 382], workflow: [1280, 720], billing: [1300, 608],
-  "omni-board": [1280, 712], "dialogue-steps": [1280, 424], "paths-by-task": [680, 506], "voice-speed": [680, 386],
-} as const;
-const narrowFigures = new Set<string>(["omni-board", "dialogue-steps", "paths-by-task", "voice-speed"]);
+  useEffect(() => {
+    const element = root.current;
+    if (!element) return;
+    const scroller = element.closest(".guide-scroll");
+    const sections = [...element.querySelectorAll("section")];
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const line = (scroller?.getBoundingClientRect().top ?? 0) + 140;
+      const passed = sections.filter((section) => !section.hidden && section.getBoundingClientRect().top <= line);
+      setCurrent((passed.at(-1) ?? sections[0]).id as ChapterId);
+    };
+    const schedule = () => { frame ||= requestAnimationFrame(update); };
+    const target = scroller ?? window;
+    target.addEventListener("scroll", schedule, { passive: true });
+    schedule();
+    return () => {
+      target.removeEventListener("scroll", schedule);
+      cancelAnimationFrame(frame);
+    };
+  }, []);
 
-function Figure({ file, alt }: { file: keyof typeof figureSizes; alt: string }) {
-  const [zoom, setZoom] = useState(false);
-  const url = asset(`/guide/${file}.svg`);
-  const [width, height] = figureSizes[file];
+  // 지금 읽는 장이 긴 목차 밖으로 나가지 않게 한다. scrollIntoView는 본문까지 움직인다.
+  useEffect(() => {
+    const index = root.current?.querySelector<HTMLElement>(".guide-index");
+    const link = index?.querySelector<HTMLElement>("[aria-current]");
+    if (!index || !link) return;
+    const box = index.getBoundingClientRect(), target = link.getBoundingClientRect();
+    if (target.top < box.top) index.scrollTop -= box.top - target.top + 40;
+    else if (target.bottom > box.bottom) index.scrollTop += target.bottom - box.bottom + 40;
+  }, [current, open]);
+
+  function find(text: string) {
+    setQuery(text);
+    const words = searchWords(text);
+    setMatches(words.length ? new Set(chapters.flatMap(([id, label]) => {
+      const content = `${label} ${root.current?.querySelector(`#${id}`)?.textContent ?? ""}`.toLocaleLowerCase();
+      return words.every((word) => content.includes(word)) ? [id] : [];
+    })) : null);
+  }
+
+  function go(event: MouseEvent, id: ChapterId) {
+    setOpen(false);
+    if (!embedded) return;
+    event.preventDefault();
+    const section = root.current?.querySelector<HTMLElement>(`#${id}`);
+    section?.scrollIntoView();
+    section?.focus({ preventScroll: true });
+  }
+
+  const currentLabel = chapters.find(([id]) => id === current)?.[1];
+
   return (
-    <figure className="guide-figure">
-      <div className="guide-zoom-tools">
-        <button
-          type="button"
-          aria-pressed={zoom}
-          title="그림의 실제 크기와 화면 맞춤을 전환합니다."
-          onClick={() => setZoom(!zoom)}
-        >
-          {zoom ? "화면에 맞추기" : "원본 크기로 보기"}
-        </button>
-        <a
-          href={url}
-          target="_blank"
-          rel="noreferrer"
-          title="이 그림만 새 창에서 봅니다."
-        >
-          새 창에서 보기
-        </a>
+    <div className="guide-layout" ref={root}>
+      <div className="guide-body">
+        <div className="guide-side" data-open={open || undefined}>
+          <div className="guide-search">
+            <Search size={16} aria-hidden="true" />
+            <input ref={search} type="search" value={query} placeholder="가이드 검색" aria-label="가이드 검색" onChange={(event) => find(event.target.value)}
+              onKeyDown={(event) => { if (event.key === "Escape" && query) { event.preventDefault(); event.stopPropagation(); find(""); } }} />
+            {query && <button type="button" className="studio-action" data-tone="quiet" data-size="icon" aria-label="검색어 지우기"
+              onClick={() => { find(""); search.current?.focus(); }}><X size={16} aria-hidden="true" /></button>}
+          </div>
+          <button type="button" className="studio-action guide-toc-toggle" aria-expanded={open} aria-controls={navId} onClick={() => setOpen(!open)}>
+            <List size={16} aria-hidden="true" /> <span>목차<em>{matches ? `검색 결과 ${matches.size}개` : currentLabel}</em></span>
+          </button>
+          <nav id={navId} className="guide-index" aria-label="가이드 목차">
+            {groups.map(({ label, chapters: items }) => {
+              const shown = items.filter(([id]) => !matches || matches.has(id));
+              return shown.length > 0 && (
+                <div key={label}>
+                  <p>{label}</p>
+                  <ul>{shown.map(([id, text]) => (
+                    <li key={id}><a href={`#${id}`} aria-current={current === id ? "location" : undefined} onClick={(event) => go(event, id)}>{text}</a></li>
+                  ))}</ul>
+                </div>
+              );
+            })}
+          </nav>
+        </div>
+        <GuideContext value={{ query, matches, go }}>
+          <article className="guide-document">
+            <p className="guide-result" role="status">{matches && (matches.size ? `‘${query.trim()}’ 검색 결과 ${matches.size}개 장` : "찾는 내용이 없습니다. 다른 낱말로 검색하세요.")}</p>
+            <ul className="guide-starts" aria-label="하고 싶은 일로 찾기" hidden={matches !== null}>
+              {starts.map(([id, label, detail]) => (
+                <li key={id}><a href={`#${id}`} onClick={(event) => go(event, id)}><strong>{label}</strong><span>{detail}</span></a></li>
+              ))}
+            </ul>
+            <StartChapters />
+            <PlanChapters />
+            <BoardChapters />
+            <MediaChapters />
+            <FinishChapters />
+            <HelpChapters />
+          </article>
+        </GuideContext>
       </div>
-      <div
-        className="guide-viewport"
-        tabIndex={zoom ? 0 : undefined}
-        aria-label={zoom ? "확대한 도식, 스크롤해 이동" : undefined}
-      >
-        <picture>
-          {!zoom && narrowFigures.has(file) && <source media="(max-width: 640px)" srcSet={asset(`/guide/${file}-narrow.svg`)} />}
-          <Image
-            src={url}
-            alt={alt}
-            width={width}
-            height={height}
-            unoptimized
-            loading="eager"
-            style={zoom ? { minWidth: width } : undefined}
-          />
-        </picture>
-      </div>
-      <figcaption>{alt}</figcaption>
-    </figure>
-  );
-}
-
-function Screen({ file, width, height, alt }: { file: string; width: number; height: number; alt: string }) {
-  return (
-    <figure className="guide-figure">
-      <Image src={asset(`/guide/${file}.webp`)} alt={alt} width={width} height={height} unoptimized />
-      <figcaption>{alt}</figcaption>
-    </figure>
-  );
-}
-
-export default function GuideDocument() {
-  return (
-    <article className="guide-document">
-      <nav className="guide-index" aria-label="가이드 목차">
-        {chapters.map(([id, label]) => (
-          <a key={id} href={"#" + id} title={label + " 설명으로 이동합니다."}>
-            {label}
-          </a>
-        ))}
-      </nav>
-      <section id="guide-first">
-        <h2>처음 시작하기</h2>
-        <ol>
-          <li>프로젝트 메뉴에서 <strong>마지막 상영</strong> 예제를 엽니다. 대본과 캐릭터 시트가 키프레임을 거쳐 영상으로 이어지는 연결선을 확인하세요.</li>
-          <li>키프레임을 선택해 위에 나타나는 이미지 도구를 살펴보고 영상 노드의 5초 샘플을 재생합니다.</li>
-          <li><strong>새 프로젝트</strong>에서 제작 형식을 고르거나 무형식으로 시작합니다.</li>
-          <li>갖고 있는 파일을 노드에 첨부하거나, <strong>설정 → 계정 연결</strong>에서 계정을 확인하고 노드에서 생성을 요청합니다. 결과는 기록에서 확인한 뒤 적용합니다.</li>
-        </ol>
-        <p>버튼의 쓰임이 궁금하면 이 창 아래의 <strong>화면에서 기능 설명 보기</strong>를 누르세요. 기능을 누를 때마다 설명이 나옵니다.</p>
-      </section>
-      <section id="guide-workspace">
-        <h2>작업 공간과 노드 지침</h2>
-        <Figure
-          file="omni-board"
-          alt="글과 기획, 이미지, 영상, 대사 음성, 음악과 효과음, 3D 장면에 쓰는 도구가 보드 하나에 모이고 그 자료로 완성 영상과 다음 작품을 만드는 구조"
-        />
-        <p>
-          왼쪽 <b>도구함</b>에서 제작 키트로 노드를 추가하고, 캔버스 탭에서
-          노드를 검색해 이동하거나 자산을 현재 노드에 연결하세요.
-          상단 <b>설정</b>의 작업 공간에서 시작 탭과 패널 너비를 바꿀 수 있습니다.
-        </p>
-        <p>
-          오른쪽 <b>대화</b> 탭에서는 고른 노드와 상관없이 작품 전체를 이야기합니다. 새 대화를 열거나 이전 대화를 고르고, 참조할 노드와 제작 지침, 첨부 자료를 골라 요청하세요.
-          감독 기획은 <b>제작</b> 탭에서 엽니다.
-        </p>
-        <p>
-          노드를 선택하고 오른쪽 <b>지침</b> 탭을 열면 적용 지침과 스킬 출처,
-          작업 순서를 볼 수 있습니다. 직접 수정해 저장하거나 텍스트 에이전트에
-          수정안을 요청한 뒤 적용하세요. 저장한 지침은 그 노드에서 이후에 보내는 요청에 쓰입니다.
-        </p>
-      </section>
-      <section id="guide-settings">
-        <h2>계정과 API 키 설정</h2>
-        <ol>
-          <li><strong>작업실 설정 → 계정 연결</strong>에서 실제 연결 상태, 서비스에서 알려 준 요금제와 남은 크레딧, 모델 목록을 확인합니다. <strong>연결 상태 새로고침</strong>은 생성 크레딧을 쓰지 않습니다. 마지막 조회 결과를 먼저 보여 주고 뒤에서 새로 고칩니다.</li>
-          <li>Codex와 Claude에서 계정을 바꾸려면 계정 카드의 변경 버튼으로 공식 로그인을 열고, 완료한 뒤 연결 상태를 새로고침합니다. Antigravity는 열린 터미널에서 계정을 확인하고, 해제하려면 /logout을 입력합니다. 공유 CLI 연결 해제는 이 컴퓨터의 다른 작업실에도 적용됩니다.</li>
-          <li><strong>API 키</strong>에서 OpenAI·Gemini·Seedream 이미지, Fish Audio·ElevenLabs·Typecast·Gemini 음성, Tripo 키를 저장하거나 교체합니다. <strong>연결 테스트</strong>는 저장된 키로 모델 목록이나 잔액을 읽습니다. 작업실에 저장한 키를 삭제했을 때 서버 환경에 등록한 키가 있으면 그 키를 다시 씁니다.</li>
-          <li><strong>기본 에이전트</strong>에서 작업별 계정과 모델을 선택하고 저장합니다. 지원하는 모델에서는 추론 강도를 설정할 수 있습니다. 새 노드의 작업 패널을 열면 기본값이 적용됩니다. 노드에서 직접 고른 계정과 모델이 있으면 그 작업에는 그 값을 먼저 씁니다.</li>
-        </ol>
-        <p>실행 기록에서 <strong>이전 실행 더 보기</strong>를 누르면 오래된 작업을 이어 볼 수 있습니다. 작업이 끝난 뒤 DB 연결이 끊기면 Omni AI Canvas가 완료된 결과를 이 컴퓨터에 보관했다가 연결이 돌아오면 기존 실행에 반영합니다.</p>
-      </section>
-      <section id="guide-projects">
-        <h2>프로젝트 관리</h2>
-        <ol>
-          <li>상단 프로젝트 이름을 누르면 최근에 열거나 수정한 작품부터 표시됩니다. 이름·카테고리·태그로 검색하거나 카테고리와 태그를 골라 목록을 좁힐 수 있습니다.</li>
-          <li>프로젝트 목록의 <strong>설정</strong>이나 오른쪽 <strong>대화</strong> 탭의 <strong>설정</strong>에서 같은 프로젝트 설정을 열 수 있습니다. 이름을 수정하거나 등록된 분류를 선택하세요. 카테고리는 한 개, 태그는 최대 20개입니다.</li>
-          <li>선택 목록 옆의 <strong>카테고리 설정</strong> 또는 <strong>태그 설정</strong>에서 공용 분류를 추가하거나 이름을 바꾸고 삭제할 수 있습니다. <strong>프로젝트 설정으로 돌아가기</strong>를 누르면 작성 중인 내용이 유지됩니다. 프로젝트 관리 상단의 <strong>카테고리·태그 전체 관리</strong>에서도 같은 목록을 관리할 수 있습니다. 공용 분류의 이름을 바꾸거나 삭제하면 그 분류를 쓰는 모든 프로젝트에 반영됩니다.</li>
-          <li><strong>복제</strong>는 캔버스와 타임라인을 새 프로젝트에 복사합니다. 일반 미디어 원본은 공유하고, Blender 자산은 복사합니다. 실행 기록과 에이전트 첨부 목록은 원본 프로젝트에서 보관합니다.</li>
-          <li><strong>보관</strong>하면 보관함으로, <strong>삭제</strong>를 확인하면 휴지통으로 이동합니다. 해당 탭의 <strong>복구</strong>로 되돌릴 수 있습니다.</li>
-        </ol>
-      </section>
-      <section id="guide-formats">
-        <h2>작품에 맞는 제작 형식 고르기</h2>
-        <p><strong>새 프로젝트</strong>에서 제작 형식을 정하면 기본 보드와 추천 지침이 준비됩니다. 씬 수는 직접 1~12개를 고르거나 자동으로 시작할 수 있습니다.</p>
-        <ul>
-          <li><strong>이야기 제작</strong> 숏드라마, 드라마, 영화, 애니메이션 숏</li>
-          <li><strong>브랜드와 짧은 콘텐츠</strong> AI 인플루언서, 숏폼, 광고</li>
-          <li><strong>음악과 시각 제작</strong> 뮤직비디오, 모션그래픽</li>
-          <li><strong>출품 기획</strong> 공모전의 요강과 제출 규격에서 시작</li>
-        </ul>
-        <p>무형식은 빈 캔버스에서 시작하고, 보드 프리셋은 저장한 노드와 연결 구조를 다시 씁니다. 프로젝트 상단의 제작 형식 설정에서 기존 작업의 형식도 바꿀 수 있습니다.</p>
-      </section>
-      <section id="guide-presets">
-        <h2>레퍼런스와 제작 프리셋</h2>
-        <ol>
-          <li>제작 도구에서 <strong>제작 프리셋 · 레퍼런스 분석</strong>을 엽니다. 만들 영상의 타입을 고르고 내 작품의 소재와 콘셉트를 적습니다.</li>
-          <li>참고 영상이 있으면 MP4·WebM 또는 공개 YouTube 주소를 추가합니다. 대표 화면과 컷 후보를 확인하고, 필요하면 Codex나 Claude에서 <strong>레퍼런스 분석</strong>을 요청합니다. 아이디어만 있을 때에는 <strong>아이디어로 추천받기</strong>를 사용합니다.</li>
-          <li>구간마다 끝 비율, 역할, 구도, 자막을 조정합니다. 예를 들어 첫 구간을 10%로 두면 30초 영상에서 처음 3초가 훅입니다. 연기·카메라·필름과 음향은 별도로 편집할 수 있습니다.</li>
-          <li><strong>프리셋 저장</strong>은 개인 보관함에 추가합니다. 다른 작품에서는 저장본을 불러와 복사하거나 수정합니다. <strong>기본 노드 추가</strong>는 즉시 보드를 만들고, <strong>감독과 기획하기</strong>는 프리셋을 감독 패널에 전달합니다. 에이전트에 보내기 전 작품 아이디어를 다시 편집할 수 있습니다.</li>
-        </ol>
-        <p>영상당 최대 1 GiB·60분이며 파일, 공개 YouTube 주소, 프로젝트 영상을 합쳐 최대 8편을 추가할 수 있습니다. 여러 영상을 분석할 때는 시트 최대 8장을 영상별로 나눠 보냅니다. <strong>컷별 분석</strong>에서는 컷 번호를 눌러 원본을 재생하고 에이전트가 기록한 구도·자막·변화를 대조합니다. 영상 한 편의 컷 분석에는 최대 96개 화면을 사용합니다. 빠른 편집을 놓쳤다면 원본 재생 시각으로 경계를 보정하거나 특정 컷 구간에 표본을 다시 배분하세요. 준비한 자료로 새 분석을 요청하면 이전 결과도 기록에서 다시 볼 수 있습니다.</p>
-      </section>
-      <section id="guide-motion-portrait">
-        <h2>모션그래픽과 캐릭터 연출</h2>
-        <p><strong>제작 도구 → 모션그래픽 스튜디오</strong>에서 화면비, 글자, 색, 움직임과 장면 길이를 정합니다. 에이전트와 기획하려면 주제와 목표 길이를 입력한 뒤 제안을 검토해 편집기에 반영하세요. 캐릭터 컷아웃에서는 인물과 배경 이미지를 따로 선택합니다. 렌더는 이 컴퓨터에서 실행되며, 완성한 영상 노드는 다시 편집하거나 타임라인에서 음향과 합칠 수 있습니다.</p>
-        <p><strong>캐릭터 연출 키트</strong>에서는 인물의 고정 특징과 포즈·의상·조명·표정을 조합합니다. 필요한 경우 3면도와 25컷 스토리보드까지 계획해 연결된 노드로 배치하세요. 인물 이미지를 실제로 만들고 결과를 적용하는 일은 그 노드에서 합니다.</p>
-      </section>
-      <section id="guide-tripo">
-        <h2>Tripo 리깅과 동작 적용</h2>
-        <ol>
-          <li>Blender 자산에 등록한 GLB를 선택해 Tripo에 등록하거나 기존 Tripo 작업 번호를 입력합니다. 파일 등록은 선택한 모델을 Tripo에 전송합니다.</li>
-          <li>리깅 검사로 모델을 확인한 뒤 리깅을 제출합니다. 현재 도구는 사람형 리그를 사용하며 리깅 제출에는 Tripo API 요금이 적용됩니다.</li>
-          <li>작업이 완료되면 리깅 작업 번호와 동작 프리셋을 입력해 동작을 적용합니다. 동작 적용에도 Tripo API 요금이 적용됩니다.</li>
-          <li>조회 작업 번호로 상태를 확인합니다. 완료된 GLB를 Blender 자산으로 가져오면 같은 프로젝트의 Blender 장면에서 선택할 수 있습니다.</li>
-        </ol>
-        <p>서버의 TRIPO_API_KEY 설정이 필요합니다. 작업 진행 중 화면을 닫아도 이 프로젝트의 작업 목록에서 번호를 다시 선택할 수 있습니다.</p>
-      </section>
-      <section id="guide-blender">
-        <h2>GLB로 장면을 만들고 렌더하기</h2>
-        <ol>
-          <li><strong>제작 도구 → Blender 3D 장면</strong>을 엽니다. 기존 샷에서 시작하려면 해당 노드의 <strong>Blender 3D 장면 설정</strong>을 사용하세요. 캐릭터와 배경 파일을 각각 등록하고 출처와 크레딧을 기록합니다.</li>
-          <li>캐릭터 파일에 들어 있는 애니메이션이나 본을 골라 회전을 조정합니다. 시작 위치·끝 카메라·목표·렌즈·광원과 화면비를 정한 뒤 프리비즈를 재생합니다. 탑뷰와 측면 프리셋을 고르면 새 좌표가 그 값에서 시작합니다.</li>
-          <li>원하는 테이크를 최종 렌더하고 기존 또는 새 타임라인에 연결합니다. 컷 길이는 원래 재생 시간을 따릅니다. 음악·대사는 타임라인에서 추가할 수 있습니다.</li>
-          <li>블로킹용 자료가 필요하면 테이크에서 원본 시각을 고릅니다. 추출한 프레임과 새 샷을 연출 가이드로 연결한 뒤 카메라 위치를 바꿔 대안 앵글을 만들 수 있습니다.</li>
-        </ol>
-      </section>
-      <section id="guide-production-skills">
-        <h2>작품에 맞는 스킬과 참조 선택</h2>
-        <p><strong>제작 도구 → Higgsfield 제작 워크플로우</strong>에서 시네마틱 단편·광고·숏드라마를 고릅니다. 예를 들어 숏드라마에서는 아이디어 뱅크에서 한 가지 소재를 고른 뒤 배역별 등장 상태와 훅·맥락·마지막 전환을 정할 수 있습니다. 배역별 음성은 음향 노드에서 녹음해 들어본 후 첨부하세요.</p>
-        <p>노드의 <strong>지침</strong> 또는 감독 기획의 스킬 선택에서 추천 이유, 겹치는 역할, 적용 문구와 원문을 확인하세요. 선택한 지침의 요약이 그 요청에 들어갑니다. 계정의 Image Element·Video Element·Add voice를 쓸 때는 Higgsfield에서 만든 자료와 역할을 확인한 뒤 연결합니다.</p>
-      </section>
-      <section id="guide-production-expansion">
-        <h2>배역, 이미지 시트와 후반 편집</h2>
-        <p>Blender 장면에서 배역을 추가하고 각각의 포즈·동작·표정을 설정합니다. 얼굴 shape key가 있는 모델은 단어 자막으로 입 벌림 큐를 초안으로 만든 뒤 고칠 수 있습니다. 중단한 렌더는 같은 설정으로 실행하면 완료 프레임을 재사용합니다. 편집 원본을 전달할 때는 Blender 인계 ZIP을 내려받으세요.</p>
-        <p>캐릭터 연출 키트의 3면도·5×5 시트 노드에 이미지를 만든 뒤, 이미지 시트 분할에서 바깥 여백과 칸 간격을 조정합니다. 원하는 칸을 이미지 노드로 추가해 재편집할 수 있습니다.</p>
-        <p>제작 프리셋에서 여러 영상이나 보드의 기존 영상을 골라 비교합니다. 모션 렌더는 같은 장면을 재사용하며, 타임라인의 단어 자막에서 받아쓴 결과를 검토하거나 직접 시간을 지정합니다. MP4에서 자막을 켜고 끄거나 SRT로 내보낼 수 있습니다.</p>
-      </section>
-      <section id="guide-start">
-        <h2>아이디어로 촬영안 만들기</h2>
-        <ol>
-          <li>
-            프로젝트를 열고 작업실의 <b>제작</b> 탭에서 기획 방식을 고릅니다. 작품 형식과 이번에 구성할 장면 수(자동 또는 1~12)를 정합니다.
-          </li>
-          <li>
-            계정과 모델을 고르고 인물, 원하는 갈등, 분위기를 한두 문장으로
-            적습니다. 예를 들어 “폐관 전날, 영사기사가 마지막 관객에게 건네지
-            못한 편지를 발견한다”로 시작해 보세요.
-          </li>
-          <li>
-            실행 기록에서 작품의 인과관계, 배역, 장면의 전환과 대사를 읽습니다.{" "}
-            <b>결과 적용</b>을 누르면 승인한 기획이 편집할 수 있는 노드로 바뀌어 보드에 연결됩니다.
-          </li>
-          <li>
-            노드에서 직접 본문을 편집하거나 에이전트의 텍스트 수정 작업을
-            선택합니다. 작품 전체나 씬의 <b>대본·연출 검토</b>에서 원문과 수정
-            이유를 비교해 필요한 제안만 적용할 수도 있습니다.
-          </li>
-        </ol>
-        <Figure
-          file="workflow"
-          alt="아이디어와 대본이 샷과 제작 노드로 연결되고 제안 검토를 거쳐 반영되는 순서"
-        />
-      </section>
-      <section id="guide-references">
-        <h2>샷에 필요한 자료 고르기</h2>
-        <p>
-          캐릭터의 의상·외형이 바뀌면 상태별로 인물 참조를 나눕니다. 닫힌 소품만
-          나올 컷에는 닫힌 상태를, 열리는 동작이 중요한 컷에는 시작과 끝 상태를
-          지정합니다.
-        </p>
-        <p>
-          <b>씬 구성</b>은 장면의 목적과 전환을, <b>대본</b>은 대사와 지문을
-          담습니다. <b>샷 설계</b>에서 카메라·동선·표정·소리와 채택할 테이크의
-          조건을 정합니다. 키프레임은 첫 화면이 중요한 샷에 사용합니다.
-        </p>
-        <p>
-          노드의 출력 포트를 다음 노드의 입력에 연결하거나 노드 패널에서 자료를
-          선택하세요. 인물, 장소, 소품, 동작 영상, 시작·끝 프레임 역할을
-          지정합니다. 동선을 그린 배치도처럼 감독만 볼 자료에는{" "}
-          <b>연출 확인용</b>을 선택합니다. 실행 전에 전송할 참조 목록과 파일을
-          확인하세요.
-        </p>
-      </section>
-      <section id="guide-tools">
-        <h2>캔버스에서 만들고 편집하기</h2>
-        <p>캔버스 기본 손 모드에서 빈 공간을 끌면 화면이, 노드를 끌면 그 노드가 움직입니다. 맥의 세 손가락 드래그를 켠 경우 같은 동작으로 사용할 수 있습니다. 여러 노드를 영역으로 고를 때에는 선택 모드를 사용하세요.</p>
-        <p>
-          이야기 노드(기획 문서, 시나리오 개요, 씬 구성, 대본, 샷 설계), 자료 노드(캐릭터 시트, 레퍼런스 이미지·영상), 제작 노드(키프레임, AI 영상, 음향 큐, 타임라인, 테이크 스위치, 작업 메모)를 쓸 수 있습니다.
-          문서 노드의 책 아이콘을 누르면 본문을 읽고 고치며 Markdown과 PDF로 내려받습니다. 키프레임·영상·음향 카드의 눈 아이콘을 누르면 미디어와 프롬프트를 크게 봅니다. 프롬프트는 영문과 한국어를 함께 보관합니다.
-        </p>
-        <p>
-          검색으로 노드를 찾고 Shift로 여러 노드를 선택해
-          그룹화·복제·이동하세요. 실행 취소와 다시 실행은 현재 프로젝트에서
-          작동합니다. @노드 참조는 자료를 연결할 때 사용합니다. 글을 입력하는 동안에는 브라우저의 실행 취소가 작동합니다.
-        </p>
-        <p>
-          노드나 빈 곳을 마우스 오른쪽 버튼으로 누르면 작업 메뉴가 열립니다. 단축키는 실행 취소 ⌘/Ctrl Z, 다시 실행 ⇧⌘/Ctrl Z, 복사 ⌘/Ctrl C, 붙여넣기 ⌘/Ctrl V, 사본 ⌘/Ctrl D, 그룹 ⌘/Ctrl G입니다. 노드에는 1~5점 평가를 남길 수 있습니다.
-        </p>
-        <dl>
-          <dt>자산 보관함 · 테이크 스위치</dt>
-          <dd>
-            현재 프로젝트의 파일과 완료된 생성 결과를 찾아 새 노드로
-            재사용합니다. 테이크 스위치에서는 연결된 영상 후보를 보고 채택한 파일을 다음 작업에 넘깁니다.
-          </dd>
-          <dt>감독 도구 · 클립 편집</dt>
-          <dd>
-            원근 배치도에서 배우와 소품 위치, 카메라 각도·초점거리·조명을
-            조절합니다. 배치도를 저장하면 샷의 연출 확인용 자료가 됩니다. 클립
-            도구는 키프레임, 3×3 콘택트 시트, 오디오를 추출하고 구간·속도·비율을
-            바꾼 사본을 만듭니다.
-          </dd>
-          <dt>음악과 효과음</dt>
-          <dd>
-            음향 큐 노드에서 Road Music 로컬 엔진을 선택합니다. ACE로는 연주곡과 1~30초짜리 실험적 효과음을, YuE 계열로는 곡을 만듭니다. 파일이
-            생성되면 들어 보고 노드에 적용해 타임라인에 배치하세요.
-          </dd>
-        </dl>
-      </section>
-      <section id="guide-image">
-        <h2>이미지 연출하기</h2>
-        <p>이미지가 붙은 노드를 선택하면 위에 도구가 나타납니다. 도구를 고르면 원본과 이어진 편집 노드가 생기고, 설정을 저장해 두었다가 다시 열 수 있습니다.</p>
-        <dl>
-          <dt>감정 · 조명 · 다각도</dt>
-          <dd>5×5 감정판에서 목표를 고르고 기준 표정 사진과 원본을 함께 봅니다. 조명은 광원 방향과 림라이트를, 다각도는 카메라 시점을 조정합니다.</dd>
-          <dt>질감과 영화급 조명</dt>
-          <dd>인물과 배경의 융합, 피부와 입자, 장면의 룩과 대비를 조정합니다.</dd>
-          <dt>설정도와 시트</dt>
-          <dd>캐릭터 설정도, 얼굴 3면도, 9분할·4분할, 25컷 스토리보드를 준비합니다. 이미지 시트 분할에서 여백과 간격을 맞추고 원하는 칸만 노드로 꺼냅니다.</dd>
-          <dt>이 컴퓨터에서 처리하는 도구</dt>
-          <dd>레이어 편집, 2·4·6배 업스케일, 주석, 회전, 시트 분할. 레이어는 영역을 점으로 찍어 나누며 macOS에서는 전경을 자동으로 분리할 수 있습니다.</dd>
-        </dl>
-        <p>새 이미지를 그리는 도구는 ChatGPT로 로그인한 Codex나 설정에서 허용한 OpenAI·Gemini·Seedream 이미지 API를 씁니다. 원본, 채택본, 후보를 확대해 비교하고 쓸 결과를 채택하세요.</p>
-      </section>
-      <section id="guide-director">
-        <h2>디렉터 스튜디오에서 촬영 지시 고르기</h2>
-        <Screen file="director-studio" width={1248} height={697} alt="카메라별 예제 사진을 비교하는 디렉터 스튜디오" />
-        <ol>
-          <li>이미지·영상 노드에서 <strong>디렉터 스튜디오</strong>를 엽니다. 촬영 지시 169가지를 고를 수 있습니다.</li>
-          <li><strong>촬영</strong>에서 카메라·렌즈·조리개, 초점 거리, 구도·앵글, 화면 배치·시선, 카메라 이동·시간, 창의 시점을 봅니다. <strong>비주얼 스타일</strong>은 색감·조명·미술, <strong>장면 연출</strong>은 장면 전개·장르·편집 리듬입니다.</li>
-          <li>카메라 이동은 카드에 마우스를 올리거나 초점을 옮기면 재생됩니다. 긴장, 여백 같은 낱말로 검색할 수 있습니다.</li>
-          <li><strong>생성 요청에 적용할 내용</strong>에서 보낼 지시를 확인하고 <strong>연출 적용</strong>을 누르면 노드에 저장됩니다. 정지 이미지에는 카메라 이동·시간 표현·편집 리듬을 보내지 않습니다.</li>
-        </ol>
-      </section>
-      <section id="guide-character">
-        <h2>캐릭터의 외형과 목소리 이어 쓰기</h2>
-        <ol>
-          <li>캐릭터 시트의 <strong>외형과 목소리 설정</strong>에서 기존 Higgsfield Soul을 불러오거나 같은 인물의 이미지 5~20장으로 새 Soul을 학습합니다.</li>
-          <li>준비되면 <strong>Soul 기준 이미지 만들기</strong>로 이미지를 만들어 시트에 적용하고, 시트를 영상 노드에 인물 외형으로 연결합니다.</li>
-          <li><strong>제작 도구 → TTS 등록 샘플 만들기</strong>에서 캐릭터와 목소리를 고르고 등록용 대사를 만들어 시트에 추가합니다. 이 샘플이나 사용 권한이 있는 녹음으로 개인 목소리를 등록합니다.</li>
-          <li>음향 큐에서 <strong>VO 화자</strong>를 고르고 <strong>등록 목소리로 VO 만들기</strong>를 누르면 같은 목소리로 내레이션을 만듭니다.</li>
-        </ol>
-        <p>Soul 학습과 생성, 목소리 등록에는 Higgsfield 계정의 사용량과 조건이 적용됩니다. 노드의 <strong>Higgsfield Element</strong>에서는 계정에 저장한 인물·장소·소품 참조를 불러와 기록할 수 있습니다.</p>
-      </section>
-      <section id="guide-video">
-        <h2>영상 만들고 고르기</h2>
-        <ol>
-          <li>키프레임을 영상 노드에 연결하거나 씬·샷에서 <strong>영상 만들기</strong>를 누릅니다.</li>
-          <li>Higgsfield, Kling, Topview 중 하나를 고르고 모델이 받는 시작·끝 프레임과 참조, 길이와 해상도를 정합니다.</li>
-          <li><strong>예상 사용량 확인</strong>과 전송 목록을 보고 요청합니다. 지원하는 모델에서는 원본 영상의 리메이크와 이어쓰기도 고를 수 있습니다.</li>
-          <li>결과를 기록에서 재생해 적용합니다. 후보가 여러 개면 <strong>테이크 스위치</strong>에 연결해 나란히 보고 채택합니다.</li>
-        </ol>
-      </section>
-      <section id="guide-timeline">
-        <h2>타임라인에서 편집하기</h2>
-        <ol>
-          <li>프리비즈 노드를 선택하고 <strong>제작 도구 → 타임라인</strong>을 열면 저장한 편집을 이어갑니다. 위에서 화면비를 정하고 길이와 컷·음향·자막 수를 확인합니다.</li>
-          <li><strong>컷 추가</strong>로 샷·이미지·영상이나 빈 카드를 놓습니다. 시간축에서 끌어 순서와 길이를 바꾸고, 컷 탭에서 원본 시작점과 하드컷·디졸브를 정합니다.</li>
-          <li><strong>음향 추가</strong>는 현재 재생 위치에 놓습니다. 음향 탭에서 시작과 길이, 음량과 페이드를, 자막 탭에서 단어 자막을 다룹니다. 자막은 이 컴퓨터에서 받아쓰거나 직접 적습니다.</li>
-          <li>재생 버튼으로 합성하지 않고 흐름을 확인합니다. 붉은 알림을 누르면 고쳐야 할 항목이 열립니다.</li>
-          <li><strong>저장하고 프리비즈 만들기</strong>는 빈 컷을 슬레이트로, 빈 음향을 무음으로 채운 확인용 영상입니다. 파일이 모두 준비되면 <strong>납품본 만들기</strong>를 누릅니다.</li>
-        </ol>
-        <p>30fps로 7분·60컷·음향 40개까지, 완성 파일은 64 MiB까지입니다. 이웃한 두 영상은 <strong>렌즈 전환</strong> 탭에서 안경 렌즈의 윤곽을 추적해 이을 수 있습니다.</p>
-      </section>
-      <section id="guide-contest">
-        <h2>공모전 URL에서 출품 기획 만들기</h2>
-        <p>
-          제작 도구의 공모전 기획에 공개 HTTPS 주소를 넣습니다. 주소만으로
-          시작하거나 아이디어, 원하는 장르, 보유 자료를 함께 적을 수 있습니다.
-          여러 대회를 소개하는 목록에서는 개별 공고를 선택하세요.
-        </p>
-        <p>
-          주제, 심사 기준, 시간대가 있는 마감, 영상 규격, 지정 플랫폼과 제출물을
-          원문과 대조해 고칩니다. 읽을 수 없는 페이지에는 원문을 붙여넣으세요.
-          날짜가 적힌 예시 확인본은 그날 기준 자료입니다.
-        </p>
-        <p>
-          준비 보드는 이 컴퓨터에서 양식을 만듭니다. 감독 기획은 아이디어 후보와 선택
-          근거, 장면 대본, 제출물별 제작 초안을 함께 제안합니다. 주최 측에 제출하거나 SNS에 공개하는 일, 지정 플랫폼 안에서 생성하는 일은 그 서비스에서 합니다.
-        </p>
-      </section>
-      <section id="guide-attachments">
-        <h2>에이전트에 파일과 링크 보내기</h2>
-        <p>
-          요청창의 첨부 영역으로 파일을 끌거나 이미지를 붙여넣고, 공개 HTTPS
-          링크를 추가할 수 있습니다. 한 요청에 최대 8개, 파일 하나당 64
-          MiB까지입니다. 요청에 포함할 항목을 열어 확인하고 필요 없는 자료는
-          제거하세요.
-        </p>
-        <p>
-          PNG·JPEG·WebP는 실제 이미지로, 영상은 작업에 따라 원본 또는 시각이
-          표시된 대표 프레임으로 전달합니다. 내장 자막이 있으면 읽지만 말소리를 받아쓰지는 않습니다. 텍스트 문서, PDF, DOCX, PPTX는 이 컴퓨터에서 본문을 추출하며, 글자가 없는 PDF는 첫 페이지를 이미지로 보여 줍니다.
-          로그인이 필요한 페이지나 읽을 수 없는 링크는 본문을 따로 준비해야 합니다.
-        </p>
-        <p>
-          작품 또는 씬의 검토에서는 첨부를 배경 자료로 읽습니다. 수정 제안의
-          대상은 캔버스 노드입니다. 이미지를 읽지 못한다는 안내가 나오면 이미지 입력을 지원하는 계정을 고르세요.
-        </p>
-      </section>
-      <section id="guide-models">
-        <h2>모델과 결제 계정 고르기</h2>
-        <p>
-          상단의 <b>설정</b>에서 기획, 텍스트, 이미지, 영상, 음향 작업의
-          기본 에이전트와 모델을 저장하세요. 설정은 서버에 저장되며, 노드에서 따로 고른 값이 있으면 그 값을 먼저 씁니다.
-        </p>
-        <dl>
-          <dt>글과 기획</dt>
-          <dd>
-            Codex, Claude, Antigravity 중 작업을 지원하는 계정을 먼저 고릅니다.
-            선택한 모델 또는 CLI 기본 설정으로 실행합니다. Antigravity를 직접 실행하려면 개인 구독을 확인하고 프로젝트를 설정해야 합니다.
-          </dd>
-          <dt>구독 이미지</dt>
-          <dd>
-            ChatGPT에 로그인한 Codex의 이미지 작업은 내장 image_gen을
-            사용합니다. Antigravity는 앱에서 구독 이미지 도구로 이어서 작업할 수
-            있습니다. 노드에서 요청을 복사하고 참조 이미지를 내려받은 뒤 완성
-            파일을 같은 노드에 첨부하세요. 쓸 수 있는 도구와 사용량은 계정에 따라 다릅니다.
-          </dd>
-          <dt>키로 결제하는 이미지 API</dt>
-          <dd>
-            OpenAI Images, Gemini 이미지, Seedream은 서로 다른 API입니다. 작업실 설정의 API 키에 등록하거나, 서버의 <code>.env</code>에 키를 넣고 서버를 다시 시작하세요. OpenAI는 <code>OPENAI_API_KEY</code>, Gemini는{" "}
-            <code>GEMINI_API_KEY</code>, BytePlus Seedream은{" "}
-            <code>ARK_API_KEY</code>를 사용합니다. 실행 화면에 표시된 계정과
-            모델로만 요청합니다.
-          </dd>
-          <dt>영상 제작</dt>
-          <dd>
-            이미지·영상 노드에서 Higgsfield, Kling, Topview를 선택하세요. 연결한 계정에서 모델을 불러오고 작업 방식에 맞는 옵션을 표시합니다. 첨부한 파일을 시작·끝 프레임이나 일반 참조로 지정할 수 있습니다. 실행하면 선택한 서비스 계정의 사용량이 늘어납니다.
-          </dd>
-        </dl>
-        <p>
-          연결 상태는 설치, 로그인, 서버 키 설정 여부를 보여 줍니다. 실제 모델 권한과 남은 사용량은 서비스에서 정합니다. 비용을 확인할 수 없으면 미확인으로 표시합니다.
-        </p>
-        <Figure
-          file="paths-by-task"
-          alt="작업별로 고를 수 있는 서비스와 도구 수. API 키 없이 쓰는 것은 이미지 4개, 글·기획 3개, 영상 3개, 대사 음성과 음악, 3D가 1개씩이고 API 키가 필요한 것은 대사 음성 4개, 이미지 3개, 3D 1개입니다."
-        />
-        <Figure
-          file="billing"
-          alt="구독 계정, 서비스 크레딧과 별도 이미지 API의 실행 경로"
-        />
-      </section>
-      <section id="guide-audio">
-        <h2>대사와 음악, 효과음을 준비하기</h2>
-        <Figure
-          file="dialogue-steps"
-          alt="대사 노드에서 화자를 나누고 목소리를 고른 뒤 AI 연기 지시를 검토하고 음성을 만들어 타임라인에 넣는 순서"
-        />
-        <Screen file="dialogue-studio" width={1000} height={814} alt="화자별 목소리와 대사 줄을 확인하는 여러 화자 대화" />
-        <Figure
-          file="voice-speed"
-          alt="내 컴퓨터에서 음성 1초를 만드는 데 걸린 시간의 중앙값. S2 Pro 참조 있음 1.05초, 참조 없음 0.94초, Drama 3 0.65초. 2026-11-24 M1 Ultra 64GB에서 모델마다 30회 측정"
-        />
-        <ol>
-          <li>대본·시나리오·음향 노드에서 <strong>대사 음성 만들기</strong>를 엽니다. 한 사람의 대사는 그대로, 여러 사람의 대사는 <strong>여러 화자 대화</strong>를 고릅니다.</li>
-          <li>화자마다 목소리를 고르고 들어 봅니다. API를 연결하거나 이 컴퓨터에 설치한 모델을 쓸 수 있습니다.</li>
-          <li><strong>AI로 연기 지시 넣기</strong>를 누르면 말투와 쉼, 소리를 줄마다 제안합니다. 대사는 바뀌지 않고 줄마다 되돌릴 수 있습니다.</li>
-          <li><strong>대화 만들기</strong> 뒤에 줄마다 듣고, 고친 줄만 다시 만들어 <strong>음향 큐로 추가</strong>합니다. 한 번에 화자 8명, 대사 120줄까지 다룹니다.</li>
-        </ol>
-        <p>목소리는 이름과 설명, 성별·나이대·언어·태그로 찾고, 설명을 한국어로 번역하거나 캐릭터에 맞는 목소리를 추천받을 수 있습니다.</p>
-        <p>로컬 모델은 Apple Silicon Mac에서 <code>npm run setup:local-tts</code>로 설치합니다. S2 Pro 결과는 연구와 비상업 용도로만 쓸 수 있습니다.</p>
-        <p>대사 녹음을 음향 노드에 붙이거나 갖고 있는 파일을 가져오세요. 음악이나 효과음이 필요하면 Road Music에서 ACE-Step이나 지원하는 YuE 엔진으로 만듭니다. 효과음과 환경음은 ACE로 만듭니다.</p>
-        <ol>
-          <li>Road Music과 선택한 엔진을 설치하고 프로젝트의 <code>ROAD_MUSIC_HOME</code>에 설치 폴더를 지정합니다.</li>
-          <li>음향 큐에서 음악, 효과음 또는 환경음과 길이·스타일을 정합니다. 결과를 듣고 사용할 파일을 채택합니다.</li>
-          <li>제작 도구의 타임라인에서 음향을 선택하고 시작 시각, 길이, 음량과 페이드를 조정합니다. 필요하면 단어 자막을 더해 영상이나 SRT로 내보냅니다.</li>
-        </ol>
-        <p><a href="https://github.com/roadkwonai/music-road">Road Music 설치와 실행</a> · <a href="https://github.com/roadkwonai/music-road-music-skills">YuE2 음악 스킬과 검수 흐름</a></p>
-      </section>
-      <section id="guide-system">
-        <h2>저장, 실행 기록과 내보내기</h2>
-        <p>
-          캔버스 변경은 Neon에 자동 저장됩니다. 저장 충돌이 나면 현재 편집본을
-          JSON으로 내려받고 최신 버전을 확인하세요. 이미지와 영상 원본은 서버
-          컴퓨터의 로컬 미디어 폴더에 보관합니다.
-        </p>
-        <p>
-          생성을 요청하면 그때의 입력과 요청 번호가 남습니다. 실행 기록에서
-          대기·진행·완료·실패를 확인할 수 있습니다. 요청이 접수됐는지 분명하지 않으면 외부 작업 번호와 계정 기록을 먼저 확인하세요. 같은 컷의 결과를 적용할 때
-          기존 연결은 유지됩니다.
-        </p>
-        <p>
-          <b>내보내기</b>에서 프로젝트 JSON 또는 영상을 선택합니다. 영상 파일이
-          있는 컷을 골라 순서를 바꾸고 이 컴퓨터에서 MP4를 만듭니다. 한 번에 최대
-          10컷, 합계 2분입니다.
-        </p>
-        <Figure
-          file="architecture"
-          alt="로컬 제작실과 작업 실행기, Neon, 구독 CLI, 이미지 API 및 미디어 저장소의 관계"
-        />
-      </section>
-      <section id="guide-mcp">
-        <h2>외부 에이전트로 보드 고치기</h2>
-        <p>Codex, Claude Code, Antigravity에서 이 프로젝트를 열면 로컬 MCP로 프로젝트를 읽고 노드와 연결을 추가할 수 있습니다. 제작실이 실행 중이어야 하며, 그 사이 보드가 바뀌었으면 덮어쓰지 않습니다. 이미지·영상 생성은 제작실에서 실행합니다.</p>
-      </section>
-      <section id="guide-limits">
-        <h2>할 수 없는 일과 문제 해결</h2>
-        <ul>
-          <li>내 컴퓨터에서 혼자 쓰는 앱입니다. 로그인, 공동 편집, 서버 배포를 지원하지 않습니다.</li>
-          <li>공모전 제출과 SNS 게시는 하지 않습니다. 완성 파일을 받아 해당 서비스에서 올리세요.</li>
-          <li>로컬 음성은 Apple Silicon Mac에서만 만듭니다.</li>
-        </ul>
-        <dl>
-          <dt>모델이 보이지 않음</dt>
-          <dd><strong>설정 → 계정 연결</strong>에서 <strong>연결 상태 새로고침</strong>을 누릅니다.</dd>
-          <dt>요청이 대기 상태로 멈춤</dt>
-          <dd>기록 탭에서 <strong>대기 작업 시작</strong>을 누릅니다.</dd>
-          <dt>제출됐는지 확실하지 않음</dt>
-          <dd>같은 요청을 다시 보내기 전에 기록의 작업 번호와 서비스의 작업 목록을 확인합니다.</dd>
-          <dt>영상 편집이나 내보내기 실패</dt>
-          <dd><code>ffmpeg</code>와 <code>ffprobe</code>가 설치됐는지, FFmpeg가 5.1 이상인지 확인합니다.</dd>
-          <dt>로컬 목소리 모델이 없음</dt>
-          <dd><code>npm run setup:local-tts</code>를 실행한 뒤 <code>npm run setup:check</code>로 확인합니다.</dd>
-        </dl>
-      </section>
-    </article>
+    </div>
   );
 }

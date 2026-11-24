@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "샷 지시가 전달되는 길",
+    "locale": "ko",
+    "quality_profile": "showcase",
+    "output": "docs/diagrams/guide/direction-handoff.html",
+    "legend": {
+      "mode": "hidden"
+    }
+  },
+  "components": [
+    {
+      "id": "shot",
+      "type": "frontend",
+      "label": "샷의 연출 지시",
+      "sublabel": "2,000자까지",
+      "pos": [
+        40,
+        172
+      ],
+      "size": [
+        170,
+        62
+      ]
+    },
+    {
+      "id": "image",
+      "type": "backend",
+      "label": "이미지 요청",
+      "sublabel": "움직임·시간·리듬 빼고",
+      "pos": [
+        540,
+        60
+      ],
+      "size": [
+        170,
+        62
+      ]
+    },
+    {
+      "id": "video",
+      "type": "backend",
+      "label": "영상 요청",
+      "sublabel": "모두 함께",
+      "pos": [
+        540,
+        284
+      ],
+      "size": [
+        170,
+        62
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "from": "shot",
+      "to": "image",
+      "label": "연결된 키프레임"
+    },
+    {
+      "from": "shot",
+      "to": "video",
+      "label": "연결된 영상"
+    }
+  ]
+}

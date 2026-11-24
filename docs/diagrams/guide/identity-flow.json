@@ -1,0 +1,137 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "외형과 목소리를 이어 쓰는 길",
+    "locale": "ko",
+    "quality_profile": "showcase",
+    "output": "docs/diagrams/guide/identity-flow.html",
+    "legend": {
+      "mode": "hidden"
+    }
+  },
+  "lanes": [
+    {
+      "id": "look",
+      "label": "외형"
+    },
+    {
+      "id": "sheet",
+      "label": "캐릭터 시트"
+    },
+    {
+      "id": "voice",
+      "label": "목소리"
+    }
+  ],
+  "mainPath": [
+    "photo",
+    "soul",
+    "base",
+    "sheet"
+  ],
+  "nodes": [
+    {
+      "id": "photo",
+      "lane": "look",
+      "col": 0,
+      "type": "external",
+      "label": "인물 사진",
+      "sublabel": "5~20장",
+      "width": 140
+    },
+    {
+      "id": "soul",
+      "lane": "look",
+      "col": 1,
+      "type": "backend",
+      "label": "Soul 학습",
+      "sublabel": "크레딧이 들어요",
+      "width": 140
+    },
+    {
+      "id": "base",
+      "lane": "look",
+      "col": 2,
+      "type": "backend",
+      "label": "기준 이미지",
+      "sublabel": "시트에 적용",
+      "width": 140
+    },
+    {
+      "id": "sheet",
+      "lane": "sheet",
+      "col": 2,
+      "type": "frontend",
+      "label": "캐릭터 시트",
+      "sublabel": "영상에 연결해요",
+      "width": 140
+    },
+    {
+      "id": "sample",
+      "lane": "voice",
+      "col": 0,
+      "type": "external",
+      "label": "목소리 샘플",
+      "sublabel": "11 MiB까지",
+      "width": 140
+    },
+    {
+      "id": "enroll",
+      "lane": "voice",
+      "col": 1,
+      "type": "backend",
+      "label": "목소리 등록",
+      "sublabel": "권한 확인",
+      "width": 140
+    },
+    {
+      "id": "vo",
+      "lane": "voice",
+      "col": 2,
+      "type": "backend",
+      "label": "내레이션",
+      "sublabel": "음향 큐",
+      "width": 140
+    }
+  ],
+  "edges": [
+    {
+      "id": "e0",
+      "from": "photo",
+      "to": "soul",
+      "variant": "emphasis"
+    },
+    {
+      "id": "e1",
+      "from": "soul",
+      "to": "base",
+      "variant": "emphasis"
+    },
+    {
+      "id": "e2",
+      "from": "base",
+      "to": "sheet",
+      "variant": "emphasis"
+    },
+    {
+      "id": "e3",
+      "from": "sample",
+      "to": "enroll"
+    },
+    {
+      "id": "e4",
+      "from": "enroll",
+      "to": "vo"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "slate",
+      "title": "설명",
+      "items": [
+        "Soul 번호는 이미지 요청에만 붙는다. 영상에는 기준 이미지를 인물 외형으로 연결한다."
+      ]
+    }
+  ]
+}

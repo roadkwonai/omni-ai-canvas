@@ -1,0 +1,139 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "촬영안을 만들고 적용하는 순서",
+    "locale": "ko",
+    "quality_profile": "showcase",
+    "output": "docs/diagrams/guide/director-request.html",
+    "legend": {
+      "mode": "hidden"
+    }
+  },
+  "lanes": [
+    {
+      "id": "ask",
+      "label": "요청"
+    },
+    {
+      "id": "record",
+      "label": "기록"
+    },
+    {
+      "id": "board",
+      "label": "보드"
+    }
+  ],
+  "mainPath": [
+    "idea",
+    "run",
+    "preview",
+    "apply"
+  ],
+  "nodes": [
+    {
+      "id": "idea",
+      "lane": "ask",
+      "col": 0,
+      "type": "frontend",
+      "label": "제작안 요청",
+      "sublabel": "아이디어와 씬 수",
+      "width": 140
+    },
+    {
+      "id": "review",
+      "lane": "ask",
+      "col": 1,
+      "type": "cloud",
+      "label": "검토 요청",
+      "sublabel": "대본·연출 검토",
+      "width": 140
+    },
+    {
+      "id": "run",
+      "lane": "record",
+      "col": 0,
+      "type": "backend",
+      "label": "실행 기록",
+      "sublabel": "결과를 기다려요",
+      "width": 140
+    },
+    {
+      "id": "preview",
+      "lane": "record",
+      "col": 1,
+      "type": "backend",
+      "label": "미리보기",
+      "sublabel": "씬과 연결 확인",
+      "width": 140
+    },
+    {
+      "id": "pick",
+      "lane": "record",
+      "col": 2,
+      "type": "cloud",
+      "label": "제안 비교",
+      "sublabel": "최대 8건",
+      "width": 140
+    },
+    {
+      "id": "apply",
+      "lane": "board",
+      "col": 1,
+      "type": "backend",
+      "label": "결과 적용",
+      "sublabel": "노드가 생겨요",
+      "width": 140
+    },
+    {
+      "id": "some",
+      "lane": "board",
+      "col": 2,
+      "type": "cloud",
+      "label": "고른 제안 적용",
+      "sublabel": "본문만 바뀌어요",
+      "width": 140
+    }
+  ],
+  "edges": [
+    {
+      "id": "e0",
+      "from": "idea",
+      "to": "run",
+      "variant": "emphasis"
+    },
+    {
+      "id": "e1",
+      "from": "run",
+      "to": "preview",
+      "label": "완료",
+      "variant": "emphasis"
+    },
+    {
+      "id": "e2",
+      "from": "preview",
+      "to": "apply",
+      "label": "확인",
+      "variant": "emphasis"
+    },
+    {
+      "id": "e3",
+      "from": "review",
+      "to": "pick"
+    },
+    {
+      "id": "e4",
+      "from": "pick",
+      "to": "some"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "slate",
+      "title": "설명",
+      "items": [
+        "제작안은 미리보기에서 확인한 뒤 적용한다. 검토는 원문과 수정안을 비교해 고른 것만 적용한다."
+      ]
+    }
+  ]
+}

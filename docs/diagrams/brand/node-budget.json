@@ -1,0 +1,51 @@
+{
+  "type": "bar",
+  "data": [
+    {
+      "board": "자동으로 시작",
+      "nodes": 9
+    },
+    {
+      "board": "씬 3개",
+      "nodes": 27
+    },
+    {
+      "board": "씬 4개",
+      "nodes": 33
+    },
+    {
+      "board": "연출 키트 최대",
+      "nodes": 60
+    },
+    {
+      "board": "씬 12개",
+      "nodes": 81
+    },
+    {
+      "board": "보드 한도",
+      "nodes": 120
+    }
+  ],
+  "encoding": {
+    "x": "board",
+    "y": "nodes"
+  },
+  "options": {
+    "orientation": "horizontal",
+    "highlight": "보드 한도",
+    "format": "integer",
+    "unit": "개",
+    "width": 720,
+    "height": 280,
+    "locale": "ko-KR",
+    "animate": false,
+    "showLabels": true,
+    "sort": false,
+    "ariaLabel": "시작 보드별 노드 수와 보드 한도"
+  },
+  "card": {
+    "title": "시작 보드가 쓰는 노드 수",
+    "subtitle": "한 보드에는 노드를 120개까지 둘 수 있어요",
+    "takeaway": "씬 12개로 시작하면 39개를 더 쓸 수 있어요"
+  }
+}

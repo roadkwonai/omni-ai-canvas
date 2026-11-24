@@ -1,0 +1,67 @@
+{
+  "type": "bar",
+  "data": [
+    {
+      "format": "영화",
+      "seconds": 300
+    },
+    {
+      "format": "드라마",
+      "seconds": 180
+    },
+    {
+      "format": "뮤직비디오",
+      "seconds": 180
+    },
+    {
+      "format": "공모전",
+      "seconds": 60
+    },
+    {
+      "format": "숏드라마",
+      "seconds": 60
+    },
+    {
+      "format": "애니메이션 숏",
+      "seconds": 60
+    },
+    {
+      "format": "AI 인플루언서",
+      "seconds": 30
+    },
+    {
+      "format": "숏폼",
+      "seconds": 30
+    },
+    {
+      "format": "광고",
+      "seconds": 30
+    },
+    {
+      "format": "모션그래픽",
+      "seconds": 30
+    }
+  ],
+  "encoding": {
+    "x": "format",
+    "y": "seconds"
+  },
+  "options": {
+    "orientation": "horizontal",
+    "highlight": "영화",
+    "format": "integer",
+    "unit": "초",
+    "width": 720,
+    "height": 400,
+    "locale": "ko-KR",
+    "animate": false,
+    "showLabels": true,
+    "sort": false,
+    "ariaLabel": "제작 형식별 권장 길이"
+  },
+  "card": {
+    "title": "제작 형식별 권장 길이",
+    "subtitle": "새 프로젝트에서 처음 안내하는 길이(초)",
+    "takeaway": "짧은 형식은 30초, 영화는 5분에서 시작해요"
+  }
+}

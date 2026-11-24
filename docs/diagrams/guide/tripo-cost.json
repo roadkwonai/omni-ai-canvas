@@ -1,0 +1,117 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Tripo 작업과 요금이 드는 곳",
+    "locale": "ko",
+    "quality_profile": "showcase",
+    "output": "docs/diagrams/guide/tripo-cost.html",
+    "legend": {
+      "mode": "hidden"
+    }
+  },
+  "lanes": [
+    {
+      "id": "free",
+      "label": "준비"
+    },
+    {
+      "id": "paid",
+      "label": "요금이 드는 단계"
+    },
+    {
+      "id": "back",
+      "label": "돌려받기"
+    }
+  ],
+  "mainPath": [
+    "glb",
+    "check",
+    "rig",
+    "motion",
+    "import"
+  ],
+  "nodes": [
+    {
+      "id": "glb",
+      "lane": "free",
+      "col": 0,
+      "type": "external",
+      "label": "GLB 등록",
+      "sublabel": "확인 창이 있어요",
+      "width": 140
+    },
+    {
+      "id": "check",
+      "lane": "free",
+      "col": 1,
+      "type": "backend",
+      "label": "리깅 검사",
+      "sublabel": "리깅할 수 있는지",
+      "width": 140
+    },
+    {
+      "id": "rig",
+      "lane": "paid",
+      "col": 1,
+      "type": "frontend",
+      "label": "리깅 제출",
+      "sublabel": "바로 요청돼요",
+      "width": 140
+    },
+    {
+      "id": "motion",
+      "lane": "paid",
+      "col": 2,
+      "type": "backend",
+      "label": "동작 적용 제출",
+      "sublabel": "번호를 옮겨 적어요",
+      "width": 140
+    },
+    {
+      "id": "import",
+      "lane": "back",
+      "col": 2,
+      "type": "backend",
+      "label": "GLB 가져오기",
+      "sublabel": "Blender 자산",
+      "width": 140
+    }
+  ],
+  "edges": [
+    {
+      "id": "e0",
+      "from": "glb",
+      "to": "check",
+      "variant": "emphasis"
+    },
+    {
+      "id": "e1",
+      "from": "check",
+      "to": "rig",
+      "variant": "emphasis"
+    },
+    {
+      "id": "e2",
+      "from": "rig",
+      "to": "motion",
+      "variant": "emphasis"
+    },
+    {
+      "id": "e3",
+      "from": "motion",
+      "to": "import",
+      "label": "완료",
+      "variant": "emphasis"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "slate",
+      "title": "설명",
+      "items": [
+        "리깅과 동작 적용은 확인 창 없이 바로 제출된다. 리깅 작업 번호를 입력란에 옮겨 적어야 동작을 적용할 수 있다."
+      ]
+    }
+  ]
+}

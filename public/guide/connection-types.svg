@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 734 334" width="734" height="334" role="img" aria-labelledby="connection-types-title connection-types-desc" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif"><title id="connection-types-title">연결 방식 세 가지</title><desc id="connection-types-desc">연결 방식 세 가지</desc><rect width="734" height="334" fill="#ffffff"/><style>
+.c-mask{fill:#ffffff} .c-frontend{fill:#fff2ec;stroke:#ff6600} .c-backend{fill:#ffffff;stroke:#1a1c20}
+.c-cloud,.c-database,.c-external,.c-messagebus{fill:#ffffff;stroke:#d1d3d8} .c-security{fill:#f3f4f5;stroke:#555d6d;stroke-dasharray:5 4}
+.c-lane,.c-group,.c-phase{fill:none;stroke:#d1d3d8;stroke-dasharray:4 5}
+.a-default,.a-dashed,.a-security{stroke:#555d6d;fill:none} .a-emphasis{stroke:#1a1c20;fill:none} .a-dashed{stroke-dasharray:5 4}
+.m-default,.m-dashed,.m-security{fill:#555d6d} .m-emphasis{fill:#1a1c20}
+text{fill:#555d6d;paint-order:stroke;stroke:#ffffff;stroke-width:4px;stroke-linejoin:round}
+.t-primary{fill:#1a1c20;font-size:17px;font-weight:700} .t-muted{font-size:13.5px} [data-node-id] text{stroke:none}
+.t-edge,.t-edge-emphasis{fill:#1a1c20}
+</style><g transform="translate(-16 -36)">
+<defs>
+<marker id="connection-types-arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+<polygon points="0 0, 10 3.5, 0 7" class="m-default" />
+</marker>
+<marker id="connection-types-arrowhead-emphasis" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+<polygon points="0 0, 10 3.5, 0 7" class="m-emphasis" />
+</marker>
+<marker id="connection-types-arrowhead-security" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+<polygon points="0 0, 10 3.5, 0 7" class="m-security" />
+</marker>
+<marker id="connection-types-arrowhead-dashed" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+<polygon points="0 0, 10 3.5, 0 7" class="m-dashed" />
+</marker>
+</defs>
+<style>
+svg[data-node-ui] [data-node-id] > rect:not(.c-mask) { stroke-width: 1.25px; }
+:is([data-theme="dark"] svg[data-node-ui], svg[data-node-ui][data-theme="dark"]) [data-node-id] > rect:not(.c-mask).c-frontend { fill: color-mix(in srgb, #1a1c20 13%, #ffffff); stroke: color-mix(in srgb, #1a1c20 72%, #ffffff); }
+:is([data-theme="dark"] svg[data-node-ui], svg[data-node-ui][data-theme="dark"]) [data-node-id] > rect:not(.c-mask).c-backend { fill: color-mix(in srgb, #1a1c20 13%, #ffffff); stroke: color-mix(in srgb, #1a1c20 72%, #ffffff); }
+:is([data-theme="dark"] svg[data-node-ui], svg[data-node-ui][data-theme="dark"]) [data-node-id] > rect:not(.c-mask).c-database { fill: color-mix(in srgb, #1a1c20 13%, #ffffff); stroke: color-mix(in srgb, #1a1c20 72%, #ffffff); }
+:is([data-theme="dark"] svg[data-node-ui], svg[data-node-ui][data-theme="dark"]) [data-node-id] > rect:not(.c-mask).c-cloud { fill: color-mix(in srgb, #1a1c20 13%, #ffffff); stroke: color-mix(in srgb, #1a1c20 72%, #ffffff); }
+:is([data-theme="dark"] svg[data-node-ui], svg[data-node-ui][data-theme="dark"]) [data-node-id] > rect:not(.c-mask).c-security { fill: color-mix(in srgb, #1a1c20 13%, #ffffff); stroke: color-mix(in srgb, #1a1c20 72%, #ffffff); }
+:is([data-theme="dark"] svg[data-node-ui], svg[data-node-ui][data-theme="dark"]) [data-node-id] > rect:not(.c-mask).c-messagebus { fill: color-mix(in srgb, #1a1c20 13%, #ffffff); stroke: color-mix(in srgb, #1a1c20 72%, #ffffff); }
+:is([data-theme="dark"] svg[data-node-ui], svg[data-node-ui][data-theme="dark"]) [data-node-id] > rect:not(.c-mask).c-external { fill: color-mix(in srgb, #1a1c20 13%, #ffffff); stroke: color-mix(in srgb, #1a1c20 72%, #ffffff); }
+svg[data-node-ui]:is([data-preset="classic"], [data-preset="signal-flow"], [data-preset="editorial"]) .c-region { fill: color-mix(in srgb, #1a1c20 3%, transparent); stroke: color-mix(in srgb, #1a1c20 42%, #1a1c20); stroke-dasharray: none; }
+svg[data-node-ui] .c-security-group { stroke: color-mix(in srgb, #1a1c20 58%, #1a1c20); }
+svg[data-node-ui]:is([data-preset="classic"], [data-preset="signal-flow"], [data-preset="editorial"]) .c-security-group { stroke-dasharray: 4 3; }
+svg[data-node-ui]:is([data-preset="classic"], [data-preset="signal-flow"], [data-preset="editorial"]) .c-lane { stroke: #1a1c20; stroke-dasharray: none; }
+svg[data-node-ui] [data-graph-role="structural-frame-label-mask"] { rx: 5px; fill: color-mix(in srgb, #1a1c20 10%, #ffffff); stroke: color-mix(in srgb, #1a1c20 38%, #ffffff); stroke-width: .8px; }
+svg[data-node-ui] [data-composition-frame-kind="security-group"] > [data-graph-role="structural-frame-label-mask"] { fill: color-mix(in srgb, #1a1c20 9%, #ffffff); stroke: color-mix(in srgb, #1a1c20 36%, #ffffff); }
+svg[data-node-ui] .phase-rule { opacity: .5; stroke-dasharray: none; }
+svg[data-node-ui] .phase-chip { stroke: #1a1c20; stroke-width: .75px; }
+svg[data-node-ui] g[data-edge-from] > rect.c-mask { rx: 7px; stroke: #1a1c20; stroke-width: .75px; }
+svg[data-node-ui][data-preset="blueprint"] :is([data-graph-role="structural-frame-label-mask"], g[data-edge-from] > rect.c-mask, .phase-chip) { rx: 2px; }
+svg[data-node-ui][data-preset="editorial"] :is([data-graph-role="structural-frame-label-mask"], g[data-edge-from] > rect.c-mask, .phase-chip) { rx: 3px; }
+</style>
+<g>
+<path d="M 210 91 L 540 91" fill="none" stroke="#ffffff" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+<path d="M 210 91 L 540 91" class="a-default" stroke-width="1.5" marker-end="url(#connection-types-arrowhead)"/>
+</g>
+<g>
+<path d="M 210 203 L 540 203" fill="none" stroke="#ffffff" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+<path d="M 210 203 L 540 203" class="a-default" stroke-width="1.5" marker-end="url(#connection-types-arrowhead)"/>
+</g>
+<g>
+<path d="M 210 315 L 540 315" fill="none" stroke="#ffffff" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+<path d="M 210 315 L 540 315" class="a-default" stroke-width="1.5" marker-end="url(#connection-types-arrowhead)"/>
+</g>
+<g data-node-id="cli">
+<rect x="40" y="60" width="170" height="62" rx="8" class="c-mask"/>
+<rect x="40" y="60" width="170" height="62" rx="8" class="c-backend" stroke-width="1.5"/>
+<text x="125" y="89" class="t-primary" text-anchor="middle">CLI 로그인</text>
+<text x="125" y="105" class="t-muted" text-anchor="middle">공식 로그인 창</text>
+</g>
+<g data-node-id="mcp">
+<rect x="40" y="172" width="170" height="62" rx="8" class="c-mask"/>
+<rect x="40" y="172" width="170" height="62" rx="8" class="c-backend" stroke-width="1.5"/>
+<text x="125" y="201" class="t-primary" text-anchor="middle">OAuth MCP</text>
+<text x="125" y="217" class="t-muted" text-anchor="middle">브라우저 승인</text>
+</g>
+<g data-node-id="key">
+<rect x="40" y="284" width="170" height="62" rx="8" class="c-mask"/>
+<rect x="40" y="284" width="170" height="62" rx="8" class="c-backend" stroke-width="1.5"/>
+<text x="125" y="313" class="t-primary" text-anchor="middle">API 키</text>
+<text x="125" y="329" class="t-muted" text-anchor="middle">설정에 등록</text>
+</g>
+<g data-node-id="sub">
+<rect x="540" y="60" width="170" height="62" rx="8" class="c-mask"/>
+<rect x="540" y="60" width="170" height="62" rx="8" class="c-external" stroke-width="1.5"/>
+<text x="625" y="89" class="t-primary" text-anchor="middle">구독과 크레딧</text>
+<text x="625" y="105" class="t-muted" text-anchor="middle">Codex·Claude·Kling 등</text>
+</g>
+<g data-node-id="tool">
+<rect x="540" y="172" width="170" height="62" rx="8" class="c-mask"/>
+<rect x="540" y="172" width="170" height="62" rx="8" class="c-external" stroke-width="1.5"/>
+<text x="625" y="201" class="t-primary" text-anchor="middle">외부 작업 도구</text>
+<text x="625" y="217" class="t-muted" text-anchor="middle">Topview·Higgsfield MCP</text>
+</g>
+<g data-node-id="paid">
+<rect x="540" y="284" width="170" height="62" rx="8" class="c-mask"/>
+<rect x="540" y="284" width="170" height="62" rx="8" class="c-frontend" stroke-width="1.5"/>
+<text x="625" y="313" class="t-primary" text-anchor="middle">따로 결제</text>
+<text x="625" y="329" class="t-muted" text-anchor="middle">이미지·음성·Tripo</text>
+</g>
+<g>
+<rect x="348.4" y="71" width="53.199999999999996" height="14" rx="3" class="c-mask"/>
+<text x="375" y="81" class="t-edge-default" text-anchor="middle">계정 연결</text>
+</g>
+<g>
+<rect x="350.8" y="183" width="48.4" height="14" rx="3" class="c-mask"/>
+<text x="375" y="193" class="t-edge-default" text-anchor="middle">MCP 연결</text>
+</g>
+<g>
+<rect x="353.2" y="295" width="43.6" height="14" rx="3" class="c-mask"/>
+<text x="375" y="305" class="t-edge-default" text-anchor="middle">키 등록</text>
+</g>
+</g></svg>

@@ -1,0 +1,97 @@
+{
+  "schema_version": 3,
+  "diagram_type": "lifecycle",
+  "meta": {
+    "title": "대화 줄의 상태",
+    "locale": "ko",
+    "quality_profile": "showcase",
+    "output": "docs/diagrams/guide/line-state.html",
+    "legend": {
+      "mode": "hidden"
+    }
+  },
+  "mainPath": [
+    "fresh",
+    "making",
+    "done"
+  ],
+  "states": [
+    {
+      "id": "fresh",
+      "type": "waiting",
+      "label": "새 줄",
+      "sublabel": "아직 음성이 없어요"
+    },
+    {
+      "id": "making",
+      "type": "active",
+      "label": "만드는 중",
+      "sublabel": "Drama 3"
+    },
+    {
+      "id": "done",
+      "type": "success",
+      "label": "완성",
+      "sublabel": "바로 들을 수 있어요"
+    },
+    {
+      "id": "edited",
+      "type": "waiting",
+      "label": "고침",
+      "sublabel": "다시 만들 줄이에요"
+    },
+    {
+      "id": "failed",
+      "type": "failure",
+      "label": "실패",
+      "sublabel": "그 줄만 다시 만들어요"
+    }
+  ],
+  "transitions": [
+    {
+      "id": "t0",
+      "from": "fresh",
+      "to": "making",
+      "label": "대화 만들기"
+    },
+    {
+      "id": "t1",
+      "from": "making",
+      "to": "done",
+      "label": "성공"
+    },
+    {
+      "id": "t2",
+      "from": "done",
+      "to": "edited",
+      "label": "글·지시 수정"
+    },
+    {
+      "id": "t3",
+      "from": "edited",
+      "to": "making",
+      "label": "바뀐 줄"
+    },
+    {
+      "id": "t4",
+      "from": "making",
+      "to": "failed",
+      "label": "오류"
+    },
+    {
+      "id": "t5",
+      "from": "failed",
+      "to": "making",
+      "label": "다시"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "slate",
+      "title": "설명",
+      "items": [
+        "고친 줄과 실패한 줄만 다시 만들고 나머지 줄은 그대로 쓴다."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,138 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "이미지 연출 순서",
+    "locale": "ko",
+    "quality_profile": "showcase",
+    "output": "docs/diagrams/guide/image-edit-flow.html",
+    "legend": {
+      "mode": "hidden"
+    }
+  },
+  "lanes": [
+    {
+      "id": "model",
+      "label": "모델이 그려요"
+    },
+    {
+      "id": "board",
+      "label": "보드"
+    },
+    {
+      "id": "local",
+      "label": "이 컴퓨터에서 처리해요"
+    }
+  ],
+  "mainPath": [
+    "source",
+    "edit",
+    "candidates",
+    "adopted"
+  ],
+  "nodes": [
+    {
+      "id": "source",
+      "lane": "board",
+      "col": 0,
+      "type": "external",
+      "label": "원본 이미지",
+      "sublabel": "10 MiB 이하",
+      "width": 140
+    },
+    {
+      "id": "edit",
+      "lane": "model",
+      "col": 1,
+      "type": "frontend",
+      "label": "편집 노드",
+      "sublabel": "설정을 저장해요",
+      "width": 140
+    },
+    {
+      "id": "candidates",
+      "lane": "model",
+      "col": 2,
+      "type": "backend",
+      "label": "후보 비교",
+      "sublabel": "최대 4개",
+      "width": 140
+    },
+    {
+      "id": "adopted",
+      "lane": "board",
+      "col": 2,
+      "type": "backend",
+      "label": "채택한 결과",
+      "sublabel": "다음 작업에 써요",
+      "width": 140
+    },
+    {
+      "id": "tools",
+      "lane": "local",
+      "col": 1,
+      "type": "cloud",
+      "label": "편집 도구",
+      "sublabel": "확대·회전·주석",
+      "width": 140
+    }
+  ],
+  "edges": [
+    {
+      "id": "open",
+      "from": "source",
+      "to": "edit",
+      "label": "연출",
+      "variant": "emphasis"
+    },
+    {
+      "id": "generate",
+      "from": "edit",
+      "to": "candidates",
+      "label": "생성",
+      "variant": "emphasis"
+    },
+    {
+      "id": "adopt",
+      "from": "candidates",
+      "to": "adopted",
+      "label": "채택",
+      "variant": "emphasis"
+    },
+    {
+      "id": "local-open",
+      "from": "source",
+      "to": "tools",
+      "label": "도구"
+    },
+    {
+      "id": "local-save",
+      "from": "tools",
+      "to": "adopted",
+      "label": "저장"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "amber",
+      "title": "모델이 그리는 연출",
+      "items": [
+        "연출 10종은 Codex나 설정에서 허용한 이미지 API가 한 번에 한 장을 그린다."
+      ]
+    },
+    {
+      "dot": "cyan",
+      "title": "이 컴퓨터에서 처리",
+      "items": [
+        "업스케일, 회전, 주석, 레이어, 시트 분할은 비용 없이 이 컴퓨터에서 처리한다."
+      ]
+    },
+    {
+      "dot": "slate",
+      "title": "코드 근거",
+      "items": [
+        "lib/image-edit.ts, components/ImageEditResults.tsx, components/ImageAssetTools.tsx"
+      ]
+    }
+  ]
+}

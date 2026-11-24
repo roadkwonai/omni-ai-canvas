@@ -1,0 +1,117 @@
+{
+  "schema_version": 3,
+  "diagram_type": "lifecycle",
+  "meta": {
+    "title": "프로젝트 저장 상태",
+    "locale": "ko",
+    "quality_profile": "showcase",
+    "output": "docs/diagrams/guide/save-state.html",
+    "legend": {
+      "mode": "hidden"
+    }
+  },
+  "mainPath": [
+    "saved",
+    "pending",
+    "saving"
+  ],
+  "states": [
+    {
+      "id": "saved",
+      "type": "success",
+      "label": "저장됨",
+      "sublabel": "서버에 반영됐어요"
+    },
+    {
+      "id": "pending",
+      "type": "waiting",
+      "label": "저장 대기",
+      "sublabel": "편집이 멈추길 기다려요"
+    },
+    {
+      "id": "saving",
+      "type": "active",
+      "label": "저장 중",
+      "sublabel": "서버로 보내고 있어요"
+    },
+    {
+      "id": "error",
+      "type": "failure",
+      "label": "저장 실패",
+      "sublabel": "연결이나 형식 오류"
+    },
+    {
+      "id": "conflict",
+      "type": "failure",
+      "label": "저장 충돌",
+      "sublabel": "다른 창이 먼저 저장"
+    }
+  ],
+  "transitions": [
+    {
+      "id": "edit",
+      "from": "saved",
+      "to": "pending",
+      "label": "편집"
+    },
+    {
+      "id": "auto",
+      "from": "pending",
+      "to": "saving",
+      "label": "0.9초 뒤"
+    },
+    {
+      "id": "done",
+      "from": "saving",
+      "to": "saved",
+      "label": "성공"
+    },
+    {
+      "id": "fail",
+      "from": "saving",
+      "to": "error",
+      "label": "오류"
+    },
+    {
+      "id": "clash",
+      "from": "saving",
+      "to": "conflict",
+      "label": "버전 다름"
+    },
+    {
+      "id": "retry",
+      "from": "error",
+      "to": "saving",
+      "label": "다시 저장"
+    },
+    {
+      "id": "reload",
+      "from": "conflict",
+      "to": "saved",
+      "label": "저장본 불러오기"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "amber",
+      "title": "저장 중에 또 고치면",
+      "items": [
+        "저장이 끝난 뒤 저장 대기로 돌아가 한 번 더 저장한다."
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "저장 충돌",
+      "items": [
+        "내 작업 내보내기로 JSON을 받은 뒤 저장본을 불러온다."
+      ]
+    },
+    {
+      "dot": "slate",
+      "title": "코드 근거",
+      "items": [
+        "components/Studio.tsx의 stateLabel·save, app/api/projects/[id]/route.ts"
+      ]
+    }
+  ]
+}

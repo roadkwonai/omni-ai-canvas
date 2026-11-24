@@ -1,0 +1,133 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "영상 한 편을 만드는 순서",
+    "locale": "ko",
+    "quality_profile": "showcase",
+    "output": "docs/diagrams/guide/video-request.html",
+    "legend": {
+      "mode": "hidden"
+    }
+  },
+  "lanes": [
+    {
+      "id": "set",
+      "label": "준비"
+    },
+    {
+      "id": "run",
+      "label": "실행"
+    },
+    {
+      "id": "pick",
+      "label": "고르기"
+    }
+  ],
+  "mainPath": [
+    "frame",
+    "mode",
+    "slot",
+    "run",
+    "record",
+    "take"
+  ],
+  "nodes": [
+    {
+      "id": "frame",
+      "lane": "set",
+      "col": 0,
+      "type": "external",
+      "label": "키프레임·샷",
+      "sublabel": "영상 만들기",
+      "width": 140
+    },
+    {
+      "id": "mode",
+      "lane": "set",
+      "col": 1,
+      "type": "backend",
+      "label": "작업 방식",
+      "sublabel": "모델마다 달라요",
+      "width": 140
+    },
+    {
+      "id": "slot",
+      "lane": "set",
+      "col": 2,
+      "type": "frontend",
+      "label": "참조 배정",
+      "sublabel": "시작·끝·참조",
+      "width": 140
+    },
+    {
+      "id": "run",
+      "lane": "run",
+      "col": 2,
+      "type": "backend",
+      "label": "영상 생성",
+      "sublabel": "크레딧이 들어요",
+      "width": 140
+    },
+    {
+      "id": "record",
+      "lane": "pick",
+      "col": 2,
+      "type": "backend",
+      "label": "기록",
+      "sublabel": "결과 적용",
+      "width": 140
+    },
+    {
+      "id": "take",
+      "lane": "pick",
+      "col": 3,
+      "type": "backend",
+      "label": "테이크 채택",
+      "sublabel": "다음 작업으로",
+      "width": 140
+    }
+  ],
+  "edges": [
+    {
+      "id": "e0",
+      "from": "frame",
+      "to": "mode",
+      "variant": "emphasis"
+    },
+    {
+      "id": "e1",
+      "from": "mode",
+      "to": "slot",
+      "variant": "emphasis"
+    },
+    {
+      "id": "e2",
+      "from": "slot",
+      "to": "run",
+      "variant": "emphasis"
+    },
+    {
+      "id": "e3",
+      "from": "run",
+      "to": "record",
+      "label": "완료",
+      "variant": "emphasis"
+    },
+    {
+      "id": "e4",
+      "from": "record",
+      "to": "take",
+      "variant": "emphasis"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "slate",
+      "title": "설명",
+      "items": [
+        "필요한 참조가 비어 있으면 생성 버튼이 꺼지고 이유가 나온다."
+      ]
+    }
+  ]
+}

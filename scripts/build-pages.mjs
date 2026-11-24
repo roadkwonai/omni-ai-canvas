@@ -11,7 +11,8 @@ for (const path of ["components", "lib", "tsconfig.json", "package.json", "publi
 // 제작실과 API는 로컬에서만 쓰므로 넣지 않는다.
 await cp("app", `${work}/app`, { recursive: true, filter: (path) => !/^app\/(api|studio)(\/|$)/.test(path) });
 const showcase = await readFile("lib/director-showcase.ts", "utf8");
-for (const [, id] of showcase.matchAll(/^    \["([a-z0-9-]+)"/gm))
+const lessons = await readFile("components/guide/board.tsx", "utf8");
+for (const [, id] of [...showcase.matchAll(/^    \["([a-z0-9-]+)"/gm), ...lessons.matchAll(/^  \["([a-z0-9-]+)"/gm)])
   await cp(`public/director/examples/${id}.webp`, `${work}/public/director/examples/${id}.webp`).catch(() => {});
 await writeFile(`${work}/next.config.ts`, `import path from "node:path";
 export default { output: "export", basePath: ${JSON.stringify(base)}, trailingSlash: true, devIndicators: false, turbopack: { root: path.resolve(process.cwd(), "..") } };

@@ -1,0 +1,91 @@
+{
+  "type": "bar",
+  "data": [
+    {
+      "item": "카메라 이동",
+      "count": 24
+    },
+    {
+      "item": "색감",
+      "count": 18
+    },
+    {
+      "item": "화면 배치",
+      "count": 17
+    },
+    {
+      "item": "조명",
+      "count": 14
+    },
+    {
+      "item": "장면 전개",
+      "count": 12
+    },
+    {
+      "item": "구도",
+      "count": 10
+    },
+    {
+      "item": "앵글",
+      "count": 10
+    },
+    {
+      "item": "스타일링과 미술",
+      "count": 10
+    },
+    {
+      "item": "장르",
+      "count": 10
+    },
+    {
+      "item": "카메라",
+      "count": 8
+    },
+    {
+      "item": "렌즈",
+      "count": 8
+    },
+    {
+      "item": "창의 시점",
+      "count": 8
+    },
+    {
+      "item": "조리개",
+      "count": 7
+    },
+    {
+      "item": "편집 리듬",
+      "count": 5
+    },
+    {
+      "item": "시선",
+      "count": 4
+    },
+    {
+      "item": "시간 표현",
+      "count": 4
+    }
+  ],
+  "encoding": {
+    "x": "item",
+    "y": "count"
+  },
+  "options": {
+    "orientation": "horizontal",
+    "highlight": "카메라 이동",
+    "format": "integer",
+    "unit": "개",
+    "width": 720,
+    "height": 600,
+    "locale": "ko-KR",
+    "animate": false,
+    "showLabels": true,
+    "sort": false,
+    "ariaLabel": "디렉터 스튜디오 항목별 지시 수"
+  },
+  "card": {
+    "title": "디렉터 스튜디오에서 고르는 지시",
+    "subtitle": "16가지 항목, 모두 169개",
+    "takeaway": "카메라 이동과 색감, 화면 배치가 가장 많아요"
+  }
+}

@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 708 334" width="708" height="334" role="img" aria-labelledby="voice-choice-title voice-choice-desc" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif"><title id="voice-choice-title">대사 음성 고르기</title><desc id="voice-choice-desc">대사 음성 고르기</desc><rect width="708" height="334" fill="#ffffff"/><style>
+.c-mask{fill:#ffffff} .c-frontend{fill:#fff2ec;stroke:#ff6600} .c-backend{fill:#ffffff;stroke:#1a1c20}
+.c-cloud,.c-database,.c-external,.c-messagebus{fill:#ffffff;stroke:#d1d3d8} .c-security{fill:#f3f4f5;stroke:#555d6d;stroke-dasharray:5 4}
+.c-lane,.c-group,.c-phase{fill:none;stroke:#d1d3d8;stroke-dasharray:4 5}
+.a-default,.a-dashed,.a-security{stroke:#555d6d;fill:none} .a-emphasis{stroke:#1a1c20;fill:none} .a-dashed{stroke-dasharray:5 4}
+.m-default,.m-dashed,.m-security{fill:#555d6d} .m-emphasis{fill:#1a1c20}
+text{fill:#555d6d;paint-order:stroke;stroke:#ffffff;stroke-width:4px;stroke-linejoin:round}
+.t-primary{fill:#1a1c20;font-size:17px;font-weight:700} .t-muted{font-size:13.5px} [data-node-id] text{stroke:none}
+.t-edge,.t-edge-emphasis{fill:#1a1c20}
+</style><g transform="translate(-16 -36)">
+<defs>
+<marker id="voice-choice-arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+<polygon points="0 0, 10 3.5, 0 7" class="m-default" />
+</marker>
+<marker id="voice-choice-arrowhead-emphasis" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+<polygon points="0 0, 10 3.5, 0 7" class="m-emphasis" />
+</marker>
+<marker id="voice-choice-arrowhead-security" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+<polygon points="0 0, 10 3.5, 0 7" class="m-security" />
+</marker>
+<marker id="voice-choice-arrowhead-dashed" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+<polygon points="0 0, 10 3.5, 0 7" class="m-dashed" />
+</marker>
+</defs>
+<style>
+svg[data-node-ui] [data-node-id] > rect:not(.c-mask) { stroke-width: 1.25px; }
+:is([data-theme="dark"] svg[data-node-ui], svg[data-node-ui][data-theme="dark"]) [data-node-id] > rect:not(.c-mask).c-frontend { fill: color-mix(in srgb, #1a1c20 13%, #ffffff); stroke: color-mix(in srgb, #1a1c20 72%, #ffffff); }
+:is([data-theme="dark"] svg[data-node-ui], svg[data-node-ui][data-theme="dark"]) [data-node-id] > rect:not(.c-mask).c-backend { fill: color-mix(in srgb, #1a1c20 13%, #ffffff); stroke: color-mix(in srgb, #1a1c20 72%, #ffffff); }
+:is([data-theme="dark"] svg[data-node-ui], svg[data-node-ui][data-theme="dark"]) [data-node-id] > rect:not(.c-mask).c-database { fill: color-mix(in srgb, #1a1c20 13%, #ffffff); stroke: color-mix(in srgb, #1a1c20 72%, #ffffff); }
+:is([data-theme="dark"] svg[data-node-ui], svg[data-node-ui][data-theme="dark"]) [data-node-id] > rect:not(.c-mask).c-cloud { fill: color-mix(in srgb, #1a1c20 13%, #ffffff); stroke: color-mix(in srgb, #1a1c20 72%, #ffffff); }
+:is([data-theme="dark"] svg[data-node-ui], svg[data-node-ui][data-theme="dark"]) [data-node-id] > rect:not(.c-mask).c-security { fill: color-mix(in srgb, #1a1c20 13%, #ffffff); stroke: color-mix(in srgb, #1a1c20 72%, #ffffff); }
+:is([data-theme="dark"] svg[data-node-ui], svg[data-node-ui][data-theme="dark"]) [data-node-id] > rect:not(.c-mask).c-messagebus { fill: color-mix(in srgb, #1a1c20 13%, #ffffff); stroke: color-mix(in srgb, #1a1c20 72%, #ffffff); }
+:is([data-theme="dark"] svg[data-node-ui], svg[data-node-ui][data-theme="dark"]) [data-node-id] > rect:not(.c-mask).c-external { fill: color-mix(in srgb, #1a1c20 13%, #ffffff); stroke: color-mix(in srgb, #1a1c20 72%, #ffffff); }
+svg[data-node-ui]:is([data-preset="classic"], [data-preset="signal-flow"], [data-preset="editorial"]) .c-region { fill: color-mix(in srgb, #1a1c20 3%, transparent); stroke: color-mix(in srgb, #1a1c20 42%, #1a1c20); stroke-dasharray: none; }
+svg[data-node-ui] .c-security-group { stroke: color-mix(in srgb, #1a1c20 58%, #1a1c20); }
+svg[data-node-ui]:is([data-preset="classic"], [data-preset="signal-flow"], [data-preset="editorial"]) .c-security-group { stroke-dasharray: 4 3; }
+svg[data-node-ui]:is([data-preset="classic"], [data-preset="signal-flow"], [data-preset="editorial"]) .c-lane { stroke: #1a1c20; stroke-dasharray: none; }
+svg[data-node-ui] [data-graph-role="structural-frame-label-mask"] { rx: 5px; fill: color-mix(in srgb, #1a1c20 10%, #ffffff); stroke: color-mix(in srgb, #1a1c20 38%, #ffffff); stroke-width: .8px; }
+svg[data-node-ui] [data-composition-frame-kind="security-group"] > [data-graph-role="structural-frame-label-mask"] { fill: color-mix(in srgb, #1a1c20 9%, #ffffff); stroke: color-mix(in srgb, #1a1c20 36%, #ffffff); }
+svg[data-node-ui] .phase-rule { opacity: .5; stroke-dasharray: none; }
+svg[data-node-ui] .phase-chip { stroke: #1a1c20; stroke-width: .75px; }
+svg[data-node-ui] g[data-edge-from] > rect.c-mask { rx: 7px; stroke: #1a1c20; stroke-width: .75px; }
+svg[data-node-ui][data-preset="blueprint"] :is([data-graph-role="structural-frame-label-mask"], g[data-edge-from] > rect.c-mask, .phase-chip) { rx: 2px; }
+svg[data-node-ui][data-preset="editorial"] :is([data-graph-role="structural-frame-label-mask"], g[data-edge-from] > rect.c-mask, .phase-chip) { rx: 3px; }
+</style>
+<g>
+<path d="M 184 172 L 184 114 Q 184 106 192 106 L 290 106" fill="none" stroke="#ffffff" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+<path d="M 184 172 L 184 114 Q 184 106 192 106 L 290 106" class="a-default" stroke-width="1.5" marker-end="url(#voice-choice-arrowhead)"/>
+</g>
+<g>
+<path d="M 200 203 L 290 203" fill="none" stroke="#ffffff" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+<path d="M 200 203 L 290 203" class="a-default" stroke-width="1.5" marker-end="url(#voice-choice-arrowhead)"/>
+</g>
+<g>
+<path d="M 184 234 L 184 292 Q 184 300 192 300 L 290 300" fill="none" stroke="#ffffff" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+<path d="M 184 234 L 184 292 Q 184 300 192 300 L 290 300" class="a-default" stroke-width="1.5" marker-end="url(#voice-choice-arrowhead)"/>
+</g>
+<g>
+<path d="M 450 91 L 540 91" fill="none" stroke="#ffffff" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+<path d="M 450 91 L 540 91" class="a-default" stroke-width="1.5" marker-end="url(#voice-choice-arrowhead)"/>
+</g>
+<g>
+<path d="M 450 203 L 540 203" fill="none" stroke="#ffffff" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+<path d="M 450 203 L 540 203" class="a-default" stroke-width="1.5" marker-end="url(#voice-choice-arrowhead)"/>
+</g>
+<g>
+<path d="M 450 315 L 540 315" fill="none" stroke="#ffffff" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+<path d="M 450 315 L 540 315" class="a-default" stroke-width="1.5" marker-end="url(#voice-choice-arrowhead)"/>
+</g>
+<g data-node-id="line">
+<rect x="40" y="172" width="160" height="62" rx="8" class="c-mask"/>
+<rect x="40" y="172" width="160" height="62" rx="8" class="c-frontend" stroke-width="1.5"/>
+<text x="120" y="201" class="t-primary" text-anchor="middle">대사</text>
+<text x="120" y="217" class="t-muted" text-anchor="middle">대본·시나리오·음향 큐</text>
+</g>
+<g data-node-id="record">
+<rect x="290" y="60" width="160" height="62" rx="8" class="c-mask"/>
+<rect x="290" y="60" width="160" height="62" rx="8" class="c-backend" stroke-width="1.5"/>
+<text x="370" y="89" class="t-primary" text-anchor="middle">직접 녹음</text>
+<text x="370" y="105" class="t-muted" text-anchor="middle">60초까지</text>
+</g>
+<g data-node-id="single">
+<rect x="290" y="172" width="160" height="62" rx="8" class="c-mask"/>
+<rect x="290" y="172" width="160" height="62" rx="8" class="c-backend" stroke-width="1.5"/>
+<text x="370" y="201" class="t-primary" text-anchor="middle">한 목소리</text>
+<text x="370" y="217" class="t-muted" text-anchor="middle">한 사람의 대사</text>
+</g>
+<g data-node-id="many">
+<rect x="290" y="284" width="160" height="62" rx="8" class="c-mask"/>
+<rect x="290" y="284" width="160" height="62" rx="8" class="c-backend" stroke-width="1.5"/>
+<text x="370" y="313" class="t-primary" text-anchor="middle">여러 화자 대화</text>
+<text x="370" y="329" class="t-muted" text-anchor="middle">8명·2,000자까지</text>
+</g>
+<g data-node-id="wav">
+<rect x="540" y="60" width="160" height="62" rx="8" class="c-mask"/>
+<rect x="540" y="60" width="160" height="62" rx="8" class="c-external" stroke-width="1.5"/>
+<text x="620" y="89" class="t-primary" text-anchor="middle">WAV 첨부</text>
+<text x="620" y="105" class="t-muted" text-anchor="middle">이 컴퓨터</text>
+</g>
+<g data-node-id="engine">
+<rect x="540" y="172" width="160" height="62" rx="8" class="c-mask"/>
+<rect x="540" y="172" width="160" height="62" rx="8" class="c-external" stroke-width="1.5"/>
+<text x="620" y="201" class="t-primary" text-anchor="middle">API 또는 로컬</text>
+<text x="620" y="217" class="t-muted" text-anchor="middle">서비스를 골라요</text>
+</g>
+<g data-node-id="drama">
+<rect x="540" y="284" width="160" height="62" rx="8" class="c-mask"/>
+<rect x="540" y="284" width="160" height="62" rx="8" class="c-external" stroke-width="1.5"/>
+<text x="620" y="313" class="t-primary" text-anchor="middle">Drama 3</text>
+<text x="620" y="329" class="t-muted" text-anchor="middle">이 컴퓨터</text>
+</g>
+</g></svg>

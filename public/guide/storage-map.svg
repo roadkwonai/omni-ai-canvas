@@ -1,0 +1,130 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 714 250" width="714" height="250" role="img" aria-labelledby="storage-map-title storage-map-desc" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif"><title id="storage-map-title">작품이 저장되는 곳</title><desc id="storage-map-desc">작품이 저장되는 곳</desc><rect width="714" height="250" fill="#ffffff"/><style>
+.c-mask{fill:#ffffff} .c-frontend{fill:#fff2ec;stroke:#ff6600} .c-backend{fill:#ffffff;stroke:#1a1c20}
+.c-cloud,.c-database,.c-external,.c-messagebus{fill:#ffffff;stroke:#d1d3d8} .c-security{fill:#f3f4f5;stroke:#555d6d;stroke-dasharray:5 4}
+.c-lane,.c-group,.c-phase{fill:none;stroke:#d1d3d8;stroke-dasharray:4 5}
+.a-default,.a-dashed,.a-security{stroke:#555d6d;fill:none} .a-emphasis{stroke:#1a1c20;fill:none} .a-dashed{stroke-dasharray:5 4}
+.m-default,.m-dashed,.m-security{fill:#555d6d} .m-emphasis{fill:#1a1c20}
+text{fill:#555d6d;paint-order:stroke;stroke:#ffffff;stroke-width:4px;stroke-linejoin:round}
+.t-primary{fill:#1a1c20;font-size:17px;font-weight:700} .t-muted{font-size:13.5px} [data-node-id] text{stroke:none}
+.t-edge,.t-edge-emphasis{fill:#1a1c20}
+</style><g transform="translate(-16 -36)">
+<defs>
+<marker id="storage-map-arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+<polygon points="0 0, 10 3.5, 0 7" class="m-default" />
+</marker>
+<marker id="storage-map-arrowhead-emphasis" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+<polygon points="0 0, 10 3.5, 0 7" class="m-emphasis" />
+</marker>
+<marker id="storage-map-arrowhead-security" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+<polygon points="0 0, 10 3.5, 0 7" class="m-security" />
+</marker>
+<marker id="storage-map-arrowhead-dashed" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+<polygon points="0 0, 10 3.5, 0 7" class="m-dashed" />
+</marker>
+</defs>
+<style>
+svg[data-node-ui] [data-node-id] > rect:not(.c-mask) { stroke-width: 1.25px; }
+:is([data-theme="dark"] svg[data-node-ui], svg[data-node-ui][data-theme="dark"]) [data-node-id] > rect:not(.c-mask).c-frontend { fill: color-mix(in srgb, #1a1c20 13%, #ffffff); stroke: color-mix(in srgb, #1a1c20 72%, #ffffff); }
+:is([data-theme="dark"] svg[data-node-ui], svg[data-node-ui][data-theme="dark"]) [data-node-id] > rect:not(.c-mask).c-backend { fill: color-mix(in srgb, #1a1c20 13%, #ffffff); stroke: color-mix(in srgb, #1a1c20 72%, #ffffff); }
+:is([data-theme="dark"] svg[data-node-ui], svg[data-node-ui][data-theme="dark"]) [data-node-id] > rect:not(.c-mask).c-database { fill: color-mix(in srgb, #1a1c20 13%, #ffffff); stroke: color-mix(in srgb, #1a1c20 72%, #ffffff); }
+:is([data-theme="dark"] svg[data-node-ui], svg[data-node-ui][data-theme="dark"]) [data-node-id] > rect:not(.c-mask).c-cloud { fill: color-mix(in srgb, #1a1c20 13%, #ffffff); stroke: color-mix(in srgb, #1a1c20 72%, #ffffff); }
+:is([data-theme="dark"] svg[data-node-ui], svg[data-node-ui][data-theme="dark"]) [data-node-id] > rect:not(.c-mask).c-security { fill: color-mix(in srgb, #1a1c20 13%, #ffffff); stroke: color-mix(in srgb, #1a1c20 72%, #ffffff); }
+:is([data-theme="dark"] svg[data-node-ui], svg[data-node-ui][data-theme="dark"]) [data-node-id] > rect:not(.c-mask).c-messagebus { fill: color-mix(in srgb, #1a1c20 13%, #ffffff); stroke: color-mix(in srgb, #1a1c20 72%, #ffffff); }
+:is([data-theme="dark"] svg[data-node-ui], svg[data-node-ui][data-theme="dark"]) [data-node-id] > rect:not(.c-mask).c-external { fill: color-mix(in srgb, #1a1c20 13%, #ffffff); stroke: color-mix(in srgb, #1a1c20 72%, #ffffff); }
+svg[data-node-ui]:is([data-preset="classic"], [data-preset="signal-flow"], [data-preset="editorial"]) .c-region { fill: color-mix(in srgb, #1a1c20 3%, transparent); stroke: color-mix(in srgb, #1a1c20 42%, #1a1c20); stroke-dasharray: none; }
+svg[data-node-ui] .c-security-group { stroke: color-mix(in srgb, #1a1c20 58%, #1a1c20); }
+svg[data-node-ui]:is([data-preset="classic"], [data-preset="signal-flow"], [data-preset="editorial"]) .c-security-group { stroke-dasharray: 4 3; }
+svg[data-node-ui]:is([data-preset="classic"], [data-preset="signal-flow"], [data-preset="editorial"]) .c-lane { stroke: #1a1c20; stroke-dasharray: none; }
+svg[data-node-ui] [data-graph-role="structural-frame-label-mask"] { rx: 5px; fill: color-mix(in srgb, #1a1c20 10%, #ffffff); stroke: color-mix(in srgb, #1a1c20 38%, #ffffff); stroke-width: .8px; }
+svg[data-node-ui] [data-composition-frame-kind="security-group"] > [data-graph-role="structural-frame-label-mask"] { fill: color-mix(in srgb, #1a1c20 9%, #ffffff); stroke: color-mix(in srgb, #1a1c20 36%, #ffffff); }
+svg[data-node-ui] .phase-rule { opacity: .5; stroke-dasharray: none; }
+svg[data-node-ui] .phase-chip { stroke: #1a1c20; stroke-width: .75px; }
+svg[data-node-ui] g[data-edge-from] > rect.c-mask { rx: 7px; stroke: #1a1c20; stroke-width: .75px; }
+svg[data-node-ui][data-preset="blueprint"] :is([data-graph-role="structural-frame-label-mask"], g[data-edge-from] > rect.c-mask, .phase-chip) { rx: 2px; }
+svg[data-node-ui][data-preset="editorial"] :is([data-graph-role="structural-frame-label-mask"], g[data-edge-from] > rect.c-mask, .phase-chip) { rx: 3px; }
+</style>
+<g>
+<path d="M 190 91 L 290 91" fill="none" stroke="#ffffff" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+<path d="M 190 91 L 290 91" class="a-default" stroke-width="1.5" marker-end="url(#storage-map-arrowhead)"/>
+</g>
+<g>
+<path d="M 440 84 L 540 84" fill="none" stroke="#ffffff" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+<path d="M 440 84 L 540 84" class="a-default" stroke-width="1.5" marker-end="url(#storage-map-arrowhead)"/>
+</g>
+<g>
+<path d="M 365 122 L 365 200" fill="none" stroke="#ffffff" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+<path d="M 365 122 L 365 200" class="a-default" stroke-width="1.5" marker-end="url(#storage-map-arrowhead)"/>
+</g>
+<g>
+<path d="M 290 231 L 190 231" fill="none" stroke="#ffffff" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+<path d="M 290 231 L 190 231" class="a-default" stroke-width="1.5" marker-end="url(#storage-map-arrowhead)"/>
+</g>
+<g>
+<path d="M 440 238 L 540 238" fill="none" stroke="#ffffff" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+<path d="M 440 238 L 540 238" class="a-default" stroke-width="1.5" marker-end="url(#storage-map-arrowhead)"/>
+</g>
+<g>
+<path d="M 440 224 L 456 224 Q 464 224 464 216 L 464 106 Q 464 98 472 98 L 540 98" fill="none" stroke="#ffffff" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+<path d="M 440 224 L 456 224 Q 464 224 464 216 L 464 106 Q 464 98 472 98 L 540 98" class="a-default" stroke-width="1.5" marker-end="url(#storage-map-arrowhead)"/>
+</g>
+<g data-node-id="browser">
+<rect x="40" y="60" width="150" height="62" rx="8" class="c-mask"/>
+<rect x="40" y="60" width="150" height="62" rx="8" class="c-frontend" stroke-width="1.5"/>
+<text x="115" y="89" class="t-primary" text-anchor="middle">제작실 화면</text>
+<text x="115" y="105" class="t-muted" text-anchor="middle">브라우저</text>
+</g>
+<g data-node-id="server">
+<rect x="290" y="60" width="150" height="62" rx="8" class="c-mask"/>
+<rect x="290" y="60" width="150" height="62" rx="8" class="c-backend" stroke-width="1.5"/>
+<text x="365" y="89" class="t-primary" text-anchor="middle">제작실 서버</text>
+<text x="365" y="105" class="t-muted" text-anchor="middle">이 컴퓨터</text>
+</g>
+<g data-node-id="neon">
+<rect x="540" y="60" width="150" height="62" rx="8" class="c-mask"/>
+<rect x="540" y="60" width="150" height="62" rx="8" class="c-database" stroke-width="1.5"/>
+<text x="615" y="89" class="t-primary" text-anchor="middle">Neon</text>
+<text x="615" y="105" class="t-muted" text-anchor="middle">보드 · 실행 기록</text>
+</g>
+<g data-node-id="worker">
+<rect x="290" y="200" width="150" height="62" rx="8" class="c-mask"/>
+<rect x="290" y="200" width="150" height="62" rx="8" class="c-backend" stroke-width="1.5"/>
+<text x="365" y="229" class="t-primary" text-anchor="middle">작업 실행기</text>
+<text x="365" y="245" class="t-muted" text-anchor="middle">서버와 따로 돌아요</text>
+</g>
+<g data-node-id="media">
+<rect x="540" y="200" width="150" height="62" rx="8" class="c-mask"/>
+<rect x="540" y="200" width="150" height="62" rx="8" class="c-database" stroke-width="1.5"/>
+<text x="615" y="229" class="t-primary" text-anchor="middle">로컬 미디어</text>
+<text x="615" y="245" class="t-muted" text-anchor="middle">이미지 · 영상 · 음성</text>
+</g>
+<g data-node-id="provider">
+<rect x="40" y="200" width="150" height="62" rx="8" class="c-mask"/>
+<rect x="40" y="200" width="150" height="62" rx="8" class="c-external" stroke-width="1.5"/>
+<text x="115" y="229" class="t-primary" text-anchor="middle">생성 서비스</text>
+<text x="115" y="245" class="t-muted" text-anchor="middle">구독 · 크레딧 · API</text>
+</g>
+<g>
+<rect x="208.6" y="71" width="62.8" height="14" rx="3" class="c-mask"/>
+<text x="240" y="81" class="t-edge-default" text-anchor="middle">편집 · 요청</text>
+</g>
+<g>
+<rect x="463.4" y="64" width="53.199999999999996" height="14" rx="3" class="c-mask"/>
+<text x="490" y="74" class="t-edge-default" text-anchor="middle">자동 저장</text>
+</g>
+<g>
+<rect x="329" y="154" width="30" height="14" rx="3" class="c-mask"/>
+<text x="344" y="164" class="t-edge-default" text-anchor="middle">작업</text>
+</g>
+<g>
+<rect x="225" y="211" width="30" height="14" rx="3" class="c-mask"/>
+<text x="240" y="221" class="t-edge-default" text-anchor="middle">실행</text>
+</g>
+<g>
+<rect x="475" y="218" width="30" height="14" rx="3" class="c-mask"/>
+<text x="490" y="228" class="t-edge-default" text-anchor="middle">파일</text>
+</g>
+<g>
+<rect x="449" y="141" width="30" height="14" rx="3" class="c-mask"/>
+<text x="464" y="151" class="t-edge-default" text-anchor="middle">결과</text>
+</g>
+</g></svg>

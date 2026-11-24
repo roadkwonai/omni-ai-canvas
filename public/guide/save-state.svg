@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 696 306" width="696" height="306" role="img" aria-labelledby="save-state-title save-state-desc" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif"><title id="save-state-title">프로젝트 저장 상태</title><desc id="save-state-desc">저장이 끝난 뒤 저장 대기로 돌아가 한 번 더 저장한다. 내 작업 내보내기로 JSON을 받은 뒤 저장본을 불러온다.</desc><rect width="696" height="306" fill="#ffffff"/><style>
+.c-mask{fill:#ffffff} .c-frontend{fill:#fff2ec;stroke:#ff6600} .c-backend{fill:#ffffff;stroke:#1a1c20}
+.c-cloud,.c-database,.c-external,.c-messagebus{fill:#ffffff;stroke:#d1d3d8} .c-security{fill:#f3f4f5;stroke:#555d6d;stroke-dasharray:5 4}
+.c-lane,.c-group,.c-phase{fill:none;stroke:#d1d3d8;stroke-dasharray:4 5}
+.a-default,.a-dashed,.a-security{stroke:#555d6d;fill:none} .a-emphasis{stroke:#1a1c20;fill:none} .a-dashed{stroke-dasharray:5 4}
+.m-default,.m-dashed,.m-security{fill:#555d6d} .m-emphasis{fill:#1a1c20}
+text{fill:#555d6d;paint-order:stroke;stroke:#ffffff;stroke-width:4px;stroke-linejoin:round}
+.t-primary{fill:#1a1c20;font-size:17px;font-weight:700} .t-muted{font-size:13.5px} [data-node-id] text{stroke:none}
+.t-edge,.t-edge-emphasis{fill:#1a1c20}
+</style><g transform="translate(-8 -8)">
+<defs>
+<marker id="save-state-arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+<polygon points="0 0, 10 3.5, 0 7" class="m-default" />
+</marker>
+<marker id="save-state-arrowhead-emphasis" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+<polygon points="0 0, 10 3.5, 0 7" class="m-emphasis" />
+</marker>
+<marker id="save-state-arrowhead-security" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+<polygon points="0 0, 10 3.5, 0 7" class="m-security" />
+</marker>
+<marker id="save-state-arrowhead-dashed" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+<polygon points="0 0, 10 3.5, 0 7" class="m-dashed" />
+</marker>
+</defs>
+<g>
+<path d="M 196 102 L 268 102" fill="none" stroke="#ffffff" stroke-width="5.8" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+<path d="M 196 102 L 268 102" class="a-emphasis" stroke-width="1.8" marker-end="url(#save-state-arrowhead-emphasis)"/>
+</g>
+<g>
+<path d="M 431 102 L 517 102" fill="none" stroke="#ffffff" stroke-width="5.8" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+<path d="M 431 102 L 517 102" class="a-emphasis" stroke-width="1.8" marker-end="url(#save-state-arrowhead-emphasis)"/>
+</g>
+<g>
+<path d="M 593 70 L 593 52 Q 593 40 581 40 L 138 40 Q 126 40 126 52 L 126 70" fill="none" stroke="#ffffff" stroke-width="5.2" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+<path d="M 593 70 L 593 52 Q 593 40 581 40 L 138 40 Q 126 40 126 52 L 126 70" class="a-default" stroke-width="1.2" marker-end="url(#save-state-arrowhead)"/>
+</g>
+<g>
+<path d="M 580 134 L 580 226" fill="none" stroke="#ffffff" stroke-width="5.2" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+<path d="M 580 134 L 580 226" class="a-default" stroke-width="1.2" marker-end="url(#save-state-arrowhead)"/>
+</g>
+<g>
+<path d="M 539 134 L 539 156 Q 539 168 527 168 L 423 168 Q 411 168 411 180 L 411 226" fill="none" stroke="#ffffff" stroke-width="5.2" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+<path d="M 539 134 L 539 156 Q 539 168 527 168 L 423 168 Q 411 168 411 180 L 411 226" class="a-default" stroke-width="1.2" marker-end="url(#save-state-arrowhead)"/>
+</g>
+<g>
+<path d="M 606 226 L 606 134" fill="none" stroke="#ffffff" stroke-width="5.2" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+<path d="M 606 226 L 606 134" class="a-default" stroke-width="1.2" marker-end="url(#save-state-arrowhead)"/>
+</g>
+<g>
+<path d="M 308 226 L 308 180 Q 308 168 296 168 L 186 168 Q 174 168 174 156 L 174 134" fill="none" stroke="#ffffff" stroke-width="5.2" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+<path d="M 308 226 L 308 180 Q 308 168 296 168 L 186 168 Q 174 168 174 156 L 174 134" class="a-default" stroke-width="1.2" marker-end="url(#save-state-arrowhead)"/>
+</g>
+<g data-node-id="saved">
+<rect x="56" y="70" width="140" height="64" rx="8" class="c-mask"/>
+<rect x="56" y="70" width="140" height="64" rx="8" class="c-backend" stroke-width="1.5"/>
+<g><circle cx="30" cy="102" r="4.5"/><path d="M 34.5 102 L 49 102" class="a-emphasis" stroke-width="1.4"/><path d="M 48 98.5 L 55 102 L 48 105.5 Z"/></g>
+<text x="126" y="97" class="t-primary" text-anchor="middle">저장됨</text>
+<text x="126" y="115" class="t-muted" text-anchor="middle">서버에 반영됐어요</text>
+</g>
+<g data-node-id="pending">
+<rect x="268" y="70" width="163" height="64" rx="8" class="c-mask"/>
+<rect x="268" y="70" width="163" height="64" rx="8" class="c-cloud" stroke-width="1.5"/>
+<text x="349.5" y="97" class="t-primary" text-anchor="middle">저장 대기</text>
+<text x="349.5" y="115" class="t-muted" text-anchor="middle">편집이 멈추길 기다려요</text>
+</g>
+<g data-node-id="saving">
+<rect x="517" y="70" width="152" height="64" rx="8" class="c-mask"/>
+<rect x="517" y="70" width="152" height="64" rx="8" class="c-frontend" stroke-width="1.5"/>
+<text x="593" y="97" class="t-primary" text-anchor="middle">저장 중</text>
+<text x="593" y="115" class="t-muted" text-anchor="middle">서버로 보내고 있어요</text>
+</g>
+<g data-node-id="error">
+<rect x="522" y="226" width="142" height="64" rx="8" class="c-mask"/>
+<rect x="522" y="226" width="142" height="64" rx="8" class="c-security" stroke-width="1.5"/>
+<text x="593" y="253" class="t-primary" text-anchor="middle">저장 실패</text>
+<text x="593" y="271" class="t-muted" text-anchor="middle">연결이나 형식 오류</text>
+</g>
+<g data-node-id="conflict">
+<rect x="286" y="226" width="147" height="64" rx="8" class="c-mask"/>
+<rect x="286" y="226" width="147" height="64" rx="8" class="c-security" stroke-width="1.5"/>
+<text x="359.5" y="253" class="t-primary" text-anchor="middle">저장 충돌</text>
+<text x="359.5" y="271" class="t-muted" text-anchor="middle">다른 창이 먼저 저장</text>
+</g>
+<g>
+<rect x="214" y="80" width="36" height="16" rx="4" class="c-mask"/>
+<text x="232" y="91.5" class="t-edge-emphasis" text-anchor="middle">편집</text>
+</g>
+<g>
+<rect x="444" y="80" width="60" height="16" rx="4" class="c-mask"/>
+<text x="474" y="91.5" class="t-edge-emphasis" text-anchor="middle">0.9초 뒤</text>
+</g>
+<g>
+<rect x="341.5" y="32" width="36" height="16" rx="4" class="c-mask"/>
+<text x="359.5" y="43.5" class="t-muted" text-anchor="middle">성공</text>
+</g>
+<g>
+<rect x="538" y="182" width="36" height="16" rx="4" class="c-mask"/>
+<text x="556" y="193.5" class="t-muted" text-anchor="middle">오류</text>
+</g>
+<g>
+<rect x="417" y="189" width="66" height="16" rx="4" class="c-mask"/>
+<text x="450" y="200.5" class="t-muted" text-anchor="middle">버전 다름</text>
+</g>
+<g>
+<rect x="612" y="172" width="66" height="16" rx="4" class="c-mask"/>
+<text x="645" y="183.5" class="t-muted" text-anchor="middle">다시 저장</text>
+</g>
+<g>
+<rect x="200" y="189" width="102" height="16" rx="4" class="c-mask"/>
+<text x="251" y="200.5" class="t-muted" text-anchor="middle">저장본 불러오기</text>
+</g>
+</g></svg>

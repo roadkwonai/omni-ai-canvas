@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 681 268" width="681" height="268" role="img" aria-labelledby="line-state-title line-state-desc" font-family="Pretendard Variable, Pretendard, Apple SD Gothic Neo, sans-serif"><title id="line-state-title">대화 줄의 상태</title><desc id="line-state-desc">고친 줄과 실패한 줄만 다시 만들고 나머지 줄은 그대로 쓴다.</desc><rect width="681" height="268" fill="#ffffff"/><style>
+.c-mask{fill:#ffffff} .c-frontend{fill:#fff2ec;stroke:#ff6600} .c-backend{fill:#ffffff;stroke:#1a1c20}
+.c-cloud,.c-database,.c-external,.c-messagebus{fill:#ffffff;stroke:#d1d3d8} .c-security{fill:#f3f4f5;stroke:#555d6d;stroke-dasharray:5 4}
+.c-lane,.c-group,.c-phase{fill:none;stroke:#d1d3d8;stroke-dasharray:4 5}
+.a-default,.a-dashed,.a-security{stroke:#555d6d;fill:none} .a-emphasis{stroke:#1a1c20;fill:none} .a-dashed{stroke-dasharray:5 4}
+.m-default,.m-dashed,.m-security{fill:#555d6d} .m-emphasis{fill:#1a1c20}
+text{fill:#555d6d;paint-order:stroke;stroke:#ffffff;stroke-width:4px;stroke-linejoin:round}
+.t-primary{fill:#1a1c20;font-size:17px;font-weight:700} .t-muted{font-size:13.5px} [data-node-id] text{stroke:none}
+.t-edge,.t-edge-emphasis{fill:#1a1c20}
+</style><g transform="translate(-8 -4)">
+<defs>
+<marker id="line-state-arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+<polygon points="0 0, 10 3.5, 0 7" class="m-default" />
+</marker>
+<marker id="line-state-arrowhead-emphasis" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+<polygon points="0 0, 10 3.5, 0 7" class="m-emphasis" />
+</marker>
+<marker id="line-state-arrowhead-security" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+<polygon points="0 0, 10 3.5, 0 7" class="m-security" />
+</marker>
+<marker id="line-state-arrowhead-dashed" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+<polygon points="0 0, 10 3.5, 0 7" class="m-dashed" />
+</marker>
+</defs>
+<g>
+<path d="M 198 60 L 302 60" fill="none" stroke="#ffffff" stroke-width="5.8" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+<path d="M 198 60 L 302 60" class="a-emphasis" stroke-width="1.8" marker-end="url(#line-state-arrowhead-emphasis)"/>
+</g>
+<g>
+<path d="M 442 60 L 514 60" fill="none" stroke="#ffffff" stroke-width="5.8" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+<path d="M 442 60 L 514 60" class="a-emphasis" stroke-width="1.8" marker-end="url(#line-state-arrowhead-emphasis)"/>
+</g>
+<g>
+<path d="M 536 92 L 536 184" fill="none" stroke="#ffffff" stroke-width="5.2" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+<path d="M 536 92 L 536 184" class="a-default" stroke-width="1.2" marker-end="url(#line-state-arrowhead)"/>
+</g>
+<g>
+<path d="M 484.9 184 L 484.9 138 Q 484.9 126 472.9 126 L 432 126 Q 420 126 420 114 L 420 92" fill="none" stroke="#ffffff" stroke-width="5.2" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+<path d="M 484.9 184 L 484.9 138 Q 484.9 126 472.9 126 L 432 126 Q 420 126 420 114 L 420 92" class="a-default" stroke-width="1.2" marker-end="url(#line-state-arrowhead)"/>
+</g>
+<g>
+<path d="M 326.9 92 L 326.9 184" fill="none" stroke="#ffffff" stroke-width="5.2" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+<path d="M 326.9 92 L 326.9 184" class="a-default" stroke-width="1.2" marker-end="url(#line-state-arrowhead)"/>
+</g>
+<g>
+<path d="M 352.9 184 L 352.9 92" fill="none" stroke="#ffffff" stroke-width="5.2" stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+<path d="M 352.9 184 L 352.9 92" class="a-default" stroke-width="1.2" marker-end="url(#line-state-arrowhead)"/>
+</g>
+<g data-node-id="fresh">
+<rect x="56" y="28" width="142" height="64" rx="8" class="c-mask"/>
+<rect x="56" y="28" width="142" height="64" rx="8" class="c-cloud" stroke-width="1.5"/>
+<g><circle cx="30" cy="60" r="4.5"/><path d="M 34.5 60 L 49 60" class="a-emphasis" stroke-width="1.4"/><path d="M 48 56.5 L 55 60 L 48 63.5 Z"/></g>
+<text x="127" y="55" class="t-primary" text-anchor="middle">새 줄</text>
+<text x="127" y="73" class="t-muted" text-anchor="middle">아직 음성이 없어요</text>
+</g>
+<g data-node-id="making">
+<rect x="302" y="28" width="140" height="64" rx="8" class="c-mask"/>
+<rect x="302" y="28" width="140" height="64" rx="8" class="c-frontend" stroke-width="1.5"/>
+<text x="372" y="55" class="t-primary" text-anchor="middle">만드는 중</text>
+<text x="372" y="73" class="t-muted" text-anchor="middle">Drama 3</text>
+</g>
+<g data-node-id="done">
+<rect x="514" y="28" width="147" height="64" rx="8" class="c-mask"/>
+<rect x="514" y="28" width="147" height="64" rx="8" class="c-backend" stroke-width="1.5"/>
+<text x="587.5" y="55" class="t-primary" text-anchor="middle">완성</text>
+<text x="587.5" y="73" class="t-muted" text-anchor="middle">바로 들을 수 있어요</text>
+</g>
+<g data-node-id="edited">
+<rect x="462.875" y="184" width="142" height="64" rx="8" class="c-mask"/>
+<rect x="462.875" y="184" width="142" height="64" rx="8" class="c-cloud" stroke-width="1.5"/>
+<text x="533.875" y="211" class="t-primary" text-anchor="middle">고침</text>
+<text x="533.875" y="229" class="t-muted" text-anchor="middle">다시 만들 줄이에요</text>
+</g>
+<g data-node-id="failed">
+<rect x="260.875" y="184" width="158" height="64" rx="8" class="c-mask"/>
+<rect x="260.875" y="184" width="158" height="64" rx="8" class="c-security" stroke-width="1.5"/>
+<text x="339.875" y="211" class="t-primary" text-anchor="middle">실패</text>
+<text x="339.875" y="229" class="t-muted" text-anchor="middle">그 줄만 다시 만들어요</text>
+</g>
+<g>
+<rect x="211" y="38" width="78" height="16" rx="4" class="c-mask"/>
+<text x="250" y="49.5" class="t-edge-emphasis" text-anchor="middle">대화 만들기</text>
+</g>
+<g>
+<rect x="460" y="38" width="36" height="16" rx="4" class="c-mask"/>
+<text x="478" y="49.5" class="t-edge-emphasis" text-anchor="middle">성공</text>
+</g>
+<g>
+<rect x="542" y="130" width="84" height="16" rx="4" class="c-mask"/>
+<text x="584" y="141.5" class="t-muted" text-anchor="middle">글·지시 수정</text>
+</g>
+<g>
+<rect x="424.9" y="147" width="54" height="16" rx="4" class="c-mask"/>
+<text x="451.9" y="158.5" class="t-muted" text-anchor="middle">바뀐 줄</text>
+</g>
+<g>
+<rect x="284.9" y="130" width="36" height="16" rx="4" class="c-mask"/>
+<text x="302.9" y="141.5" class="t-muted" text-anchor="middle">오류</text>
+</g>
+<g>
+<rect x="358.9" y="130" width="36" height="16" rx="4" class="c-mask"/>
+<text x="376.9" y="141.5" class="t-muted" text-anchor="middle">다시</text>
+</g>
+</g></svg>

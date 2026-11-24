@@ -1,0 +1,116 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "연결 방식 세 가지",
+    "locale": "ko",
+    "quality_profile": "showcase",
+    "output": "docs/diagrams/guide/connection-types.html",
+    "legend": {
+      "mode": "hidden"
+    }
+  },
+  "components": [
+    {
+      "id": "cli",
+      "type": "backend",
+      "label": "CLI 로그인",
+      "sublabel": "공식 로그인 창",
+      "pos": [
+        40,
+        60
+      ],
+      "size": [
+        170,
+        62
+      ]
+    },
+    {
+      "id": "mcp",
+      "type": "backend",
+      "label": "OAuth MCP",
+      "sublabel": "브라우저 승인",
+      "pos": [
+        40,
+        172
+      ],
+      "size": [
+        170,
+        62
+      ]
+    },
+    {
+      "id": "key",
+      "type": "backend",
+      "label": "API 키",
+      "sublabel": "설정에 등록",
+      "pos": [
+        40,
+        284
+      ],
+      "size": [
+        170,
+        62
+      ]
+    },
+    {
+      "id": "sub",
+      "type": "external",
+      "label": "구독과 크레딧",
+      "sublabel": "Codex·Claude·Kling 등",
+      "pos": [
+        540,
+        60
+      ],
+      "size": [
+        170,
+        62
+      ]
+    },
+    {
+      "id": "tool",
+      "type": "external",
+      "label": "외부 작업 도구",
+      "sublabel": "Topview·Higgsfield MCP",
+      "pos": [
+        540,
+        172
+      ],
+      "size": [
+        170,
+        62
+      ]
+    },
+    {
+      "id": "paid",
+      "type": "frontend",
+      "label": "따로 결제",
+      "sublabel": "이미지·음성·Tripo",
+      "pos": [
+        540,
+        284
+      ],
+      "size": [
+        170,
+        62
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "from": "cli",
+      "to": "sub",
+      "label": "계정 연결"
+    },
+    {
+      "from": "mcp",
+      "to": "tool",
+      "label": "MCP 연결"
+    },
+    {
+      "from": "key",
+      "to": "paid",
+      "label": "키 등록"
+    }
+  ]
+}

@@ -1,0 +1,139 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "대사 음성 고르기",
+    "locale": "ko",
+    "quality_profile": "showcase",
+    "output": "docs/diagrams/guide/voice-choice.html",
+    "legend": {
+      "mode": "hidden"
+    }
+  },
+  "components": [
+    {
+      "id": "line",
+      "type": "frontend",
+      "label": "대사",
+      "sublabel": "대본·시나리오·음향 큐",
+      "pos": [
+        40,
+        172
+      ],
+      "size": [
+        160,
+        62
+      ]
+    },
+    {
+      "id": "record",
+      "type": "backend",
+      "label": "직접 녹음",
+      "sublabel": "60초까지",
+      "pos": [
+        290,
+        60
+      ],
+      "size": [
+        160,
+        62
+      ]
+    },
+    {
+      "id": "single",
+      "type": "backend",
+      "label": "한 목소리",
+      "sublabel": "한 사람의 대사",
+      "pos": [
+        290,
+        172
+      ],
+      "size": [
+        160,
+        62
+      ]
+    },
+    {
+      "id": "many",
+      "type": "backend",
+      "label": "여러 화자 대화",
+      "sublabel": "8명·2,000자까지",
+      "pos": [
+        290,
+        284
+      ],
+      "size": [
+        160,
+        62
+      ]
+    },
+    {
+      "id": "wav",
+      "type": "external",
+      "label": "WAV 첨부",
+      "sublabel": "이 컴퓨터",
+      "pos": [
+        540,
+        60
+      ],
+      "size": [
+        160,
+        62
+      ]
+    },
+    {
+      "id": "engine",
+      "type": "external",
+      "label": "API 또는 로컬",
+      "sublabel": "서비스를 골라요",
+      "pos": [
+        540,
+        172
+      ],
+      "size": [
+        160,
+        62
+      ]
+    },
+    {
+      "id": "drama",
+      "type": "external",
+      "label": "Drama 3",
+      "sublabel": "이 컴퓨터",
+      "pos": [
+        540,
+        284
+      ],
+      "size": [
+        160,
+        62
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "from": "line",
+      "to": "record"
+    },
+    {
+      "from": "line",
+      "to": "single"
+    },
+    {
+      "from": "line",
+      "to": "many"
+    },
+    {
+      "from": "record",
+      "to": "wav"
+    },
+    {
+      "from": "single",
+      "to": "engine"
+    },
+    {
+      "from": "many",
+      "to": "drama"
+    }
+  ]
+}

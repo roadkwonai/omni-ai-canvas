@@ -1,0 +1,119 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "외부 에이전트가 노드를 더하는 순서",
+    "locale": "ko",
+    "quality_profile": "showcase",
+    "output": "docs/diagrams/guide/mcp-flow.html",
+    "legend": {
+      "mode": "hidden"
+    }
+  },
+  "lanes": [
+    {
+      "id": "agent",
+      "label": "외부 에이전트"
+    },
+    {
+      "id": "room",
+      "label": "제작실"
+    }
+  ],
+  "mainPath": [
+    "list",
+    "read",
+    "add",
+    "done"
+  ],
+  "nodes": [
+    {
+      "id": "list",
+      "lane": "agent",
+      "col": 0,
+      "type": "external",
+      "label": "프로젝트 목록",
+      "sublabel": "list_projects",
+      "width": 140
+    },
+    {
+      "id": "read",
+      "lane": "agent",
+      "col": 1,
+      "type": "backend",
+      "label": "보드 읽기",
+      "sublabel": "get_project",
+      "width": 140
+    },
+    {
+      "id": "add",
+      "lane": "agent",
+      "col": 2,
+      "type": "frontend",
+      "label": "노드 추가",
+      "sublabel": "apply_graph",
+      "width": 140
+    },
+    {
+      "id": "done",
+      "lane": "room",
+      "col": 2,
+      "type": "backend",
+      "label": "보드에 반영",
+      "sublabel": "창으로 돌아올 때",
+      "width": 140
+    },
+    {
+      "id": "clash",
+      "lane": "room",
+      "col": 1,
+      "type": "security",
+      "label": "버전 충돌",
+      "sublabel": "덮어쓰지 않아요",
+      "width": 140
+    }
+  ],
+  "edges": [
+    {
+      "id": "e0",
+      "from": "list",
+      "to": "read",
+      "variant": "emphasis"
+    },
+    {
+      "id": "e1",
+      "from": "read",
+      "to": "add",
+      "label": "버전",
+      "variant": "emphasis"
+    },
+    {
+      "id": "e2",
+      "from": "add",
+      "to": "done",
+      "label": "같은 버전",
+      "variant": "emphasis"
+    },
+    {
+      "id": "e3",
+      "from": "add",
+      "to": "clash",
+      "label": "바뀐 버전"
+    },
+    {
+      "id": "e4",
+      "from": "clash",
+      "to": "read",
+      "label": "다시 읽기"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "slate",
+      "title": "설명",
+      "items": [
+        "읽은 뒤 보드가 바뀌었으면 추가하지 않고 다시 읽게 한다."
+      ]
+    }
+  ]
+}

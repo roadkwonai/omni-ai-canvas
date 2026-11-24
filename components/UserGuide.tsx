@@ -27,7 +27,7 @@ export default function UserGuide({ onInspect }: { onInspect: () => void }) {
       </button>
       <dialog
         ref={dialog}
-        className="guide-dialog"
+        className="guide-dialog user-guide"
         aria-labelledby="guide-title"
         onClose={() => {
           setOpen(false);
@@ -41,37 +41,42 @@ export default function UserGuide({ onInspect }: { onInspect: () => void }) {
           <header className="guide-header">
             <div>
               <h2 id="guide-title">Omni AI Canvas 사용 가이드</h2>
-              <p>아이디어에서 첫 장면을 만드는 방법</p>
+              <p>하고 싶은 일을 고르거나 검색해 보세요</p>
             </div>
             <button
               type="button"
-              className="guide-close"
+              className="studio-action"
+              data-tone="quiet"
+              data-size="icon"
               aria-label="가이드 닫기"
               title="가이드를 닫고 작업실로 돌아갑니다."
               onClick={() => dialog.current?.close()}
             >
-              <X size={20} />
+              <X size={20} aria-hidden="true" />
             </button>
           </header>
-          <div className="guide-scroll">{open && <GuideDocument />}</div>
+          <div className="guide-scroll">{open && <GuideDocument embedded />}</div>
           <footer className="guide-footer">
             <button
               type="button"
+              className="studio-action"
               title="화면의 기능을 눌러 사용법을 확인하는 모드입니다."
               onClick={() => {
                 dialog.current?.close();
                 onInspect();
               }}
             >
-              <MousePointer2 size={15} /> 화면에서 기능 설명 보기
+              <MousePointer2 size={16} aria-hidden="true" /> 화면에서 기능 설명 보기
             </button>
             <a
+              className="studio-action"
+              data-tone="quiet"
               href="/guide"
               target="_blank"
               rel="noreferrer"
               title="전체 가이드 문서를 새 창에 엽니다."
             >
-              문서로 열기 <ExternalLink size={14} />
+              문서로 열기 <ExternalLink size={16} aria-hidden="true" />
             </a>
           </footer>
         </div>

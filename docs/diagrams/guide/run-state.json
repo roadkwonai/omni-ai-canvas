@@ -1,0 +1,105 @@
+{
+  "schema_version": 3,
+  "diagram_type": "lifecycle",
+  "meta": {
+    "title": "생성 실행 상태",
+    "locale": "ko",
+    "quality_profile": "showcase",
+    "output": "docs/diagrams/guide/run-state.html",
+    "legend": {
+      "mode": "hidden"
+    }
+  },
+  "mainPath": [
+    "queued",
+    "running",
+    "done"
+  ],
+  "states": [
+    {
+      "id": "queued",
+      "type": "waiting",
+      "label": "대기 중",
+      "sublabel": "요청을 저장했어요"
+    },
+    {
+      "id": "running",
+      "type": "active",
+      "label": "생성 중",
+      "sublabel": "서비스나 로컬 엔진"
+    },
+    {
+      "id": "done",
+      "type": "success",
+      "label": "완료",
+      "sublabel": "결과 적용을 눌러요"
+    },
+    {
+      "id": "failed",
+      "type": "failure",
+      "label": "실패",
+      "sublabel": "오류 문구를 봐요"
+    },
+    {
+      "id": "expired",
+      "type": "failure",
+      "label": "만료된 실패",
+      "sublabel": "응답을 잃었어요"
+    }
+  ],
+  "transitions": [
+    {
+      "id": "start",
+      "from": "queued",
+      "to": "running",
+      "label": "실행기 시작"
+    },
+    {
+      "id": "finish",
+      "from": "running",
+      "to": "done",
+      "label": "결과 도착"
+    },
+    {
+      "id": "fail",
+      "from": "running",
+      "to": "failed",
+      "label": "오류"
+    },
+    {
+      "id": "expire",
+      "from": "running",
+      "to": "expired",
+      "label": "60분 무응답"
+    },
+    {
+      "id": "recover",
+      "from": "expired",
+      "to": "done",
+      "label": "보관 결과 도착"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "amber",
+      "title": "만료 시간",
+      "items": [
+        "생존 신호가 60분 없으면 만료한다. Road Music은 180분이다."
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "결과 보관",
+      "items": [
+        "결과는 .scene-room/run-outbox에 먼저 적고 데이터베이스에 반영한다."
+      ]
+    },
+    {
+      "dot": "slate",
+      "title": "코드 근거",
+      "items": [
+        "lib/db.ts, lib/run-outbox.ts, lib/run-recovery.ts, components/Studio.tsx"
+      ]
+    }
+  ]
+}

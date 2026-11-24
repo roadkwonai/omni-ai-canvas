@@ -19,7 +19,7 @@
 
 ## 이미지 API 연결
 
-아래 경로는 서버의 `.env`에 각 키를 설정한 뒤 앱과 작업자를 재시작해 사용한다. 선택한 계정 CLI의 구독 사용량과 별도로 해당 API 계정에 과금된다. 하나를 선택해 실행하며 실패해도 다른 제공자로 자동 전환하지 않는다. 키 값은 화면이나 문서에 쓰지 않는다.
+아래 경로는 설정의 **API 키**에 키를 등록하거나 서버의 `.env`에 설정하고 재시작한 뒤, **기본 에이전트**에서 그 API를 허용해야 쓸 수 있다. 선택한 계정 CLI의 구독 사용량과 별도로 해당 API 계정에 과금된다. 하나를 선택해 실행하며 실패해도 다른 제공자로 자동 전환하지 않는다. 키 값은 화면이나 문서에 쓰지 않는다.
 
 | 제공자 | 환경변수 | 모델 설정 | 공식 문서 |
 | --- | --- | --- | --- |
@@ -94,7 +94,7 @@ Higgsfield 공식 MCP는 `https://mcp.higgsfield.ai/mcp`와 Higgsfield OAuth 계
 
 계정 연결 탭에서 공식 CLI·MCP가 반환한 요금제, 잔여량과 모델을 표시한다. Codex는 app-server의 account/read, Claude는 auth status, Higgsfield와 Kling은 공식 CLI 응답을 사용한다. Topview MCP에서는 크레딧과 모델만 조회된다. Antigravity 플랜은 확인할 수 있는 읽기 경로가 없다.
 
-연결 테스트는 저장한 키로 OpenAI·Gemini·ModelArk의 모델 목록 또는 Tripo 잔액을 조회한다. 응답은 연결·거부·미설정·확인 불가로 제한한다. 연결 성공은 해당 읽기 경로의 승인 여부이며 개별 모델의 생성 권한과 별개다. [OpenAI 모델 목록](https://platform.openai.com/docs/api-reference/models/list) · [Gemini 모델 목록](https://ai.google.dev/api/models) · [ModelArk 모델 목록](https://docs.byteplus.com/en/docs/modelark/models-api) · [Tripo 계정 조회](https://developers.tripo3d.ai/en/docs/account)
+연결 테스트는 저장한 키로 OpenAI·Gemini·ModelArk의 모델 목록, Tripo 잔액, Fish Audio·ElevenLabs·Typecast·Gemini TTS의 목록을 조회한다. 응답은 연결·거부·미설정·확인 불가로 제한한다. 연결 성공은 해당 읽기 경로의 승인 여부이며 개별 모델의 생성 권한과 별개다. [OpenAI 모델 목록](https://platform.openai.com/docs/api-reference/models/list) · [Gemini 모델 목록](https://ai.google.dev/api/models) · [ModelArk 모델 목록](https://docs.byteplus.com/en/docs/modelark/models-api) · [Tripo 계정 조회](https://developers.tripo3d.ai/en/docs/account)
 
 기획·텍스트의 추론 강도는 CLI가 지원하는 단계에서 선택한다. Codex와 Antigravity는 모델별로 조회하며 Claude는 CLI 도움말에 표기된 단계를 제공한다. [Codex App Server](https://developers.openai.com/codex/app-server/) · [Claude Code CLI](https://code.claude.com/docs/en/cli-reference) · [Antigravity Effort](https://antigravity.google/docs/cli/commands/effort)
 

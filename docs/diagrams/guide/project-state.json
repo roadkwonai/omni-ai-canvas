@@ -1,0 +1,85 @@
+{
+  "schema_version": 3,
+  "diagram_type": "lifecycle",
+  "meta": {
+    "title": "프로젝트 상태",
+    "locale": "ko",
+    "quality_profile": "showcase",
+    "output": "docs/diagrams/guide/project-state.html",
+    "legend": {
+      "mode": "hidden"
+    }
+  },
+  "mainPath": [
+    "active",
+    "archived",
+    "trash"
+  ],
+  "states": [
+    {
+      "id": "active",
+      "type": "active",
+      "label": "작업 중",
+      "sublabel": "열고 고칠 수 있어요"
+    },
+    {
+      "id": "archived",
+      "type": "waiting",
+      "label": "보관함",
+      "sublabel": "복구하면 열려요"
+    },
+    {
+      "id": "trash",
+      "type": "failure",
+      "label": "휴지통",
+      "sublabel": "복구만 할 수 있어요"
+    }
+  ],
+  "transitions": [
+    {
+      "id": "t0",
+      "from": "active",
+      "to": "archived",
+      "label": "보관"
+    },
+    {
+      "id": "t1",
+      "from": "archived",
+      "to": "trash",
+      "label": "삭제 확인"
+    },
+    {
+      "id": "t2",
+      "from": "active",
+      "to": "trash",
+      "label": "삭제 확인"
+    },
+    {
+      "id": "t3",
+      "from": "trash",
+      "to": "archived",
+      "label": "복구"
+    },
+    {
+      "id": "t4",
+      "from": "trash",
+      "to": "active",
+      "label": "복구"
+    },
+    {
+      "id": "t5",
+      "from": "archived",
+      "to": "active",
+      "label": "복구"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "slate",
+      "title": "설명",
+      "items": [
+        "보관하거나 삭제해도 보드와 실행 기록은 남는다. 완전히 지우는 기능은 없다."
+      ]
+    }
+  ]
+}

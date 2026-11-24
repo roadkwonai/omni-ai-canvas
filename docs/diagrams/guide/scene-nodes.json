@@ -1,0 +1,181 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "씬 하나의 노드와 연결",
+    "locale": "ko",
+    "quality_profile": "showcase",
+    "output": "docs/diagrams/guide/scene-nodes.html",
+    "legend": {
+      "mode": "hidden"
+    }
+  },
+  "components": [
+    {
+      "id": "plan",
+      "type": "external",
+      "label": "시나리오",
+      "sublabel": "작품 공통",
+      "pos": [
+        40,
+        60
+      ],
+      "size": [
+        150,
+        62
+      ]
+    },
+    {
+      "id": "scene",
+      "type": "backend",
+      "label": "씬",
+      "sublabel": "목적과 전환",
+      "pos": [
+        290,
+        60
+      ],
+      "size": [
+        150,
+        62
+      ]
+    },
+    {
+      "id": "script",
+      "type": "backend",
+      "label": "대본",
+      "sublabel": "대사와 지문",
+      "pos": [
+        540,
+        60
+      ],
+      "size": [
+        150,
+        62
+      ]
+    },
+    {
+      "id": "cast",
+      "type": "external",
+      "label": "캐릭터·자료",
+      "sublabel": "작품 공통",
+      "pos": [
+        40,
+        172
+      ],
+      "size": [
+        150,
+        62
+      ]
+    },
+    {
+      "id": "shot",
+      "type": "frontend",
+      "label": "샷",
+      "sublabel": "카메라와 동선",
+      "pos": [
+        290,
+        172
+      ],
+      "size": [
+        150,
+        62
+      ]
+    },
+    {
+      "id": "frame",
+      "type": "backend",
+      "label": "키프레임",
+      "sublabel": "첫 화면",
+      "pos": [
+        540,
+        172
+      ],
+      "size": [
+        150,
+        62
+      ]
+    },
+    {
+      "id": "audio",
+      "type": "external",
+      "label": "음향 큐",
+      "sublabel": "작품 공통",
+      "pos": [
+        40,
+        284
+      ],
+      "size": [
+        150,
+        62
+      ]
+    },
+    {
+      "id": "previs",
+      "type": "backend",
+      "label": "타임라인",
+      "sublabel": "컷과 소리",
+      "pos": [
+        290,
+        284
+      ],
+      "size": [
+        150,
+        62
+      ]
+    },
+    {
+      "id": "video",
+      "type": "backend",
+      "label": "AI 영상",
+      "sublabel": "테이크",
+      "pos": [
+        540,
+        284
+      ],
+      "size": [
+        150,
+        62
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "from": "plan",
+      "to": "scene"
+    },
+    {
+      "from": "scene",
+      "to": "script"
+    },
+    {
+      "from": "script",
+      "to": "shot"
+    },
+    {
+      "from": "cast",
+      "to": "shot",
+      "label": "참조"
+    },
+    {
+      "from": "shot",
+      "to": "frame"
+    },
+    {
+      "from": "shot",
+      "to": "video"
+    },
+    {
+      "from": "frame",
+      "to": "video",
+      "label": "시작"
+    },
+    {
+      "from": "video",
+      "to": "previs"
+    },
+    {
+      "from": "audio",
+      "to": "previs"
+    }
+  ]
+}

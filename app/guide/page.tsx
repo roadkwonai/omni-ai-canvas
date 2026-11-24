@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ArrowRight, Play } from "lucide-react";
 import { publicSite } from "../../lib/site";
-import { Mascot } from "../../components/Brand";
+import { BrandMark, Mascot } from "../../components/Brand";
 import GuideDocument from "../../components/GuideDocument";
 import "../../components/guide.css";
 export const metadata: Metadata = {
@@ -10,18 +11,26 @@ export const metadata: Metadata = {
 };
 export default function GuidePage() {
   return (
-    <main className="guide-page">
-      <header>
-        <nav className="guide-page-nav" aria-label="제작실과 소개">
-          <Link href="/">서비스 소개</Link>
-          {!publicSite && <Link href="/studio">제작실로 돌아가기</Link>}
+    <div className="guide-page">
+      <a className="guide-skip" href="#guide-main">본문 바로가기</a>
+      <header className="guide-bar">
+        <Link className="guide-bar-brand" href="/"><BrandMark className="guide-bar-mark" size={28} /> Omni AI Canvas</Link>
+        <nav aria-label="제작실과 소개">
+          <Link className="studio-action" data-tone="quiet" href="/">서비스 소개</Link>
+          {!publicSite && <Link className="studio-action" data-tone="primary" href="/studio" prefetch={false}>제작실 열기 <ArrowRight size={16} aria-hidden="true" /></Link>}
         </nav>
-        <div className="guide-page-title">
-          <div><h1>Omni AI Canvas 사용 가이드</h1><p>대본부터 완성 영상까지 여러 AI 모델을 한 보드에서 쓰는 제작실</p></div>
-          <Mascot pose="guide" size={112} />
-        </div>
       </header>
-      <GuideDocument />
-    </main>
+      <main id="guide-main" tabIndex={-1}>
+        <div className="guide-hero">
+          <div>
+            <h1>사용 가이드</h1>
+            <p>예제를 여는 것부터 완성 영상을 꺼내는 것까지, 하고 싶은 일로 찾아보세요.</p>
+            <Link className="studio-action" href="/#intro"><Play size={16} aria-hidden="true" /> 5분 소개 영상</Link>
+          </div>
+          <Mascot pose="guide" size={128} />
+        </div>
+        <GuideDocument />
+      </main>
+    </div>
   );
 }
